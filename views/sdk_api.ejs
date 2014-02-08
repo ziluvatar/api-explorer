@@ -1,0 +1,612 @@
+<div class="markdown">
+
+<p>This API works on a specific App. Choose one from your list:</p>
+<select class='client-selector'></select>
+
+<span class='label label-info'>Heads up!</span> before you write a new client for the Auth0 API check our [<i class='icon-github-alt'></i> github](https://github.com/auth0/) to see if we already have something for your prefered language.
+</div>
+
+<h3>authentication</h3>
+
+<div class="accordion">
+
+<!-- POST /oauth/token -->
+
+  <div class="markdown" data-path="/oauth/token" data-verb="POST" data-description="Obtain a token to call the API">
+Auth0 API requires an `access_token`. You can get one by authenticating with your `client_id` and `client_secret`:
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/token
+Content-Type: 'application/json'
+<form id='accesstoken-form'>{
+  "client_id":        "<span class='param client_client_id'></span>",
+  "client_secret":    "<span class='param client_client_secret'></span>",
+  "grant_type":       "<span class='param'>client_credentials</span>"
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='accesstoken-result'
+        data-runner='accesstoken'>
+  <i class="icon-white icon-road"></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='accesstoken-result'>Select a client and press the Try me! button to see the output result</code></pre>
+
+Once authenticated, the `access_token` can be included in the request as part of the querystring (`?access_token=...`) or in an HTTP header (`Authorization: Bearer ...access_token...`).
+
+<span class='label label-info'>Heads up!</span> access token last for 24hs, you better ask for a token everytime you make a request to the API or handle vigorously ```401``` responses.
+  </div>
+
+</div>
+
+<h3>users</h3>
+
+<div class="accordion">
+
+  <!-- GET /api/users -->
+  <div class="markdown" data-verb="GET" data-path="/api/users" data-description="Gets all users who have logged in">
+
+Gets all users who have logged in through any of your connections.
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='allusers-result'
+        data-runner='allusers'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='allusers-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <!-- GET /api/connections/{connection}/users -->
+  <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users" data-description="Gets all users from an enterprise directory">
+<span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS), it will return the users who have logged in through that connection.
+
+<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users?access_token=<span class='tokenme param'>{token}</span></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='connection-users-result'
+        data-runner='connection-users'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='connection-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <!-- GET /api/socialconnections/users -->
+  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users" data-description="Gets all users who have logged in with social">
+
+Gets all users who have logged in through social connections
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='socialconn-users-result'
+        data-runner='socialconn-users'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+<!-- GET /api/clients/{client-id}/users -->
+<div class="markdown" data-verb="GET" data-path="/api/clients/{client-id}/users" data-description="Gets all users from a specific client">
+
+Gets all users who have logged in with a specific client
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/users?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='clientusers-result'
+        data-runner='clientusers'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='clientusers-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- POST api/users -->
+
+<div class="markdown" data-verb="POST" data-path="/api/users" data-description="Creates a user">
+  Creates a user. The body of the request must include the <code>email</code>, the <code>password</code>, and the <code>connection</code> of the user. Also it can include the user's <code>email_verified</code> parameter and the <code>extra attributes</code> that you want to add.
+
+  <pre>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/?access_token=<span class='tokenme param'>{token}</span>
+  Content-Type: 'application/json'
+  <form id='user-form'>
+  {
+    "email":          "<input type="email" placeholder="email" id="api-create-user-email">",
+    "password":       "<input type="password" placeholder="password" id="api-create-user-password">",
+    "connection":     "<select style="min-width:221px" id="api-create-user-connection-selector">
+    </select>", // only database connections
+    "email\_verified": <select style="margin-top:8px;" id='api-create-user-email-verified-selector'><option value="false">false</option><option value="true">true</option></select>, // if true, it won't send an email for confirmation
+    <div id="sdk-create-jsoneditor" class="user-metadata"></div>
+  }
+  </form>
+  </code>
+  </pre>
+
+  <button class='btn btn-primary btn-tryme'
+    data-result='usercreate-result'
+    data-runner='usercreate'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='usercreate-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- POST api/users/send_verification_email -->
+
+<div class="markdown" data-verb="POST" data-path="/api/users/send_verification_email" data-description="Resends verification account email">
+  Resends verification account email. The body of the request must include the <code>email</code> and the <code>connection</code> of the user.
+
+  <pre>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/`send_verification_email`?access_token=<span class='tokenme param'>{token}</span>
+  Content-Type: 'application/json'
+  <form id='user-sendverificationemail-form'>
+  {
+    "email":          "<input type="email" placeholder="email" id="api-user-sendverificationemail-email">",
+    "connection":     "<select style="min-width:221px" id="api-user-sendverificationemail-selector">
+    </select>" // only database connections
+  }
+  </form></code></pre>
+
+  <button class='btn btn-primary btn-tryme'
+    data-result='user-sendverificationemail-result'
+    data-runner='user-sendverificationemail'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='user-sendverificationemail-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- POST api/users/{user_id}/change_password_ticket -->
+
+<div class="markdown" data-verb="POST" data-path="/api/users/{user_id}/change_password_ticket" data-description="Generates change password ticket">
+  Generates change password ticket. The body of the request must include the <code>newPassword</code> of the user. Optionally, you can include the <code>resultUrl</code> (post verification url).
+
+  <pre>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-changepasswordticket' class='user-selector'></select>/`change_password_ticket`?access_token=<span class='tokenme param'>{token}</span>
+  Content-Type: 'application/json'
+  <form id='user-changepasswordticket-form'>
+  {
+    "newPassword":    "<input type="password" placeholder="new password" id="api-user-changepasswordticket-newPassword">",
+    "resultUrl":      "<input type="text" placeholder="post verification url" id="api-user-changepasswordticket-resultUrl">" // optional
+  }
+  </form></code></pre>
+
+  <button class='btn btn-primary btn-tryme'
+    data-result='user-changepasswordticket-result'
+    data-runner='user-changepasswordticket'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='user-changepasswordticket-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- POST api/users/{user_id}/verification_ticket -->
+
+<div class="markdown" data-verb="POST" data-path="/api/users/{user_id}/verification_ticket" data-description="Generates verification account ticket">
+  Generates verification account ticket. Optionally, you can include the <code>resultUrl</code> (post verification url) in the body of the request.
+
+  <pre>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-verificationticket' class='user-selector'></select>/`verification_ticket`?access_token=<span class='tokenme param'>{token}</span>
+  Content-Type: 'application/json'
+  <form id='user-verificationticket-form'>
+  {
+    "resultUrl":      "<input type="text" placeholder="post verification url" id="api-user-verificationticket-resultUrl">" // optional
+  }
+  </form></code></pre>
+
+  <button class='btn btn-primary btn-tryme'
+    data-result='user-verificationticket-result'
+    data-runner='user-verificationticket'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='user-verificationticket-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- PUT /api/users/{user_id}/email -->
+<div class="markdown" data-verb="PUT" data-path="/api/users/{user_id}/email" data-description="Updates user email">
+Update user email. The body of the request must include the new <code>email</code>.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector-for-changeemail' class='user-selector'></select>/email?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+<form id='user-form' style="margin-bottom:-40px">
+{
+  "email":   "<input type="email" placeholder="email" id="api-update-user-email">",
+  "verify":  <select style="margin-top:8px;" id='api-update-user-email-verify-selector'><option value="true">true</option><option value="false">false</option></select> // if false, it won't send an email for verification
+}
+</form>
+</code></pre>
+
+  <button class='btn btn-primary btn-tryme' 
+        data-result='useremailupdate-result' 
+        data-runner='useremailupdate'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='useremailupdate-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- PUT /api/users/{user_id}/metadata -->
+<div class="markdown" data-verb="PUT" data-path="/api/users/{user_id}/metadata" data-description="Updates user metadata">
+Update user metadata. The body of the request must include a <code>json</code> object with metadata <code>attributes</code>.
+
+<pre>
+<code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector' class='user-selector'></select>/metadata?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+<div id="sdk-jsoneditor" class="user-metadata" style="width: 100%; height: 100%;"></div>
+</code>
+</pre>
+
+  <button class='btn btn-primary btn-tryme'
+        data-result='usermetadataupdate-result'
+        data-runner='usermetadataupdate'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='usermetadataupdate-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- PUT /api/users/{user_id}/password -->
+<div class="markdown" data-verb="PUT" data-path="/api/users/{user_id}/password" data-description="Updates user password">
+Update user password. The body of the request must include the new <code>password</code>.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector' class='user-selector'></select>/password?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+<form id='user-form' style="margin-bottom:-40px">
+{
+  "password":   "<input type="password" placeholder="password" id="api-update-user-password">",
+  "verify":     <select style="margin-top:8px;" id='api-update-user-password-verify-selector'><option value="true">true</option><option value="false">false</option></select>, // if false, it won't send an email for confirmation
+}
+</form>
+</code></pre>
+
+  <button class='btn btn-primary btn-tryme' 
+        data-result='userpasswordupdate-result' 
+        data-runner='userpasswordupdate'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='userpasswordupdate-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- PATCH /api/users/{user_id}/metadata -->
+<div class="markdown" data-verb="PATCH" data-path="/api/users/{user_id}/metadata" data-description="Patch user metadata">
+  Patch user metadata. The body of the request must include a <code>json</code> object with metadata <code>attributes</code>.
+  It will not override metadata not specified attributes.
+
+  <pre>
+    <code><span class='http-verb'>PATCH</span> <span class="client_namespace"></span>api/users/<select id='user-patch-selector' class='user-selector'></select>/metadata?access_token=<span class='tokenme param'>{token}</span>
+      Content-Type: 'application/json'
+      <div id="sdk-patch-jsoneditor" class="user-metadata" style="width: 100%; height: 100%;"></div>
+    </code>
+  </pre>
+
+  <button class='btn btn-primary btn-tryme'
+        data-result='usermetadatapatch-result'
+        data-runner='usermetadatapatch'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='usermetadatapatch-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
+<!-- DELETE /api/users/{user_id} -->
+  <div class="markdown" data-verb="DELETE" data-path="/api/users/{user_id}" data-description="Deletes a user">
+Deletes a user identified by <code>user_id</code>
+
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete' class='user-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-danger btn-tryme'
+        data-result='userdelete-result'
+        data-runner='userdelete'>
+  <i class='icon-white icon-hand-right'></i> Don't try me!
+</button>
+<span class="label label-important">WARNING!</span> This will delete the selected user.
+<pre class='tryme-result'><code id='userdelete-result'>If you press the Try me! button you will lost the user.</code></pre>
+  </div>
+
+</div>
+
+<h3>connections</h3>
+<div class="accordion">
+
+  <!-- GET /api/connections -->
+  <div class="markdown" data-verb="GET" data-path="/api/connections" data-description="Gets all connections">
+
+Gets a list of all the connections (enterprise and social) and all its <code>options</code>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='allconnections-result'
+        data-runner='allconnections'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='allconnections-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <!-- GET /api/connections/:name -->
+  <div class="markdown" data-verb="GET" data-path="/api/connections/{connection-name}" data-description="Gets one connection by name">
+
+Gets a connection by name (enterprise and social) and all its <code>options</code>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-get-selector' class='connection-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='oneconnection-result'
+        data-runner='oneconnection'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='oneconnection-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <div class="markdown" data-verb="DELETE" data-path="/api/connections/{connection-name}" data-description="Gets all connections">
+Deletes a connection identified by <code>connectionName</code>
+
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/connections/<select id='connection-delete-selector' class='connection-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-danger btn-tryme'
+        data-result='connectiondelete-result'
+        data-runner='connectiondelete'>
+  <i class='icon-white icon-hand-right'></i> Don't try me!
+</button>
+<span class="label label-important">WARNING!</span> This will delete the selected connection.
+<pre class='tryme-result'><code id='connectiondelete-result'>If you press the Try me! button you will lost the connection.</code></pre>
+  </div>
+
+<!-- POST api/connections -->
+
+  <div class="markdown" data-verb="POST" data-path="/api/connections" data-description="Creates a connection">
+Creates a connection. The body of the request must include the <code>name</code>, the authentication <code>strategy</code> to use, and an <code>options</code> object with the connection parameters.
+
+<span class='label label-info'>Heads up!</span> Instead of creating the user interface for setting up connections for your customers, you can embed the [Provisioning JavaScript Widget](#/sdk/provisioning) in your website and save some development time.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/connections/?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+  <form id='connection-form'>
+  {
+    "name":     "<input type="text" class="input-xxlarge" placeholder="connection identifier (e.g.: customerconnection)" id="api-create-connection-name">"
+    "strategy": "<select id="api-create-connection-strategy-selector">
+    <option value="office365">office365</option>
+    <option value="waad">waad</option>
+    <option value="google-apps">google-apps</option>
+    <option value="adfs">adfs</option>
+    <option value="pingfederate">PingFederate</option>
+    <option value="samlp">samlp</option>
+    </select>",
+    "options":   {<div class="create-connection-strategy-pane" id="create-connection-options-office365">
+      "tenant_domain": <input type="text" data-field='tenant_domain' required name="office365-tenant_domain">
+    </div><div class="create-connection-strategy-pane" id="create-connection-options-waad">
+      "tenant_domain": <input type="text" data-field='tenant_domain' required name="waad-tenant_domain">
+    </div><div class="create-connection-strategy-pane" id="create-connection-options-google-apps">
+      "tenant_domain": <input type="text" data-field="tenant_domain" required name="tenant_domain">
+    </div><div class="create-connection-strategy-pane" id="create-connection-options-adfs">
+      "tenant_domain": <input type="text" data-field="tenant_domain" name="tenant_domain">,
+      "adfs_server":   <input type="text" data-field="adfs_server" required name="adfs_server">
+    </div><div class="create-connection-strategy-pane" id="create-connection-options-pingfederate">
+      "PingFederate Base URL": <input type="text" data-field="pingfederate-base-url" required name="pingfederate-base-url">,
+      "Signing Cert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
+    </div><div class="create-connection-strategy-pane" id="create-connection-options-samlp">
+      "signInEndpoint":   "<input type="text" data-field="signInEndpoint" required name="signInEndpoint">",
+      "signingCert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
+      "tenant_domain": "<input type="text" data-field="tenant_domain" placeholder="optional" name="tenant_domain">",
+      "signOutEndpoint":  "<input type="text" data-field="signOutEndpoint" placeholder="optional" name="signOutEndpoint">",
+      </div>
+    }
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='connectioncreate-result'
+        data-runner='connectioncreate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='connectioncreate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+</div>
+
+<h3>applications / apis (clients)</h3>
+
+<div class="accordion">
+
+  <!-- GET /api/clients -->
+  <div class="markdown" data-verb="GET" data-path="/api/clients" data-description="Gets all applications/APIs">
+Gets a list of all the applications/APIs (aka clients) and all its <code>options</code>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='allclients-result'
+        data-runner='allclients'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='allclients-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <!-- POST /api/clients -->
+  <div class="markdown" data-verb="POST" data-path="/api/clients" data-description="Creates a new applications/APIs">
+Create a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/clients/?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+  <form id='create-client-form'>
+  {
+    "name":      "<input type="text" id="api-create-client-name" class="client-name" required>",
+    "callbacks": "<textarea id="api-create-client-callbacks" class="client-callbacks" required></textarea>" // You can specify multiple valid URLs by comma-separating them.
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='clientcreate-result'
+        data-runner='clientcreate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='clientcreate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+  <!-- PUT /api/clients -->
+  <div class="markdown" data-verb="PUT" data-path="/api/clients/{client-id}" data-description="Updates an applications/APIs">
+Update a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+  <form id='update-client-form'>
+  {
+    "name":      "<input type="text" id="api-update-client-name" class="update-client-name" required>",
+    "callbacks": "<textarea id="api-update-client-callbacks" class="update-client-callbacks" required></textarea>" // You can specify multiple valid URLs by comma-separating them.
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='clientupdate-result'
+        data-runner='clientupdate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='clientupdate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+</div>
+
+<!-- rules -->
+<h3>rules</h3>
+
+<div class="accordion">
+
+  <!-- GET /api/rules -->
+  <div class="markdown" data-verb="GET" data-path="/api/rules" data-description="Gets all rules">
+Gets a list of all the rules
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/rules?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='allrules-result'
+        data-runner='allrules'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='allrules-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+  <!-- POST /api/rules -->
+  <div class="markdown" data-verb="POST" data-path="/api/rules" data-description="Creates a new applications/APIs">
+Create a rule. The body of the request must include the <code>name</code>, <code>status</code> and <code>script</code> parameters.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/rules/?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+  <form id='create-rule-form'>
+  {
+    "name":     "<input type="text" id="api-create-rule-name" required>",
+    "status":   "<select id="api-create-rule-status">,
+    <option value="true">true</option>
+    <option value="false">false</option>
+    </select>",
+    "script":   "<textarea id="api-create-rule-script" style="width: 650px;height: 150px;" required>function (user, context, callback) { user.foo = 'bar'; callback(null, user, context);}</textarea>"
+                 // new lines should be encoded as \n
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='rulecreate-result'
+        data-runner='rulecreate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='rulecreate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+  <!-- PUT /api/rules -->
+  <div class="markdown" data-verb="PUT" data-path="/api/rules/{rule-name}" data-description="Updates a rule">
+Update a rule. The body of the request must include the <code>status</code> and <code>script</code> parameters.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/rules/<select id='rules-put-selector' class='rule-selector'></select>/?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+  <form id='update-rule-form'>
+  {
+    "status":   "<select id="api-update-rule-status">,
+    <option value="true">true</option>
+    <option value="false">false</option>
+    </select>",
+    "script":   "<textarea id="api-update-rule-script" style="width: 650px;height: 150px;" required>function (user, context, callback) { user.foo = 'bar'; callback(null, user, context);}</textarea>"
+                 // new lines should be encoded as \n
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='ruleupdate-result'
+        data-runner='ruleupdate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='ruleupdate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+  <!-- DELETE /api/rules -->
+
+  <div class="markdown" data-verb="DELETE" data-path="/api/rules/{rule-name}" data-description="Deletes a rules">
+Deletes a rule identified by <code>rule-name</code> (url-encoded)
+
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/rules/<select id='rule-delete-selector' class='rule-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-danger btn-tryme'
+        data-result='ruledelete-result'
+        data-runner='ruledelete'>
+  <i class='icon-white icon-hand-right'></i> Don't try me!
+</button>
+<span class="label label-important">WARNING!</span> This will delete the selected connection.
+<pre class='tryme-result'><code id='ruledelete-result'>If you press the Try me! button you will lost the connection.</code></pre>
+  </div>
+<!-- database connections -->
+<h3>Database Connection</h3>
+
+<div class="accordion">
+  <!-- POST /dbconnections/change_password -->
+  <div class="markdown" data-verb="POST" data-path="/dbconnections/change_password" data-description="Requests a change of a user's password">
+Request a change of a user's password. This triggers an email to the user with a URL that will expire in 5 minutes. When the user clicks on that URL will confirm the password change. The body of the request must include the <code>connection</code>, <code>email</code> and <code>password</code> parameters.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>dbconnections/change_password
+Content-Type: 'application/json'
+  <form id='dbconn-changePassword-form'>
+  {
+    "email":      "<input type="email" id="dbconn-changePassword-email" required>",
+    "password":   "<input type="password" id="dbconn-changePassword-password" required>",
+    "connection": "<select id="dbconn-changePassword-connection-selector"></select>"
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='dbconn-changePassword-result'
+        data-runner='dbconn-changePassword'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='dbconn-changePassword-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+
+</div>

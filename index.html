@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC>
+
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=us-ascii">
+
+  <title>API Explorer</title>
+  <link rel="stylesheet" href="bower_components/Font-Awesome/css/font-awesome.css" type="text/css" media="all">
+  <link rel="stylesheet" href="css/api-explorer.css" type="text/css" media= "all">
+  <link rel="stylesheet" href="bower_components/bootstrap/docs/assets/css/bootstrap.css" type="text/css" media= "all">
+
+  <script type="text/javascript" src="bower_components/requirejs/require.js"></script>
+  <script type="text/javascript" src="build.js"></script>
+
+  <!-- require.config.js -->
+  <script type="text/javascript">
+      require(['api-explorer'], function () {
+        var api_explorer = require('api-explorer');
+        api_explorer({
+          el:             $('body'),
+          isAuth:         false,
+          tenantDomain:   'login.myauth0.com',
+          accessToken:    '',
+          docsDomain:     'docs.auth0.com',
+          user:           {name: 'Lalal'}
+        });
+      });
+
+  </script>
+</head>
+
+<body>
+</body>
+</html>

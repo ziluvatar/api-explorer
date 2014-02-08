@@ -1,0 +1,7 @@
+{
+  "name": "api-explorer",
+  "version": "0.0.1",
+  "dependencies": {
+    "ejs-amd": "~0.0.4"
+  }
+}
