@@ -4,8 +4,6 @@
   "dependencies": {
     "jquery": "1.8.3",
     "requirejs": "~2.1.2",
-    "Font-Awesome": "https://github.com/FortAwesome/Font-Awesome.git#~3.2.1",
-    "q": "~0.9.6",
     "bootstrap": "~2.2.2",
     "url-join": "https://github.com/pose/url-join.git#0.0.1",
     "jsoneditor": "~2.3.6",
