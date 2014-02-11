@@ -26,7 +26,7 @@ define(function (require) {
           $.each(tokens || [], function (idx, val) {
             var key = val.substr(1),
               deleteToken = false;
-            
+
             if(key[0] === '!'){
               key = key.substr(1);
               deleteToken = true;

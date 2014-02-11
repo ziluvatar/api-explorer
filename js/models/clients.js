@@ -1,5 +1,5 @@
 define(function (require) {
-  var Model = require('/js/models/model.js');
+  var Model = require('js/models/model');
 
   var actions = {
     findAll: 'GET /api/clients',

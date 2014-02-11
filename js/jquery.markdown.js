@@ -1,7 +1,7 @@
 define(function (require) {
 
   var showdown   = require("showdown");
-  var extensions = require("/js/showdown.extensions.js");
+  var extensions = require("js/showdown.extensions");
   var $          = require('jquery');
 
   $.fn.markdown = function (context) {
