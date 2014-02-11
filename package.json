@@ -3,5 +3,10 @@
   "version": "0.0.1",
   "dependencies": {
     "ejs-amd": "~0.0.4"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-s3": "~0.2.0-alpha.3",
+    "grunt-invalidate-cloudfront": "~0.1.4"
   }
 }
