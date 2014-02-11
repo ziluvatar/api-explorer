@@ -5,20 +5,17 @@ define(function (require) {
   return function (client, settings) {
     var executors = this;
 
-    $('.tokenme').html(settings.accessToken);
-
     this['accesstoken'] = function (skipchangeTokenme) {
       var url = urljoin(client.namespace, '/oauth/token');
       return $.ajax({
         url: url,
         type: 'POST',
         contentType: 'application/json',
-        data: {
+        data: JSON.stringify({
           client_id:     client.clientID,
           client_secret: client.clientSecret,
-          type:          'webserver',
           grant_type:    'client_credentials'
-        }
+        })
       }).pipe(function (token) {
         if(!skipchangeTokenme) {
           $('.tokenme').html(token.access_token);
