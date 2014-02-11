@@ -5,7 +5,6 @@ define(function (require) {
   require('bootstrap');
 
   var $              = require('jquery');
-  var Q              = require('Q');
   var urljoin        = require('url-join');
 
   var apiItemTemplate           = require('templates/sdk.api-method');
@@ -38,8 +37,8 @@ define(function (require) {
     return v > 4 ? v : undef;
   }());
 
-  var loading = function(l) {
-    $('#sdk-api .loading-spin').toggle(l);
+  var loading = function(settings, l) {
+    $('.loading-spin', settings.el).toggle(l);
   };
 
   var hookJsonTogglers = function () {
@@ -191,7 +190,7 @@ define(function (require) {
         .on('change', withSettings(onClientChanged, settings));
     });
 
-    return Q(r);
+    return r;
   }
 
   function loadRules (settings) {
@@ -435,6 +434,8 @@ define(function (require) {
 
   var loadApi = function(settings) {
 
+    loading(settings, true);
+
     var url = urljoin('https://' + settings.tenantDomain, '/oauth/token');
       return $.ajax({
         url: url,
@@ -475,10 +476,9 @@ define(function (require) {
         $('body').scrollTop(top);
       }
 
-      loading(true);
 
       if (settings.isAuth) {
-        loadClients(settings).then(withSettings(onClientChanged));
+        loadClients(settings).then(withSettings(onClientChanged, settings));
         loadScopes(settings);
         loadResponseTypes(settings);
         loadProtocols(settings);
@@ -494,7 +494,7 @@ define(function (require) {
       hookJsonTogglers();
 
 
-      loading(false);
+      loading(settings, false);
     });
   };
 
