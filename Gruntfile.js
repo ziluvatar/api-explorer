@@ -7,6 +7,15 @@ module.exports = function (grunt) {
     clean: [
       'dist/'
     ],
+    watch: {
+      options: {
+        livereload: true
+      },
+      src: {
+        files: ['js/**/*.js', 'less/**/*.less', 'api-explorer.js', 'Gruntfile.js'],
+        tasks: ['build']
+      },
+    },
     template: {
       production: {
         src: 'index.jade',
@@ -19,13 +28,15 @@ module.exports = function (grunt) {
       }
     },
     connect: {
-      server: {
+      all: {
         options: {
-          base: 'dist',
-          protocol: 'https',
           port: 8443,
-          passphrase: '',
-          keepalive: true
+          hostname: '0.0.0.0',
+          base: 'dist',
+//          keepalive: true,
+          livereload: true,
+          protocol: 'https',
+          passphrase: ''
         },
       },
     },
@@ -145,6 +156,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build', ['clean', 'template', 'less', 'ejs2amd', 'requirejs']);
-  grunt.registerTask('default', ['build', 'connect:server']);
+  grunt.registerTask('default', ['build', 'connect', 'watch']);
   grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production']);
 };
