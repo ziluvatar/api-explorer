@@ -18,9 +18,15 @@ html(lang="en")
           isAuth:         #{isAuth},
           tenantDomain:   'login.myauth0.com',
           docsDomain:     'docs.auth0.com',
-          user:           {name: 'Hello'},
           clientId:       '#{clientId}',
-          clientSecret:   '#{clientSecret}'
+          clientSecret:   '#{clientSecret}',
+          readOnly:       false,
+
+          user: {
+            id:    'john.doe',
+            name:  'John Doe',
+            mail:  'john@doe.com'
+          }
         });
       });
 

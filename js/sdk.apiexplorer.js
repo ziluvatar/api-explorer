@@ -240,9 +240,16 @@ define(function (require) {
       executors = new ApiExecutors(selectedClient, settings);
     }
 
-    $('.btn-tryme')
-      .off('click')
-      .on('click', tryMeButton(executors));
+
+    if (settings.readOnly) {
+      $('.btn-tryme').attr('disabled', 'disabled');
+      $('.btn-tryme').addClass('disabled');
+      $('.client-selector').attr('disabled', 'disabled');
+    } else {
+      $('.btn-tryme')
+        .off('click')
+        .on('click', tryMeButton(executors));
+    }
 
     loadAllConnections(settings);
     loadSocialConnections(settings);
@@ -431,70 +438,115 @@ define(function (require) {
     });
   }
 
+  function renderMarkdown() {
+    if (!target.hasClass('converted')){
+      var top = $('body').scrollTop();
+
+      $('.markdown', target).each(function() {
+        $(this).markdown();
+
+        var path = $(this).data('path');
+        if (path) {
+          var markdown = $(this).html();
+          var verb = $(this).data('verb');
+          var desc = $(this).data('description');
+          var path2 = $(this).data('path2'); // use for duplicated endpoints (path)
+          $(this).html(apiItemTemplate({markdown: markdown, verb: verb, path: path, path2: path2, description: desc}));
+        }
+      });
+
+      target.addClass('converted');
+      $('body').scrollTop(top);
+    }
+
+  }
+
+  function populateLists(settings) {
+    if (settings.isAuth) {
+      loadClients(settings).then(withSettings(onClientChanged, settings));
+      loadScopes(settings);
+      loadResponseTypes(settings);
+      loadProtocols(settings);
+    } else {
+      loadClients(settings)
+        .then(withSettings(onClientChanged, settings))
+        .then(withSettings(loadConnections, settings))
+        .then(withSettings(loadRules, settings))
+        .then(withSettings(loadUsers, settings));
+    }
+  }
+
+
+  function renderAndPopulate(settings) {
+    renderMarkdown();
+    populateLists(settings);
+    hookStrategySelector();
+    hookJsonTogglers();
+    loading(settings, false);
+  }
+
+  function returnAsPromise(l) {
+    return function () {
+      var deferred = $.Deferred();
+
+      setTimeout(function () {
+        deferred.resolve(l);
+      }, 0);
+
+      return deferred.promise();
+    };
+  }
 
   var loadApi = function(settings) {
 
     loading(settings, true);
 
+
+    if (settings.readOnly) {
+      var mockClients = [{global: true, clientID: 'GLOBAL_CLIENT_ID' },
+          {global: false, clientID: 'APP_CLIENT_ID'}];
+
+      clientsModel              = function () {
+        return {
+          findAll: returnAsPromise(mockClients),
+        };
+      };
+      clientConnectionsModel    = function () {
+        return {
+          findAllEnabled: returnAsPromise(mockClients)
+        };
+      };
+    }
+
+    if (settings.isAuth) {
+      target = $('#sdk-auth-api-content');
+    } else {
+      target = $('#sdk-api-content');
+    }
+
     var url = urljoin('https://' + settings.tenantDomain, '/oauth/token');
-      return $.ajax({
-        url: url,
-        type: 'POST',
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        data: {
-          client_id:     settings.clientId,
-          client_secret: settings.clientSecret,
-          grant_type:    'client_credentials'
-        }
-      }).pipe(function (token) {
-        settings.accessToken = token.access_token;
-        $('.tokenme').html(token.access_token);
-      }).pipe(function () {
-        if (settings.isAuth) {
-          target = $('#sdk-auth-api-content');
-        } else {
-          target = $('#sdk-api-content');
-        }
-
-      if (!target.hasClass('converted')){
-        var top = $('body').scrollTop();
-
-        $('.markdown', target).each(function() {
-          $(this).markdown();
-
-          var path = $(this).data('path');
-          if (path) {
-            var markdown = $(this).html();
-            var verb = $(this).data('verb');
-            var desc = $(this).data('description');
-            var path2 = $(this).data('path2'); // use for duplicated endpoints (path)
-            $(this).html(apiItemTemplate({markdown: markdown, verb: verb, path: path, path2: path2, description: desc}));
-          }
-        });
-
-        target.addClass('converted');
-        $('body').scrollTop(top);
+    $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      data: {
+        client_id:     settings.clientId,
+        client_secret: settings.clientSecret,
+        grant_type:    'client_credentials'
       }
-
-
-      if (settings.isAuth) {
-        loadClients(settings).then(withSettings(onClientChanged, settings));
-        loadScopes(settings);
-        loadResponseTypes(settings);
-        loadProtocols(settings);
+    })
+    .error(function () {
+      if (settings.readOnly) {
+        renderAndPopulate(settings);
       } else {
-        loadClients(settings)
-          .then(withSettings(onClientChanged, settings))
-          .then(withSettings(loadConnections, settings))
-          .then(withSettings(loadRules, settings))
-          .then(withSettings(loadUsers, settings));
+        // TODO Log the error
       }
+    })
+    .success(function (token) {
+      settings.accessToken = token.access_token;
+      $('.tokenme').html(token.access_token);
 
-      hookStrategySelector();
-      hookJsonTogglers();
-
-
-      loading(settings, false);
+      renderAndPopulate(settings);
     });
   };
 
