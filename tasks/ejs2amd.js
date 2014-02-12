@@ -39,14 +39,9 @@ function renderFile(grunt, settings, fromPath, toPath) {
 }
 
 module.exports = function (grunt) {
-
-  var _ = grunt.util._;
-
   grunt.registerMultiTask('ejs2amd', 'convert ejs template to amd compatible js.', function () {
-    var done = this.async();
 
     this.files.forEach(function (file) {
-
       file.src.forEach(function (f) {
         var suffixRe = /\.ejs$/;
         if ( suffixRe.test(f) ) {
@@ -56,6 +51,6 @@ module.exports = function (grunt) {
       });
     });
 
-    done();
+    grunt.log.ok('ejs2amd finished');
   });
 };
