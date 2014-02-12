@@ -1,5 +1,26 @@
 module.exports = function (grunt) {
+
+  require('./tasks/ejs2amd')(grunt);
+
   grunt.initConfig({
+    connect: {
+      server: {
+        options: {
+          protocol: 'https',
+          port: 8443,
+          passphrase: '',
+          keepalive: true
+        },
+      },
+    },
+    ejs2amd: {
+      compile: {
+        files: [{
+          src: 'templates/*',
+          dest: 'dist/templates'
+        }]
+      }
+    },
     s3: {
       options: {
         key:    process.env.S3_KEY,
@@ -43,9 +64,12 @@ module.exports = function (grunt) {
   });
 
   // Loading dependencies
-  for (var key in grunt.file.readJSON("package.json").devDependencies) {
-    if (key !== "grunt" && key.indexOf("grunt") === 0) grunt.loadNpmTasks(key);
+  for (var key in grunt.file.readJSON('package.json').devDependencies) {
+    if (key !== 'grunt' && key.indexOf('grunt') === 0) {
+      grunt.loadNpmTasks(key);
+    }
   }
 
-  grunt.registerTask("cdn", [/*"build", "copy:release", */"s3:clean", "s3:publish", "invalidate_cloudfront:production"]);
+  grunt.registerTask('default', ['ejs2amd', 'connect:server']);
+  grunt.registerTask('cdn', [/*'build', 'copy:release', */'s3:clean', 's3:publish', 'invalidate_cloudfront:production']);
 };
