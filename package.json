@@ -19,6 +19,7 @@
     "grunt-templater": "0.0.4-1",
     "jade": "~1.1.5",
     "grunt-contrib-watch": "~0.5.3",
-    "bower": "~1.2.8"
+    "bower": "~1.2.8",
+    "async": "~0.2.10"
   }
 }
