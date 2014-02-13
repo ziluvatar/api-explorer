@@ -125,8 +125,7 @@ module.exports = function (grunt) {
         bucket: process.env.S3_BUCKET,
         access: 'public-read',
         headers: {
-          'Cache-Control':  'public, max-age=300',
-          'Content-Type':   'application/javascript; charset=UTF-8'
+          'Cache-Control':  'public, max-age=300'
         }
       },
       clean: {
