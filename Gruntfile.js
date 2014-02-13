@@ -12,7 +12,13 @@ module.exports = function (grunt) {
         livereload: true
       },
       src: {
-        files: ['js/**/*.js', 'less/**/*.less', 'api-explorer.js', 'Gruntfile.js'],
+        files: [
+          'js/**/*.js',
+          'less/**/*.less',
+          'api-explorer.js',
+          'Gruntfile.js',
+          'index.jade'
+        ],
         tasks: ['build']
       },
     },
@@ -33,7 +39,6 @@ module.exports = function (grunt) {
           port: 8443,
           hostname: '0.0.0.0',
           base: 'dist',
-//          keepalive: true,
           livereload: true,
           protocol: 'https',
           passphrase: ''
