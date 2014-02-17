@@ -4,22 +4,24 @@ define('api-explorer', ['jquery', './js/sdk.apiexplorer', './templates/sdk_auth'
     settings.el      = settings.el      || $('body');
     settings.isAuth  = settings.isAuth  || false;
 
-    if (settings.isAuth) {
-      sdk         = sdkAuth;
-    }
+   (function (settings) {
+      $(function () {
+        if (settings.isAuth) {
+          sdk         = sdkAuth;
+        }
 
-    $(function () {
-      var s = sdk(settings);
-      $(settings.el).append(s);
+        var s = sdk(settings);
+        $(settings.el).append(s);
 
-      $('.tokenme').html(settings.accessToken);
+        $('.tokenme').html(settings.accessToken);
 
-      if (settings.isAuth) {
-        apiExplorer.routes['/sdk/auth_api'](settings);
-      } else {
-        apiExplorer.routes['/sdk/api'](settings);
-      }
+        if (settings.isAuth) {
+          apiExplorer.routes['/sdk/auth_api'](settings);
+        } else {
+          apiExplorer.routes['/sdk/api'](settings);
+        }
 
-    });
+      });
+    }(settings));
   };
 });

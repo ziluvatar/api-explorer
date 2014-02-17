@@ -9,14 +9,29 @@ html(lang="en")
     script(type="text/javascript", src="//code.jquery.com/jquery-1.11.0.min.js")
     script(type="text/javascript", src="api-explorer.js")
 
-    // require.config.js
     script.
       require(['api-explorer'], function () {
         var api_explorer = require('api-explorer');
         api_explorer({
           el:             $('body'),
-          isAuth:         #{isAuth},
-          tenantDomain:   'login.myauth0.com',
+          isAuth:         false,
+          tenantDomain:   'login0.myauth0.com',
+          docsDomain:     'docs.auth0.com',
+          clientId:       '#{clientId}',
+          clientSecret:   '#{clientSecret}',
+          readOnly:       false,
+
+          user: {
+            id:    'john.doe',
+            name:  'John Doe',
+            mail:  'john@doe.com'
+          }
+        });
+        
+        api_explorer({
+          el:             $('body'),
+          isAuth:         true,
+          tenantDomain:   'login0.myauth0.com',
           docsDomain:     'docs.auth0.com',
           clientId:       '#{clientId}',
           clientSecret:   '#{clientSecret}',
