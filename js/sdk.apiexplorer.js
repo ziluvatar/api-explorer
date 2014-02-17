@@ -63,7 +63,6 @@ define(function (require) {
         $('.user-selector').html('');
         $('#sdk-jsoneditor').html('');
         $('#sdk-patch-jsoneditor').html('');
-        $('#sdk-create-jsoneditor').html('');
 
         $.each(users, function (i, u) {
           $('<option value=' + u.user_id + '>' + u.user_id + '</option>')
@@ -75,19 +74,6 @@ define(function (require) {
           search: false,
           history: false
         };
-
-        // POST
-        var createContainer = document.getElementById("sdk-create-jsoneditor");
-        if (createContainer) {
-          var createEditor = new jsoneditor.JSONEditor(createContainer, options);
-          createEditor.set({ 'vip': true, 'birthdate': new Date(1980, 11, 23) });
-          window.createJSONEditor = createEditor;
-
-          // workaround to show extra attributes (metadata)
-          var tmpVal = $('#sdk-create-jsoneditor textarea').val();
-          $('#sdk-create-jsoneditor textarea').val(
-            $.trim(tmpVal.replace(/[\{\}]/g,'').replace(/ +?/g, '')));
-        }
 
         var updateContainer = document.getElementById("sdk-jsoneditor");
         if (updateContainer) {

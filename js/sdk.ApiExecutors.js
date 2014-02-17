@@ -41,6 +41,13 @@ define(function (require) {
       return tknpromise;
     }
 
+    var validateJsonText = function (jsonText) {
+      try {
+        return JSON.parse('{' + jsonText + '}');
+      } catch (e) {
+      }
+    };
+
     this['allusers'] = function () {
       return getToken().pipe(function (token) {
         var url = urljoin(client.namespace, '/api/users?access_token=' + token.access_token);
@@ -229,23 +236,15 @@ define(function (require) {
       });
     };
 
-    function switchJSONEditor(on) {
-      var tmpVal = $('#sdk-create-jsoneditor textarea').val();
-
-      switch(on) {
-        case true:
-          $('#sdk-create-jsoneditor textarea').val('{' + tmpVal + '}');
-          break;
-        case false:
-          // workaround to show extra attributes (metadata)
-          $('#sdk-create-jsoneditor textarea').val(
-            $.trim(tmpVal.replace(/[\{\}]/g,'').replace(/ +?/g, '')));
-          break;
-      }
-    }
-
     this['usercreate'] = function () {
       var connection = $('#api-create-user-connection-selector option:selected').val();
+
+      var metadata = validateJsonText($('#sdk-create-jsoneditor').val());
+      if (!metadata) {
+        $('#usercreate-result').text('Wrong extra attributes');
+        $('#usercreate-result').parent().addClass('error');
+        return;
+      }
 
       var user = {
         email: $('#api-create-user-email').val(),
@@ -254,17 +253,7 @@ define(function (require) {
         email_verified: $('#api-create-user-email-verified-selector option:selected').val() === 'true'
       };
 
-      try {
-        switchJSONEditor(true);
-        var metadata =  window.createJSONEditor.get();
-        if (metadata) user = $.extend(user, metadata);
-        switchJSONEditor(false);
-      } catch (err) {
-        switchJSONEditor(false);
-        $('#usercreate-result').text('Wrong extra attributes');
-        $('#usercreate-result').parent().addClass('error');
-        return;
-      }
+      user = $.extend(user, metadata);
 
       return getToken().pipe(function (token) {
         var url = urljoin(client.namespace,
