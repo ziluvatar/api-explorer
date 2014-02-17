@@ -66,40 +66,6 @@ module.exports = function (grunt) {
       }
     },
     requirejs: {
-      'auth0-ui': {
-      options: {
-         almond: true,
-         baseUrl: '.',
-         'shim': {
-           'bootstrap':        [ 'jquery' ]
-         },
-         include: ['api-explorer'],
-         generateSourceMaps: true,
-         preserveLicenseComments: false,
-         optimize: 'none',
-         wrap: {
-           startFile: 'start.frag',
-           endFile:   'end.frag'
-         },
-         replaceRequireScript: [{
-           files:      ['dist/index.html'],
-           module:     'main',
-           modulePath: '/js/api-explorer'
-         }],
-         paths: {
-           'jquery':           'bower_components/jquery/jquery',
-           'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
-           'url-join':         'bower_components/url-join/lib/url-join',
-           'bootstrap':        'js/bootstrap.wrapper',
-           'jquerymd':         'js/jquery.markdown',
-           'showdown':         'bower_components/showdown/compressed/showdown',
-           'text':             "bower_components/text/text",
-           'ejs':              "bower_components/ejs/ejs",
-           'rejs':             "bower_components/requirejs-ejs/rejs",
-         },
-         out: 'dist/api-explorer.js'
-       }
-      },
       compile: {
         options: {
           almond: true,
@@ -120,16 +86,17 @@ module.exports = function (grunt) {
             modulePath: '/js/api-explorer'
           }],
           paths: {
+            'text':             'bower_components/requirejs-text/text',
+            'ejs':              'bower_components/ejs/ejs',
+            'rejs':             'vendor/rejs',
+
             'jquery':           'js/jquery.wrapper',
             'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
             'url-join':         'bower_components/url-join/lib/url-join',
             'bootstrap':        'bower_components/bootstrap/docs/assets/js/bootstrap-collapse',
             'jquerymd':         'vendor/jquery.markdown',
-            'showdown':         'bower_components/showdown/compressed/showdown',
+            'showdown':         'bower_components/showdown/compressed/showdown'
 
-            text: 'bower_components/requirejs-text/text',
-            ejs:  'bower_components/ejs/ejs',
-            rejs: 'vendor/rejs'
           },
           out: 'dist/api-explorer.js'
         }
