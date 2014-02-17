@@ -2,16 +2,12 @@
   "name": "api-explorer",
   "version": "0.0.1",
   "dependencies": {
-    "ejs-amd": "~0.0.4"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-s3": "~0.2.0-alpha.3",
     "grunt-invalidate-cloudfront": "~0.1.4",
     "grunt-contrib-connect": "~0.6.0",
-    "mkdirp": "~0.3.5",
-    "ejs": "~0.8.5",
-    "walkdir": "0.0.7",
     "grunt-requirejs": "~0.4.0",
     "matchdep": "~0.3.0",
     "grunt-contrib-clean": "~0.5.0",
@@ -19,7 +15,6 @@
     "grunt-templater": "0.0.4-1",
     "jade": "~1.1.5",
     "grunt-contrib-watch": "~0.5.3",
-    "bower": "~1.2.8",
-    "async": "~0.2.10"
+    "bower": "~1.2.8"
   }
 }

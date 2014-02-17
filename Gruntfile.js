@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
 
-  require('./tasks/ejs2amd')(grunt);
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.initConfig({
