@@ -61,14 +61,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    // ejs2amd: {
-    //   compile: {
-    //     files: [{
-    //       src: 'templates/*',
-    //       dest: 'dist/templates'
-    //     }]
-    //   }
-    // },
     requirejs: {
       'auth0-ui': {
       options: {
