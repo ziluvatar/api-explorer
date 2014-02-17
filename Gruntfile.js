@@ -1,6 +1,11 @@
 module.exports = function (grunt) {
 
+  if (!process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_CLIENT_SECRET) {
+    grunt.log.error('Warning: Environment variables AUTH0_CLIENT_ID or AUTH0_CLIENT_SECRET were not found');
+  }
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
 
   grunt.initConfig({
     clean: [
