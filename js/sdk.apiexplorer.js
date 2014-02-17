@@ -9,11 +9,11 @@ define(function (require) {
     var $              = require('jquery');
     var urljoin        = require('url-join');
 
-    var apiItemTemplate           = require('templates/sdk.api-method');
-    var clientsModel              = require('js/models/clients');
-    var clientConnectionsModel    = require('js/models/client-connections');
-    var ApiExecutors              = require('js/sdk.ApiExecutors');
-    var AuthApiExecutors          = require('js/sdk.AuthApiExecutors');
+    var apiItemTemplate           = require('rejs!../templates/sdk.api-method');
+    var clientsModel              = require('./models/clients');
+    var clientConnectionsModel    = require('./models/client-connections');
+    var ApiExecutors              = require('./sdk.ApiExecutors');
+    var AuthApiExecutors          = require('./sdk.AuthApiExecutors');
 
     var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0'];
     var clients = [], selectedClient, target;

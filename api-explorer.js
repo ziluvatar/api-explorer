@@ -1,4 +1,4 @@
-define('api-explorer', ['jquery', './js/sdk.apiexplorer', './templates/sdk_auth','./templates/sdk'], function ($, apiExplorer, sdkAuth, sdk) {
+define('api-explorer', ['jquery', './js/sdk.apiexplorer', 'rejs!./templates/sdk_auth','rejs!./templates/sdk'], function ($, apiExplorer, sdkAuth, sdk) {
   return function (settings) {
     settings         = settings         || {};
     settings.el      = settings.el      || $('body');

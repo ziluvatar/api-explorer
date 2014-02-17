@@ -1,6 +1,6 @@
 define(function (require) {
-  var Model = require('js/models/model');
-  var clientsModel = require('js/models/clients');
+  var Model = require('./model');
+  var clientsModel = require('./clients');
 
   return function (settings) {
     var actions = {
