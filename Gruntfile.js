@@ -70,52 +70,40 @@ module.exports = function (grunt) {
     //   }
     // },
     requirejs: {
-      //'auth0-ui': {
-      //  options: {
-      //    almond: true,
-      //    baseUrl: '.',
-      //    'shim': {
-      //      'bootstrap':        [ 'jquery' ]
-      //    },
-      //    include: ['api-explorer'],
-      //    generateSourceMaps: true,
-      //    preserveLicenseComments: false,
-      //    optimize: 'none',
-      //    wrap: {
-      //      startFile: 'start.frag',
-      //      endFile:   'end.frag'
-      //    },
-      //    replaceRequireScript: [{
-      //      files: ['dist/index.html'],
-      //      module: 'main',
-      //      modulePath: '/js/api-explorer'
-      //    }],
-      //    paths: {
-      //      'jquery':           'bower_components/jquery/jquery',
-      //      'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
-      //      'url-join':         'bower_components/url-join/lib/url-join',
-      //      'bootstrap':        'js/bootstrap.wrapper',
-      //      'jquerymd':         'js/jquery.markdown',
-      //      'showdown':         'bower_components/showdown/compressed/showdown',
-
-      //      'templates/sdk_auth':        'dist/templates/sdk_auth',
-      //      'templates/sdk':             'dist/templates/sdk',
-      //      'templates/sdk.api-method':  'dist/templates/sdk.api-method',
-
-      //      'js/sdk.apiexplorer':        'js/sdk.apiexplorer',
-      //      'js/sdk.auth':               'js/sdk.auth',
-      //      'js/sdk.AuthApiExecutors':   'js/sdk.AuthApiExecutors',
-      //      'js/sdk.ApiExecutors':       'js/sdk.ApiExecutors',
-
-      //      'js/showdown.extensions':    'js/showdown.extensions',
-
-      //      'js/models/model':                'js/models/model',
-      //      'js/models/clients':              'js/models/clients',
-      //      'js/models/client-connections':   'js/models/client-connections',
-      //    },
-      //    out: 'dist/api-explorer.js'
-      //  }
-      //},
+      'auth0-ui': {
+      options: {
+         almond: true,
+         baseUrl: '.',
+         'shim': {
+           'bootstrap':        [ 'jquery' ]
+         },
+         include: ['api-explorer'],
+         generateSourceMaps: true,
+         preserveLicenseComments: false,
+         optimize: 'none',
+         wrap: {
+           startFile: 'start.frag',
+           endFile:   'end.frag'
+         },
+         replaceRequireScript: [{
+           files:      ['dist/index.html'],
+           module:     'main',
+           modulePath: '/js/api-explorer'
+         }],
+         paths: {
+           'jquery':           'bower_components/jquery/jquery',
+           'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
+           'url-join':         'bower_components/url-join/lib/url-join',
+           'bootstrap':        'js/bootstrap.wrapper',
+           'jquerymd':         'js/jquery.markdown',
+           'showdown':         'bower_components/showdown/compressed/showdown',
+           'text':             "bower_components/text/text",
+           'ejs':              "bower_components/ejs/ejs",
+           'rejs':             "bower_components/requirejs-ejs/rejs",
+         },
+         out: 'dist/api-explorer.js'
+       }
+      },
       compile: {
         options: {
           almond: true,
