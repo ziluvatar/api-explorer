@@ -1,36 +1,35 @@
-define(function (require) {
-  var $       = require('jquery');
+define(function(require) {
+  var $ = require('jquery');
   var urljoin = require('url-join');
 
-  return function (client, settings) {
+  return function(client) {
 
-    var validateJsonText = function (jsonText) {
+    var validateJsonText = function(jsonText) {
       try {
         return JSON.parse('{' + jsonText + '}');
-      } catch (e) {
-      }
+      } catch(e) {}
     };
-    
-    this['delegation'] = function () {
-      
+
+    this['delegation'] = function() {
+
       var data = {
         grant_type: $('#delegation-grant_type option:selected').val(),
-        id_token:   $('#delegation-id_token').val(),
-        target:     $('#delegation-target option:selected').val(),
-        client_id:  client.clientID,
-        scope:      $('#delegation-scope option:selected').val()
+        id_token: $('#delegation-id_token').val(),
+        target: $('#delegation-target option:selected').val(),
+        client_id: client.clientID,
+        scope: $('#delegation-scope option:selected').val()
       };
 
       var url = urljoin(client.namespace, '/delegation');
       return $.ajax({
-        type:   'POST',
-        url:    url,
-        data:   data,
+        type: 'POST',
+        url: url,
+        data: data,
         global: false
       });
     };
 
-    this['impersonate'] = function () {
+    this['impersonate'] = function() {
 
       var additional_parameters = validateJsonText($('#impersonate-additional_parameters').val());
       if (!additional_parameters) {
@@ -41,34 +40,32 @@ define(function (require) {
 
       var user_id = $('#impersonate-user_id option:selected').val();
       var data = {
-        protocol:             $('#impersonate-protocol option:selected').val(),
-        impersonator_id:      $('#impersonate-impersonator_id').text(),
-        client_id:            $('#impersonate-client_id option:selected').val(),
+        protocol: $('#impersonate-protocol option:selected').val(),
+        impersonator_id: $('#impersonate-impersonator_id').text(),
+        client_id: $('#impersonate-client_id option:selected').val(),
         additionalParameters: additional_parameters
       };
 
       var url = urljoin(client.namespace, 'users', encodeURIComponent(user_id), 'impersonate');
       return $.ajax({
-        type:     'POST',
-        url:      url,
-        data:     data,
-        headers:  { Authorization: 'Bearer ' + client.access_token },
-        global:   false
+        type: 'POST',
+        url: url,
+        data: data,
+        headers: {
+          Authorization: 'Bearer ' + client.access_token
+        },
+        global: false
       });
     };
 
-    this['authorize_social'] = function () {
-      
+    this['authorize_social'] = function() {
+
       var response_type = $('#authorize_social-response_type option:selected').val();
       var connection = $('#authorize_social-connection option:selected').val();
       var state = $('#authorize_social-state').val();
       var additional_parameters = $('#authorize_social-additional_parameters').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=' + response_type +
-                        '&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=' + response_type + '&client_id=' + client.clientID + '&redirect_uri=' + client.callback);
 
       if (connection) {
         url += '&connection=' + connection;
@@ -85,18 +82,14 @@ define(function (require) {
       window.open(url, '_new');
     };
 
-    this['authorize_db'] = function () {
-      
+    this['authorize_db'] = function() {
+
       var response_type = $('#authorize_db-response_type option:selected').val();
       var connection = $('#authorize_db-connection option:selected').val();
       var state = $('#authorize_db-state').val();
       var additional_parameters = $('#authorize_db-additional_parameters').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=' + response_type +
-                        '&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=' + response_type + '&client_id=' + client.clientID + '&redirect_uri=' + client.callback);
 
       if (connection) {
         url += '&connection=' + connection;
@@ -113,18 +106,14 @@ define(function (require) {
       window.open(url, '_new');
     };
 
-    this['authorize_enterprise'] = function () {
-      
+    this['authorize_enterprise'] = function() {
+
       var response_type = $('#authorize_enterprise-response_type option:selected').val();
       var connection = $('#authorize_enterprise-connection option:selected').val();
       var state = $('#authorize_enterprise-state').val();
       var additional_parameters = $('#authorize_enterprise-additional_parameters').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=' + response_type +
-                        '&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=' + response_type + '&client_id=' + client.clientID + '&redirect_uri=' + client.callback);
 
       if (connection) {
         url += '&connection=' + connection;
@@ -141,36 +130,31 @@ define(function (require) {
       window.open(url, '_new');
     };
 
-    this['oauth-token'] = function () {
-      
+    this['oauth-token'] = function() {
+
       var data = {
-        client_id:      client.clientID,
-        client_secret:  client.clientSecret,
-        grant_type:     $('#oauth-token-grant_type').text(),
-        code:           $('#oauth-token-code').val()
+        client_id: client.clientID,
+        client_secret: client.clientSecret,
+        grant_type: $('#oauth-token-grant_type').text(),
+        code: $('#oauth-token-code').val()
       };
 
       var url = urljoin(client.namespace, '/oauth/token');
       return $.ajax({
-        type:   'POST',
-        url:    url,
-        data:   data,
+        type: 'POST',
+        url: url,
+        data: data,
         global: false
       });
     };
 
-    this['link'] = function () {
-      
+    this['link'] = function() {
+
       var response_type = $('#link-response_type option:selected').val();
       var connection = $('#link-connection option:selected').val();
       var access_token = $('#link-access_token').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=' + response_type +
-                        '&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback +
-                        '&access_token=' + access_token);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=' + response_type + '&client_id=' + client.clientID + '&redirect_uri=' + client.callback + '&access_token=' + access_token);
 
       if (connection) {
         url += '&connection=' + connection;
@@ -179,56 +163,54 @@ define(function (require) {
       window.open(url, '_new');
     };
 
-    this['unlink'] = function () {
-      
+    this['unlink'] = function() {
+
       var data = {
-        clientID:     client.clientID,
+        clientID: client.clientID,
         access_token: $('#unlink-access_token').val(),
-        user_id:      $('#unlink-user_id option:selected').val()
+        user_id: $('#unlink-user_id option:selected').val()
       };
 
       var url = urljoin(client.namespace, '/unlink');
       return $.ajax({
-        type:   'POST',
-        url:    url,
-        data:   data,
+        type: 'POST',
+        url: url,
+        data: data,
         global: false
       });
     };
 
-    this['ro'] = function () {
-      
+    this['ro'] = function() {
+
       var data = {
-        client_id:  client.clientID,
-        username:   $('#ro-username').val(),
-        password:   $('#ro-password').val(),
+        client_id: client.clientID,
+        username: $('#ro-username').val(),
+        password: $('#ro-password').val(),
         connection: $('#ro-connection option:selected').val(),
         grant_type: $('#ro-grant_type').text(),
-        scope:      $('#ro-scope option:selected').val()
+        scope: $('#ro-scope option:selected').val()
       };
 
       var url = urljoin(client.namespace, '/oauth/ro');
       return $.ajax({
-        type:   'POST',
-        url:    url,
-        data:   data,
+        type: 'POST',
+        url: url,
+        data: data,
         global: false
       });
     };
 
-    this['logout'] = function () {
-      
+    this['logout'] = function() {
+
       var returnTo = $('#logout-returnTo').val();
 
-      var url = urljoin(client.namespace,
-                        '/logout',
-                        '?returnTo=' + returnTo);
+      var url = urljoin(client.namespace, '/logout', '?returnTo=' + returnTo);
 
       window.open(url, '_new');
     };
 
-    this['samlp'] = function () {
-      
+    this['samlp'] = function() {
+
       var connection = $('#samlp-connection option:selected').val();
       var url = urljoin(client.namespace, 'samlp', client.clientID);
 
@@ -239,25 +221,26 @@ define(function (require) {
       window.open(url, '_new');
     };
 
-    this['samlp_metadata'] = function () {
-      
+    this['samlp_metadata'] = function() {
+
       var url = urljoin(client.namespace, 'samlp/metadata', client.clientID);
 
       window.open(url, '_new');
     };
 
-    this['wsfed'] = function () {
-      
+    this['wsfed'] = function() {
+
       var url = urljoin(client.namespace, 'wsfed', client.clientID);
 
       window.open(url, '_new');
     };
 
-    this['wsfed_metadata'] = function () {
-      
+    this['wsfed_metadata'] = function() {
+
       var url = urljoin(client.namespace, 'wsfed/FederationMetadata/2007-06/FederationMetadata.xml');
 
       window.open(url, '_new');
     };
   };
 });
+

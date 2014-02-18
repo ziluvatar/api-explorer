@@ -1,27 +1,27 @@
-define(function (require) {
+define(function(require) {
   var $ = require('jquery');
   var urljoin = require('url-join');
 
-  return function (client, settings) {
+  return function(client) {
     var executors = this;
 
-    this['accesstoken'] = function (skipchangeTokenme) {
+    this['accesstoken'] = function(skipchangeTokenme) {
       var url = urljoin(client.namespace, '/oauth/token');
       return $.ajax({
         url: url,
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
-          client_id:     client.clientID,
+          client_id: client.clientID,
           client_secret: client.clientSecret,
-          grant_type:    'client_credentials'
+          grant_type: 'client_credentials'
         })
-      }).pipe(function (token) {
-        if(!skipchangeTokenme) {
+      }).pipe(function(token) {
+        if (!skipchangeTokenme) {
           $('.tokenme').html(token.access_token);
         }
         return token;
-  });
+      });
     };
 
     /**
@@ -33,7 +33,9 @@ define(function (require) {
       var tknpromise;
 
       if ($('.tokenme').html() !== '{token}') {
-        tknpromise = $.when({access_token: $('.tokenme').html()});
+        tknpromise = $.when({
+          access_token: $('.tokenme').html()
+        });
       } else {
         tknpromise = executors['accesstoken'](true);
       }
@@ -41,75 +43,104 @@ define(function (require) {
       return tknpromise;
     }
 
-    var validateJsonText = function (jsonText) {
+    var validateJsonText = function(jsonText) {
       try {
         return JSON.parse('{' + jsonText + '}');
-      } catch (e) {
-      }
+      } catch(e) {}
     };
 
-    this['allusers'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, '/api/users?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['allusers'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['allconnections'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, '/api/connections?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['allconnections'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/connections');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['oneconnection'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/connections/',
-                          $('#connection-get-selector option:selected').val(),
-                          '?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['oneconnection'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/connections/', $('#connection-get-selector option:selected').val(), '');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['socialconn-users'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, '/api/socialconnections/users?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['socialconn-users'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/socialconnections/users');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['connection-users'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/connections/',
-                          $('#connection-users-selector option:selected').val(),
-                          '/users?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['connection-users'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['clientusers'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/clients/',
-                          client.clientID,
-                          '/users?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['clientusers'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/clients/', client.clientID, '/users');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['connectiondelete'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/connections/',
-                          $('#connection-delete-selector option:selected').val(),
-                          '?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'DELETE'});
+    this['connectiondelete'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/connections/', $('#connection-delete-selector option:selected').val(), '');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'DELETE'
+        });
       });
     };
 
-    this['connectioncreate'] = function () {
+    this['connectioncreate'] = function() {
       var strategy = $('#api-create-connection-strategy-selector option:selected').val();
       var connection = {
         name: $('#api-create-connection-name').val(),
@@ -117,22 +148,22 @@ define(function (require) {
         options: {}
       };
 
-      $('input, textarea', '#create-connection-options-' + strategy).each(function () {
-        connection.options[$(this).attr('data-field')] =
-          $(this).val();
+      $('input, textarea', '#create-connection-options-' + strategy).each(function() {
+        connection.options[$(this).attr('data-field')] = $(this).val();
       });
 
-      $('#create-connection-options-' + strategy + ' button').each(function () {
-        connection.options[$(this).attr('data-field')] =
-          $(this).hasClass('active');
+      $('#create-connection-options-' + strategy + ' button').each(function() {
+        connection.options[$(this).attr('data-field')] = $(this).hasClass('active');
       });
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/connections',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/connections', '');
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(connection)
@@ -141,14 +172,11 @@ define(function (require) {
       });
     };
 
-    this['websitelogin'] = function () {
+    this['websitelogin'] = function() {
 
       var connection = $('#connection-weblogin-selector option:selected').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=code&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=code&client_id=' + client.clientID + '&redirect_uri=' + client.callback);
       if (connection !== 'none') {
         url += '&connection=' + connection;
       }
@@ -156,14 +184,11 @@ define(function (require) {
       window.open(url, '_blank');
     };
 
-    this['nativelogin'] = function () {
+    this['nativelogin'] = function() {
 
       var connection = $('#connection-nativelogin-selector option:selected').val();
 
-      var url = urljoin(client.namespace,
-                        '/authorize',
-                        '?response_type=token&client_id=' + client.clientID +
-                        '&redirect_uri='  + client.callback);
+      var url = urljoin(client.namespace, '/authorize', '?response_type=token&client_id=' + client.clientID + '&redirect_uri=' + client.callback);
       if (connection !== 'none') {
         url += '&connection=' + connection;
       }
@@ -171,21 +196,27 @@ define(function (require) {
       window.open(url, '_blank');
     };
 
-    this['allclients'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, '/api/clients?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['allclients'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/clients');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['clientcreate'] = function () {
-      var valid = $("#create-client-form")[0].checkValidity();
+    this['clientcreate'] = function() {
+      var valid = $('#create-client-form')[0].checkValidity();
       if (!valid) {
         // TODO: show required messages
         return;
       }
 
-      var callbacks = $.map($('#api-create-client-callbacks').val().split(','), function (c) {
+      var callbacks = $.map($('#api-create-client-callbacks').val().split(','), function(c) {
         return c.trim();
       });
 
@@ -194,13 +225,15 @@ define(function (require) {
         callbacks: callbacks
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/clients/',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/clients/', '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(newClient)
@@ -209,9 +242,9 @@ define(function (require) {
       });
     };
 
-    this['clientupdate'] = function () {
+    this['clientupdate'] = function() {
       var clientID = client.clientID;
-      var callbacks = $.map($('#api-update-client-callbacks').val().split(','), function (c) {
+      var callbacks = $.map($('#api-update-client-callbacks').val().split(','), function(c) {
         return c.trim();
       });
 
@@ -221,13 +254,15 @@ define(function (require) {
         callbacks: callbacks.splice(1)
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/clients/' + clientID,
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/clients/' + clientID, '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(updatedClient)
@@ -236,7 +271,7 @@ define(function (require) {
       });
     };
 
-    this['usercreate'] = function () {
+    this['usercreate'] = function() {
       var connection = $('#api-create-user-connection-selector option:selected').val();
 
       var metadata = validateJsonText($('#sdk-create-jsoneditor').val());
@@ -255,12 +290,14 @@ define(function (require) {
 
       user = $.extend(user, metadata);
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users', '');
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(user)
@@ -269,7 +306,7 @@ define(function (require) {
       });
     };
 
-    this['user-sendverificationemail'] = function () {
+    this['user-sendverificationemail'] = function() {
       var connection = $('#api-user-sendverificationemail-selector option:selected').val();
 
       var body = {
@@ -277,12 +314,14 @@ define(function (require) {
         connection: connection,
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/send_verification_email',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/send_verification_email', '');
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(body)
@@ -291,18 +330,20 @@ define(function (require) {
       });
     };
 
-    this['user-verificationticket'] = function () {
+    this['user-verificationticket'] = function() {
       var user_id = $('#user-id-selector-for-verificationticket option:selected').val();
       var body = {
         resultUrl: $('#api-user-verificationticket-resultUrl').val()
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id + '/verification_ticket',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/verification_ticket', '');
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(body)
@@ -311,7 +352,7 @@ define(function (require) {
       });
     };
 
-    this['user-changepasswordticket'] = function () {
+    this['user-changepasswordticket'] = function() {
       var user_id = $('#user-id-selector-for-changepasswordticket option:selected').val();
 
       var body = {
@@ -319,12 +360,14 @@ define(function (require) {
         resultUrl: $('#api-user-changepasswordticket-resultUrl').val()
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id + '/change_password_ticket',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/change_password_ticket', '');
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(body)
@@ -333,25 +376,27 @@ define(function (require) {
       });
     };
 
-    this['usermetadataupdate'] = function () {
+    this['usermetadataupdate'] = function() {
       var user_id = $('#user-id-selector option:selected').val();
       var metadata = {};
 
       try {
         metadata = window.updateJSONEditor.get();
-      } catch (err) {
+      } catch(err) {
         $('#usermetadataupdate-result').text('Wrong body');
         $('#usermetadataupdate-result').parent().addClass('error');
         return;
       }
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id + '/metadata',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/metadata', '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(metadata)
@@ -360,26 +405,27 @@ define(function (require) {
       });
     };
 
-
-    this['usermetadatapatch'] = function () {
+    this['usermetadatapatch'] = function() {
       var user_id = $('#user-patch-selector option:selected').val();
       var metadata = {};
 
       try {
         metadata = window.updatePatchJSONEditor.get();
-      } catch (err) {
+      } catch(err) {
         $('#usermetadatapatch-result').text('Wrong body');
         $('#usermetadatapatch-result').parent().addClass('error');
         return;
       }
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id + '/metadata',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/metadata', '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'PATCH',
           contentType: 'application/json',
           data: JSON.stringify(metadata)
@@ -388,7 +434,7 @@ define(function (require) {
       });
     };
 
-    this['userpasswordupdate'] = function () {
+    this['userpasswordupdate'] = function() {
       var user_id = $('#update-user-id-selector option:selected').val();
 
       var user = {
@@ -396,14 +442,16 @@ define(function (require) {
         verify: $('#api-update-user-password-verify-selector option:selected').val() === 'true'
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, 
-                          '/api/users/' + user_id + '/password', 
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/password', '');
 
         return $.ajax({
-          url: url, 
-          type: 'PUT', 
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(user)
         });
@@ -411,7 +459,7 @@ define(function (require) {
       });
     };
 
-    this['useremailupdate'] = function () {
+    this['useremailupdate'] = function() {
       var user_id = $('#update-user-id-selector-for-changeemail option:selected').val();
 
       var user = {
@@ -419,13 +467,15 @@ define(function (require) {
         verify: $('#api-update-user-email-verify-selector option:selected').val() === 'true'
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id + '/email',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/email', '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           global: false,
           type: 'PUT',
           contentType: 'application/json',
@@ -435,16 +485,18 @@ define(function (require) {
       });
     };
 
-    this['userdelete'] = function () {
+    this['userdelete'] = function() {
       var user_id = $('#user-id-selector-for-delete option:selected').val();
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/users/' + user_id,
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id, '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'DELETE',
           success: function() {
             $('#user-id-selector-for-delete option:selected').remove();
@@ -453,15 +505,21 @@ define(function (require) {
       });
     };
 
-    this['allrules'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace, '/api/rules?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'GET'});
+    this['allrules'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/rules');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
       });
     };
 
-    this['rulecreate'] = function () {
-      var valid = $("#create-rule-form")[0].checkValidity();
+    this['rulecreate'] = function() {
+      var valid = $('#create-rule-form')[0].checkValidity();
       if (!valid) {
         // TODO: show required messages
         return;
@@ -473,13 +531,15 @@ define(function (require) {
         script: $('#api-create-rule-script').val().trim()
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/rules/',
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/rules/', '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(newRule)
@@ -488,8 +548,8 @@ define(function (require) {
       });
     };
 
-    this['ruleupdate'] = function () {
-      var valid = $("#update-rule-form")[0].checkValidity();
+    this['ruleupdate'] = function() {
+      var valid = $('#update-rule-form')[0].checkValidity();
       if (!valid) {
         // TODO: show required messages
         return;
@@ -501,13 +561,15 @@ define(function (require) {
         script: $('#api-update-rule-script').val().trim()
       };
 
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/rules/' + name,
-                          '?access_token=' + token.access_token);
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/rules/' + name, '');
 
         return $.ajax({
+
           url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(updatedRule)
@@ -516,18 +578,21 @@ define(function (require) {
       });
     };
 
-    this['ruledelete'] = function () {
-      return getToken().pipe(function (token) {
-        var url = urljoin(client.namespace,
-                          '/api/rules/',
-                          $('#rule-delete-selector option:selected').val(),
-                          '?access_token=' + token.access_token);
-        return $.ajax({url: url, type: 'DELETE'});
+    this['ruledelete'] = function() {
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/rules/', $('#rule-delete-selector option:selected').val(), '');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'DELETE'
+        });
       });
     };
 
-    this['dbconn-changePassword'] = function () {
-      var valid = $("#dbconn-changePassword-form")[0].checkValidity();
+    this['dbconn-changePassword'] = function() {
+      var valid = $('#dbconn-changePassword-form')[0].checkValidity();
       if (!valid) {
         // TODO: show required messages
         return;
@@ -542,17 +607,23 @@ define(function (require) {
 
       var url = urljoin(client.namespace, '/dbconnections/change_password');
 
-      return $.ajax({
-        url: url,
-        type: 'POST',
-        global: false,
-        contentType: 'application/json',
-        data: JSON.stringify(user)
+      return getToken().pipe(function(token) {
+        $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'POST',
+          global: false,
+          contentType: 'application/json',
+          data: JSON.stringify(user)
+        });
       });
     };
 
-    this['dbconn-forgotPassword'] = function () {
-      var valid = $("#dbconn-forgotPassword-form")[0].checkValidity();
+    this['dbconn-forgotPassword'] = function() {
+      var valid = $('#dbconn-forgotPassword-form')[0].checkValidity();
       if (!valid) {
         // TODO: show required messages
         return;
@@ -572,12 +643,18 @@ define(function (require) {
 
       var url = urljoin(client.namespace, '/dbconnections/forgot_password');
 
-      return $.ajax({
-        url: url, 
-        type: 'POST', 
-        global: false,
-        contentType: 'application/json',
-        data: JSON.stringify(user)
+      return getToken().pipe(function(token) {
+        $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'POST',
+          global: false,
+          contentType: 'application/json',
+          data: JSON.stringify(user)
+        });
       });
     };
   };
