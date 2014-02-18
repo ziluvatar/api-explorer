@@ -1,4 +1,4 @@
-define('api-explorer', function (require) {
+define(function (require) {
 
   var $ = require('jquery');
   var apiExplorer = require('./js/sdk.apiexplorer');
@@ -10,7 +10,7 @@ define('api-explorer', function (require) {
     settings.el      = settings.el      || $('body');
     settings.isAuth  = settings.isAuth  || false;
 
-   (function (settings) {
+    (function (settings) {
       $(function () {
         if (settings.isAuth) {
           sdk         = sdkAuth;
