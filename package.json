@@ -1,20 +1,19 @@
 {
-  "name": "api-explorer",
-  "version": "0.0.1",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "bower": "~1.2.8",
     "grunt": "~0.4.2",
-    "grunt-s3": "~0.2.0-alpha.3",
-    "grunt-invalidate-cloudfront": "~0.1.4",
-    "grunt-contrib-connect": "~0.6.0",
-    "grunt-requirejs": "~0.4.0",
-    "matchdep": "~0.3.0",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.6.0",
     "grunt-contrib-less": "~0.9.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-invalidate-cloudfront": "~0.1.4",
+    "grunt-requirejs": "~0.4.0",
+    "grunt-s3": "~0.2.0-alpha.3",
     "grunt-templater": "0.0.4-1",
     "jade": "~1.1.5",
-    "grunt-contrib-watch": "~0.5.3",
-    "bower": "~1.2.8"
-  }
+    "matchdep": "~0.3.0"
+  },
+  "name": "api-explorer",
+  "version": "0.0.1"
 }

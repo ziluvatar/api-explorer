@@ -143,8 +143,8 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('auth0-ui', ['clean', 'template', 'less', /*'ejs2amd', */'requirejs:auth0-ui']);
-  grunt.registerTask('build', ['clean', 'template', 'less', /*'ejs2amd', */'requirejs:compile']);
+  grunt.registerTask('auth0-ui', ['clean', 'template', 'less','requirejs:auth0-ui']);
+  grunt.registerTask('build', ['clean', 'template', 'less','requirejs:compile']);
   grunt.registerTask('default', ['build', 'connect', 'watch']);
   grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production']);
 };

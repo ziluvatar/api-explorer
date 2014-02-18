@@ -32,6 +32,7 @@
     "afterEach": false,
     "beforeEach": false,
     "describe": false,
-    "it": false
+    "it": false,
+    "define": false
   }
 }
