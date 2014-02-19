@@ -277,6 +277,32 @@ Content-Type: 'application/json'
   <pre class='tryme-result'><code id='userpasswordupdate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
+<!-- PUT /api/users/{email}/password -->
+<div class="markdown" data-verb="PUT" data-path="/api/users/{email}/password" data-description="Updates user password">
+Update user password. The body of the request must include the <code>email</code>, <code>connection</code> and the new <code>password</code>.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-password-byemail-email-selector' class='user-email-selector'></select>/password?access_token=<span class='tokenme param'>{token}</span>
+Content-Type: 'application/json'
+<form id='user-form' style="margin-bottom:-40px">
+{
+  "email":      "<input type="email" placeholder="email" id="api-update-user-password-byemail-email" disabled>",
+  "password":   "<input type="password" placeholder="password" id="api-update-user-password-byemail-newpassword">",
+  "connection": "<select style="min-width:221px" id="api-update-user-password-byemail-connection-selector">
+    </select>", // only database connections
+  "verify":     <select style="margin-top:8px;" id='api-update-user-password-byemail-verify-selector'><option value="true">true</option><option value="false">false</option></select>, // if false, it won't send an email for confirmation
+}
+</form>
+</code></pre>
+
+  <button class='btn btn-primary btn-tryme' 
+        data-result='userpasswordupdatebyemail-result' 
+        data-runner='userpasswordupdatebyemail'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='userpasswordupdatebyemail-result'>Press the Try me! button to see the output result.</code></pre>
+</div>
+
 <!-- PATCH /api/users/{user_id}/metadata -->
 <div class="markdown" data-verb="PATCH" data-path="/api/users/{user_id}/metadata" data-description="Patch user metadata">
   Patch user metadata. The body of the request must include a <code>json</code> object with metadata <code>attributes</code>.

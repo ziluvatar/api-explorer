@@ -459,6 +459,30 @@ define(function(require) {
       });
     };
 
+    this['userpasswordupdatebyemail'] = function() {
+      var user = {
+        email: $('#update-user-password-byemail-email-selector option:selected').val(),
+        password: $('#api-update-user-password-byemail-newpassword').val(),
+        connection: $('#api-update-user-password-byemail-connection-selector option:selected').val(),
+        verify: $('#api-update-user-password-byemail-verify-selector option:selected').val() === 'true'
+      };
+
+      return getToken().pipe(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user.email + '/password');
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(user)
+        });
+
+      });
+    };
+
     this['useremailupdate'] = function() {
       var user_id = $('#update-user-id-selector-for-changeemail option:selected').val();
 

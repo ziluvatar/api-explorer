@@ -61,6 +61,7 @@ define(function (require) {
         data: { perPage: 10 }
       }).done(function (users) {
         $('.user-selector').html('');
+        $('.user-email-selector').html('');
         $('#sdk-jsoneditor').html('');
         $('#sdk-patch-jsoneditor').html('');
 
@@ -68,6 +69,17 @@ define(function (require) {
           $('<option value=' + u.user_id + '>' + u.user_id + '</option>')
             .appendTo('.user-selector');
         });
+
+        $.each(users, function (i, u) {
+          $('<option value=' + u.email + '>' + u.email + '</option>')
+            .appendTo('.user-email-selector');
+        });
+
+        $('#update-user-password-byemail-email-selector').change(function () {
+          $('#api-update-user-password-byemail-email').val($(this).val());
+        });
+
+        $('#update-user-password-byemail-email-selector').trigger('change');
 
         var options = {
           mode: 'text',
@@ -120,7 +132,7 @@ define(function (require) {
           return c.strategy === 'auth0';
         });
 
-        $('#dbconn-signup-connection-selector, #dbconn-changePassword-connection-selector, #api-create-user-connection-selector, #api-user-sendverificationemail-selector, #dbconn-forgotPassword-connection-selector').html('');
+        $('#dbconn-signup-connection-selector, #dbconn-changePassword-connection-selector, #api-create-user-connection-selector, #api-user-sendverificationemail-selector, #dbconn-forgotPassword-connection-selector, #api-update-user-password-byemail-connection-selector').html('');
     
         $.each(dbConnections, function (i, c) {
           $('<option value=' + c.name + '>' + c.name + '</option>')
@@ -137,6 +149,9 @@ define(function (require) {
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
             .appendTo('#dbconn-forgotPassword-connection-selector');
+
+          $('<option value=' + c.name + '>' + c.name + '</option>')
+            .appendTo('#api-update-user-password-byemail-connection-selector');
         });
       });
 
