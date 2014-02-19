@@ -236,6 +236,10 @@ define(function (require) {
         return c.clientID === clientID;
       })[0];
 
+      if (!selectedClient) {
+        return;
+      }
+
       $('.client_namespace', target).html('https://' + settings.tenantDomain + '/');
       $('.client_client_id', target).html(selectedClient.clientID);
       $('.client_callback', target).html(selectedClient.callback);
