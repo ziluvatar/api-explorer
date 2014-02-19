@@ -87,7 +87,7 @@ define(function (require) {
           history: false
         };
 
-        var updateContainer = document.getElementById("sdk-jsoneditor");
+        var updateContainer = document.getElementById('sdk-jsoneditor');
         if (updateContainer) {
           // PUT
           var updateEditor = new jsoneditor.JSONEditor(updateContainer, options);
@@ -95,7 +95,7 @@ define(function (require) {
           window.updateJSONEditor = updateEditor;
         }
 
-        var updatePatchContainer = document.getElementById("sdk-patch-jsoneditor");
+        var updatePatchContainer = document.getElementById('sdk-patch-jsoneditor');
         // PATCH
         if (updatePatchContainer) {
           var updatePatchEditor = new jsoneditor.JSONEditor(updatePatchContainer, options);
@@ -162,34 +162,38 @@ define(function (require) {
     function loadClients (settings) {
       $('.client-selector', target).html('');
 
-      var r = clientsModel(settings).findAll().done(function (result) {
-        clients = result;
+      var r = clientsModel(settings).findAll().then(function (result) {
+          clients = result;
 
-        var nonGlobalClients = result.filter(function (c) { return !c.global; }); // ignore global client
-        var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
+          var nonGlobalClients = result.filter(function (c) { return !c.global; }); // ignore global client
+          var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
 
-        $.each(nonGlobalClients, function (i, c) {
-          $('<option value=' + c.clientID + '>' + (c.name || 'default') + '</option>')
+          if (!globalClient) {
+            return;
+          }
+
+          $.each(nonGlobalClients, function (i, c) {
+            $('<option value=' + c.clientID + '>' + (c.name || 'default') + '</option>')
+              .appendTo($('.client-selector', target));
+          });
+
+          // [Auth
+          $.each(nonGlobalClients, function (i, c) {
+            $('<option value=' + c.clientID + '>' + c.clientID + ' (' + c.name + ')</option>')
+              .appendTo($('.client-selector.with-id', target));
+          });
+
+          // Auth]
+
+          $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
             .appendTo($('.client-selector', target));
-        });
 
-        // [Auth
-        $.each(nonGlobalClients, function (i, c) {
-          $('<option value=' + c.clientID + '>' + c.clientID + ' (' + c.name + ')</option>')
-            .appendTo($('.client-selector.with-id', target));
-        });
+          $('.client-selector option[value=' + globalClient.clientID + ']', target)
+            .prop('selected', true);
 
-        // Auth]
-
-        $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
-          .appendTo($('.client-selector', target));
-
-        $('.client-selector option[value=' + globalClient.clientID + ']', target)
-          .prop('selected', true);
-
-        $('.client-selector', target)
-          .off('change')
-          .on('change', withSettings(onClientChanged, settings));
+          $('.client-selector', target)
+            .off('change')
+            .on('change', withSettings(onClientChanged, settings));
       });
 
       return r;
@@ -223,6 +227,11 @@ define(function (require) {
 
     function onClientChanged (settings) {
       var clientID = $('.client-selector', target).val();
+
+      if (!clients.length || clientID === null) {
+        return;
+      }
+
       selectedClient = clients.filter(function (c) {
         return c.clientID === clientID;
       })[0];
