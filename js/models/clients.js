@@ -1,5 +1,5 @@
 define(function (require) {
-  var Model = require('./model');
+  var model = require('./model');
 
   var actions = {
     findAll: 'GET /api/clients',
@@ -8,7 +8,7 @@ define(function (require) {
     update:  'PUT /api/clients/:clientID',
     findNonGlobal: function () {
       return this.findAll.apply(this, arguments)
-        .pipe(function(clients) {
+        .then(function(clients) {
           return clients.filter(function(c) {
             return !c.global;
           });
@@ -16,7 +16,7 @@ define(function (require) {
     },
     findGlobal: function () {
       return this.findAll.apply(this, arguments)
-        .pipe(function(clients) {
+        .then(function(clients) {
           return clients.filter(function(c) {
             return c.global;
           })[0];
@@ -25,7 +25,7 @@ define(function (require) {
   };
 
   return function (settings) {
-    return Model(actions, {
+    return model(actions, {
       tenantDomain: settings.tenantDomain,
       accessToken: settings.accessToken
     });

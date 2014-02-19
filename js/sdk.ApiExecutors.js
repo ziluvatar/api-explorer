@@ -16,7 +16,7 @@ define(function(require) {
           client_secret: client.clientSecret,
           grant_type: 'client_credentials'
         })
-      }).pipe(function(token) {
+      }).then(function(token) {
         if (!skipchangeTokenme) {
           $('.tokenme').html(token.access_token);
         }
@@ -50,7 +50,7 @@ define(function(require) {
     };
 
     this['allusers'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users');
         return $.ajax({
           url: url,
@@ -63,7 +63,7 @@ define(function(require) {
     };
 
     this['allconnections'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections');
         return $.ajax({
           url: url,
@@ -76,7 +76,7 @@ define(function(require) {
     };
 
     this['oneconnection'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections/', $('#connection-get-selector option:selected').val(), '');
         return $.ajax({
           url: url,
@@ -89,7 +89,7 @@ define(function(require) {
     };
 
     this['socialconn-users'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/socialconnections/users');
         return $.ajax({
           url: url,
@@ -102,7 +102,7 @@ define(function(require) {
     };
 
     this['connection-users'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
         return $.ajax({
           url: url,
@@ -115,7 +115,7 @@ define(function(require) {
     };
 
     this['clientusers'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/clients/', client.clientID, '/users');
         return $.ajax({
           url: url,
@@ -128,7 +128,7 @@ define(function(require) {
     };
 
     this['connectiondelete'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections/', $('#connection-delete-selector option:selected').val(), '');
         return $.ajax({
           url: url,
@@ -156,7 +156,7 @@ define(function(require) {
         connection.options[$(this).attr('data-field')] = $(this).hasClass('active');
       });
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections', '');
         return $.ajax({
 
@@ -197,7 +197,7 @@ define(function(require) {
     };
 
     this['allclients'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/clients');
         return $.ajax({
           url: url,
@@ -225,7 +225,7 @@ define(function(require) {
         callbacks: callbacks
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/clients/', '');
 
         return $.ajax({
@@ -254,7 +254,7 @@ define(function(require) {
         callbacks: callbacks.splice(1)
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/clients/' + clientID, '');
 
         return $.ajax({
@@ -290,7 +290,7 @@ define(function(require) {
 
       user = $.extend(user, metadata);
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users', '');
         return $.ajax({
 
@@ -314,7 +314,7 @@ define(function(require) {
         connection: connection,
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/send_verification_email', '');
         return $.ajax({
 
@@ -336,7 +336,7 @@ define(function(require) {
         resultUrl: $('#api-user-verificationticket-resultUrl').val()
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/verification_ticket', '');
         return $.ajax({
 
@@ -360,7 +360,7 @@ define(function(require) {
         resultUrl: $('#api-user-changepasswordticket-resultUrl').val()
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/change_password_ticket', '');
         return $.ajax({
 
@@ -388,7 +388,7 @@ define(function(require) {
         return;
       }
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/metadata', '');
 
         return $.ajax({
@@ -417,7 +417,7 @@ define(function(require) {
         return;
       }
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/metadata', '');
 
         return $.ajax({
@@ -442,7 +442,7 @@ define(function(require) {
         verify: $('#api-update-user-password-verify-selector option:selected').val() === 'true'
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/password', '');
 
         return $.ajax({
@@ -467,7 +467,7 @@ define(function(require) {
         verify: $('#api-update-user-password-byemail-verify-selector option:selected').val() === 'true'
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user.email + '/password');
 
         return $.ajax({
@@ -491,7 +491,7 @@ define(function(require) {
         verify: $('#api-update-user-email-verify-selector option:selected').val() === 'true'
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id + '/email', '');
 
         return $.ajax({
@@ -512,7 +512,7 @@ define(function(require) {
     this['userdelete'] = function() {
       var user_id = $('#user-id-selector-for-delete option:selected').val();
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/' + user_id, '');
 
         return $.ajax({
@@ -530,7 +530,7 @@ define(function(require) {
     };
 
     this['allrules'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules');
         return $.ajax({
           url: url,
@@ -555,7 +555,7 @@ define(function(require) {
         script: $('#api-create-rule-script').val().trim()
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules/', '');
 
         return $.ajax({
@@ -585,7 +585,7 @@ define(function(require) {
         script: $('#api-update-rule-script').val().trim()
       };
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules/' + name, '');
 
         return $.ajax({
@@ -603,7 +603,7 @@ define(function(require) {
     };
 
     this['ruledelete'] = function() {
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules/', $('#rule-delete-selector option:selected').val(), '');
         return $.ajax({
           url: url,
@@ -631,7 +631,7 @@ define(function(require) {
 
       var url = urljoin(client.namespace, '/dbconnections/change_password');
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         $.ajax({
 
           url: url,
@@ -667,7 +667,7 @@ define(function(require) {
 
       var url = urljoin(client.namespace, '/dbconnections/forgot_password');
 
-      return getToken().pipe(function(token) {
+      return getToken().then(function(token) {
         $.ajax({
 
           url: url,
