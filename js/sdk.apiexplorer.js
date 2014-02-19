@@ -191,6 +191,7 @@ define(function (require) {
             .off('change')
             .on('change', withSettings(onClientChanged, settings));
 
+          loading(settings, false);
           target.fadeIn('slow');
       });
 
@@ -487,7 +488,6 @@ define(function (require) {
       populateLists(settings);
       hookStrategySelector();
       hookJsonTogglers();
-      loading(settings, false);
     }
 
     function returnAsPromise(l) {
