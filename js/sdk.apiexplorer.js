@@ -190,6 +190,8 @@ define(function (require) {
           $('.client-selector', target)
             .off('change')
             .on('change', withSettings(onClientChanged, settings));
+
+          target.fadeIn('slow');
       });
 
       return r;
@@ -501,7 +503,6 @@ define(function (require) {
     }
 
 
-    loading(settings, true);
 
     if (settings.readOnly) {
       var mockClients = [{global: true, clientID: 'GLOBAL_CLIENT_ID' },
@@ -524,6 +525,10 @@ define(function (require) {
     } else {
       target = $('#sdk-api-content');
     }
+
+    target.hide();
+
+    loading(settings, true);
 
     var url = urljoin('https://' + settings.tenantDomain, '/oauth/token');
     $.ajax({
