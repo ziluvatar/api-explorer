@@ -168,10 +168,6 @@ define(function (require) {
           var nonGlobalClients = result.filter(function (c) { return !c.global; }); // ignore global client
           var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
 
-          if (!globalClient) {
-            return;
-          }
-
           $.each(nonGlobalClients, function (i, c) {
             $('<option value=' + c.clientID + '>' + (c.name || 'default') + '</option>')
               .appendTo($('.client-selector', target));
@@ -228,17 +224,9 @@ define(function (require) {
     function onClientChanged (settings) {
       var clientID = $('.client-selector', target).val();
 
-      if (!clients.length || clientID === null) {
-        return;
-      }
-
       selectedClient = clients.filter(function (c) {
         return c.clientID === clientID;
       })[0];
-
-      if (!selectedClient) {
-        return;
-      }
 
       $('.client_namespace', target).html('https://' + settings.tenantDomain + '/');
       $('.client_client_id', target).html(selectedClient.clientID);
