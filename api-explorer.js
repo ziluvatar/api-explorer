@@ -2,8 +2,8 @@ define(function (require) {
 
   var $ = require('jquery');
   var apiExplorer = require('./js/sdk.apiexplorer');
-  var sdkAuth = require('rejs!./templates/sdk_auth');
-  var sdk = require('rejs!./templates/sdk');
+  var sdkAuthTemplate = require('rejs!./templates/sdk_auth');
+  var sdkTemplate = require('rejs!./templates/sdk');
 
   return function (settings) {
     settings         = settings         || {};
@@ -11,12 +11,12 @@ define(function (require) {
     settings.isAuth  = settings.isAuth  || false;
 
     (function (settings) {
-      $(function () {
-        if (settings.isAuth) {
-          sdk         = sdkAuth;
-        }
+      var template;
 
-        var s = sdk(settings);
+      $(function () {
+        template = settings.isAuth ? sdkAuthTemplate : sdkTemplate;
+
+        var s = template(settings);
         $(settings.el).append(s);
 
         $('.tokenme').html(settings.accessToken);
