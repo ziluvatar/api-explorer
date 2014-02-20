@@ -1,8 +1,8 @@
-<p><span class="label label-info">Heads up!</span> Before implementing these APIs, check out our <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a>.</p>
-<div class="markdown">
-<p>The authentication API takes a client id and secret. Choose one from the list to prepopulate the API explorer:</p>
-<select class='client-selector with-global'></select>
-</div>
+<p>
+<span class="label label-info">Heads up!</span> Before implementing these APIs, check out our <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a>.
+</p>
+<p>The authentication API takes a client id and secret.</p>
+<% include ./templates/client-selector %>
 
 <h2>Protocol: OpenID Connect / OAuth2 Login</h2>
 
@@ -12,31 +12,31 @@
 <div class="markdown">These type of connections support only browser based (passive) auhtentication. This is because most of these providers don't allow entering the user/password in applications that don't belong to them, so the user gets redirected to the provider (e.g. Google sign in page).</div>
 <div class="accordion">
 
-<!-- GET /authorize (social) -->
+  <!-- GET /authorize (social) -->
   <div class="markdown" data-verb="GET" data-path="/authorize" data-path2="/authorize_social" data-description="Login using a social provider (triggers a redirect)">
-Returns a 302 redirect to the social provider specified in the `connection`.
+    Returns a 302 redirect to the social provider specified in the `connection`.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
   response_type=   <select id="authorize_social-response_type" class="response_type-selector"></select>   // code - server side flows | token - client side flows
   &amp;client_id=      <span class="client_client_id"></span> // <span class="client_name"></span>
   &amp;connection=     <select id="authorize_social-connection" class="social_connection-selector with-optional"></select>
   &amp;redirect_uri=   <span class="client_callback"></span>
   &amp;state=          <input type="text" id="authorize_social-state">
   &amp;<input type="text" id="authorize_social-additional_parameters" style="width: 400px;" placeholder="additional parameters">
-</code></pre>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='authorize_social-result'
-        data-runner='authorize_social'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='authorize_social-result'
+      data-runner='authorize_social'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-Remarks:
+    Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
-* If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
-* Additional parameters can be sent that will be passthrough to the provider. E.g. `access_type=offline` (for Google refresh tokens) , `display=popup` (for Windows Live popup mode).
-* The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
+    * If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
+    * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
+    * Additional parameters can be sent that will be passthrough to the provider. E.g. `access_type=offline` (for Google refresh tokens) , `display=popup` (for Windows Live popup mode).
+    * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
   </div>
 
 </div>
@@ -45,37 +45,37 @@ Remarks:
 <div class="markdown">These type of connections support browser based (passive) authentication and API-based (active) authentication. The main difference between passive and active authentication is that the former happens in the browser through the [Login Page](/#/login_page) and the latter can be invoked from anywhere (a script, server to server, etc.). Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
-<!-- GET /authorize (db) -->
+  <!-- GET /authorize (db) -->
   <div class="markdown" data-verb="GET" data-path="/authorize" data-path2="/authorize_db" data-description="Redirects to the Login Page (passive authentication)">
-Returns a 302 redirect to <a href="/#/login_page">Auth0 Login Page</a> that will show the Login Widget where the user can login with email and password. The `connection` parameter can be used if you have multiple database and AD connections to tell the widget which one to use.
+    Returns a 302 redirect to <a href="/#/login_page">Auth0 Login Page</a> that will show the Login Widget where the user can login with email and password. The `connection` parameter can be used if you have multiple database and AD connections to tell the widget which one to use.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
   response_type=   <select id="authorize_db-response_type" class="response_type-selector"></select>
   &amp;client_id=      <span class="client_client_id"></span> // <span class="client_name"></span>
   &amp;connection=     <select id="authorize_db-connection" class="db_connection-selector with-optional"></select>
   &amp;redirect_uri=   <span class="client_callback"></span>
   &amp;state=          <input type="text" id="authorize_db-state">
   &amp;<input type="text" id="authorize_db-additional_parameters" style="width: 400px;" placeholder="additional parameters">
-</code></pre>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='authorize_db-result'
-        data-runner='authorize_db'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='authorize_db-result'
+      data-runner='authorize_db'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-Remarks:
+    Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget using the first database connection. 
-* If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
-* The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
+    * If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget using the first database connection. 
+    * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
+    * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
   </div>
 
-<!-- POST /oauth/ro -->
+  <!-- POST /oauth/ro -->
   <div class="markdown" data-verb="POST" data-path="/oauth/ro" data-description="Login using username/password (active authentication)">
-Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections and Active Directory/LDAP.
+    Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections and Active Directory/LDAP.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/ro
+    <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/ro
 Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
@@ -85,15 +85,15 @@ Content-Type: 'application/json'
   "grant_type":  "<span id="ro-grant_type">password</span>",
   "scope":       "<select id="ro-scope" class="scope-selector"></select>"
 }
-</form></code></pre>
+    </form></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='ro-result'
-        data-runner='ro'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='ro-result'
+      data-runner='ro'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-<pre class='tryme-result'><code id='ro-result'>Press the Try me! button to see the output result.</code></pre>
+    <pre class='tryme-result'><code id='ro-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 </div>
@@ -102,31 +102,31 @@ Content-Type: 'application/json'
 <div class="markdown">These type of connections support browser based (passive) authentication. The user will be redirected to the SAML Provider (or Windows Azure AD and the rest) to enter their credentials. Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
-<!-- GET /authorize (enterprise) -->
+  <!-- GET /authorize (enterprise) -->
   <div class="markdown" data-verb="GET" data-path="/authorize" data-path2="/authorize_enterprise" data-description="Redirects to the enterprise provider login page">
-Returns a 302 redirect to the enterprise provider specified in the `connection`.
+    Returns a 302 redirect to the enterprise provider specified in the `connection`.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
   response_type=   <select id="authorize_enterprise-response_type" class="response_type-selector"></select>
   &amp;client_id=      <span class="client_client_id"></span> // <span class="client_name"></span>
   &amp;connection=     <select id="authorize_enterprise-connection" class="enterprise_connection-selector with-optional"></select>
   &amp;redirect_uri=   <span class="client_callback"></span>
   &amp;state=          <input type="text" id="authorize_enterprise-state">
   &amp;<input type="text" id="authorize_enterprise-additional_parameters" style="width: 400px;" placeholder="additional parameters">
-</code></pre>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='authorize_enterprise-result'
-        data-runner='authorize_enterprise'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='authorize_enterprise-result'
+      data-runner='authorize_enterprise'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-Remarks:
+    Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
-* If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
-* Additional parameters can be sent that will be passthrough to the provider. 
-* The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
+    * If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
+    * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
+    * Additional parameters can be sent that will be passthrough to the provider. 
+    * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
   </div>
 
 </div>
@@ -136,48 +136,48 @@ Remarks:
 
 <div class="accordion">
 
-<!-- GET /samlp/{client_id} -->
+  <!-- GET /samlp/{client_id} -->
   <div class="markdown" data-verb="GET" data-path="/samlp/{client_id}" data-description="Accepts a SAML request to initiate a login">
-Optionally, accepts a connection parameter to login with a specific provider. If no connection is specified, the <a href="/#/login_page">Auth0 Login Page</a> will be shown.
+    Optionally, accepts a connection parameter to login with a specific provider. If no connection is specified, the <a href="/#/login_page">Auth0 Login Page</a> will be shown.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>samlp/<span class="client_client_id"></span>?connection=<select id="samlp-connection" class="connection-selector with-optional"></select>
-</code></pre>
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>samlp/<span class="client_client_id"></span>?connection=<select id="samlp-connection" class="connection-selector with-optional"></select>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='samlp-result'
-        data-runner='samlp'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='samlp-result'
+      data-runner='samlp'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-Remarks
+    Remarks
 
-* The SAML Request `AssertionConsumerServiceURL` will be used to POST back the assertion and it has to match with the application callback URL.
+    * The SAML Request `AssertionConsumerServiceURL` will be used to POST back the assertion and it has to match with the application callback URL.
   </div>
 
-<!-- GET /samlp/metadata/{client_id} -->
+  <!-- GET /samlp/metadata/{client_id} -->
   <div class="markdown" data-verb="GET" data-path="/samlp/metadata/{client_id}" data-description="Returns the SAML 2.0 Metadata">
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>samlp/metadata/<span class="client_client_id"></span>
-</code></pre>
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>samlp/metadata/<span class="client_client_id"></span>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='samlp_metadata-result'
-        data-runner='samlp_metadata'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='samlp_metadata-result'
+      data-runner='samlp_metadata'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
   </div>
 
-<!-- POST /login/callback (IdP-Initiated) -->
+  <!-- POST /login/callback (IdP-Initiated) -->
   <div class="markdown" data-verb="POST" data-path="/login/callback" data-path2="/samlp_idp_initiated" data-description="Trigger an IdP-Initiated SSO flow">
-Accepts an IDP Initiated SignOn SAMLResponse from a SAML Identity Provider. The `connection` corresponding to the identity provider is specified in the querystring. The application that Auth0 will redirect to afterwards needs to be specified on the SAML Provider IDP Initiated Sign On section.
+    Accepts an IDP Initiated SignOn SAMLResponse from a SAML Identity Provider. The `connection` corresponding to the identity provider is specified in the querystring. The application that Auth0 will redirect to afterwards needs to be specified on the SAML Provider IDP Initiated Sign On section.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>login/callback?connection=<select id="samlp_idp_initiated-connection" class="enterprise_connection-selector"></select>
+    <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>login/callback?connection=<select id="samlp_idp_initiated-connection" class="enterprise_connection-selector"></select>
 Content-Type: 'application/x-www-form-urlencoded'
 
 SAMLResponse=<span class='param'>PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM...
-</code></pre>
+    </code></pre>
 
-<!--<button class='btn btn-primary btn-tryme'
+    <!--<button class='btn btn-primary btn-tryme'
         data-result='samlp_idp_initiated-result'
         data-runner='samlp_idp_initiated'>
   <i class='icon-white icon-hand-right'></i> Try me!
@@ -192,38 +192,38 @@ SAMLResponse=<span class='param'>PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2F
 
 <div class="accordion">
 
-<!-- GET /wsfed/{client_id} -->
+  <!-- GET /wsfed/{client_id} -->
   <div class="markdown" data-verb="GET" data-path="/wsfed/{client_id}" data-description="Accepts a WS-Fed request to initiate a login">
-The `client id` parameter is optional. You can use `wtrealm` as well.
+    The `client id` parameter is optional. You can use `wtrealm` as well.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>wsfed/<span class="client_client_id"></span>
-</code></pre>
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>wsfed/<span class="client_client_id"></span>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='wsfed-result'
-        data-runner='wsfed'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='wsfed-result'
+      data-runner='wsfed'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-Remarks
+    Remarks
 
-* The `wtrealm` parameter has to use one of these formats:
- * `urn:clientID`: e.g. urn:<span class="client_client_id"></span>
- * If it doesn't start with `urn` it will look up on the `client.clientAliases` array (this can only be set with the `/clients` API)
-* The `whr` parameter will be mapped to the connection like this `urn:{connection_name}`. For instance, `urn:google-oauth2` indicates login with Google. If not `whr` is sent the <a href="/#/login_page">Auth0 Login Page</a> will be shown.
+    * The `wtrealm` parameter has to use one of these formats:
+    * `urn:clientID`: e.g. urn:<span class="client_client_id"></span>
+    * If it doesn't start with `urn` it will look up on the `client.clientAliases` array (this can only be set with the `/clients` API)
+    * The `whr` parameter will be mapped to the connection like this `urn:{connection_name}`. For instance, `urn:google-oauth2` indicates login with Google. If not `whr` is sent the <a href="/#/login_page">Auth0 Login Page</a> will be shown.
   </div>
 
-<!-- GET /wsfed/FederationMetadata -->
+  <!-- GET /wsfed/FederationMetadata -->
   <div class="markdown" data-verb="GET" data-path="/wsfed/FederationMetadata" data-description="Returns the WS-Federation Metadata">
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>wsfed/FederationMetadata/2007-06/FederationMetadata.xml
-</code></pre>
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>wsfed/FederationMetadata/2007-06/FederationMetadata.xml
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='wsfed_metadata-result'
-        data-runner='wsfed_metadata'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='wsfed_metadata-result'
+      data-runner='wsfed_metadata'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
   </div>
 
 </div>
@@ -235,11 +235,11 @@ Remarks
 
 <div class="accordion">
 
-<!-- POST /delegation -->
+  <!-- POST /delegation -->
   <div class="markdown" data-verb="POST" data-path="/delegation" data-description="Obtain a delegation token">
-Given an existing token, this endpoint will generate a new token signed with the `target` client secret. This is used to flow the identity of the user from the application to an API or across different APIs that are protected with different secrets.
+    Given an existing token, this endpoint will generate a new token signed with the `target` client secret. This is used to flow the identity of the user from the application to an API or across different APIs that are protected with different secrets.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>delegation
+    <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>delegation
 Content-Type: 'application/json'
 <form id='delegation-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
@@ -248,15 +248,15 @@ Content-Type: 'application/json'
   "target":      "<select id="delegation-target" class="client-selector with-id"></select>",
   "scope":       "<select id="delegation-scope" class="scope-selector"></select>"
 }
-</form></code></pre>
+    </form></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='delegation-result'
-        data-runner='delegation'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='delegation-result'
+      data-runner='delegation'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-<pre class='tryme-result'><code id='delegation-result'>Press the Try me! button to see the output result.</code></pre>
+    <pre class='tryme-result'><code id='delegation-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 </div>
@@ -266,10 +266,10 @@ Content-Type: 'application/json'
 
 <div class="accordion">
 
-<!-- POST /users/{user_id}/impersonate -->
+  <!-- POST /users/{user_id}/impersonate -->
   <div class="markdown" data-verb="POST" data-path="/users/{user_id}/impersonate" data-description="Obtain an impersonation URL to login as another user">
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>users/<select id="impersonate-user_id" class="user-selector"></select>/impersonate
+    <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>users/<select id="impersonate-user_id" class="user-selector"></select>/impersonate
 Content-Type:   'application/json'
 Authorization:  'Bearer <span class="client_access_token"></span>'
 <form id='impersonate-form'>{
@@ -278,15 +278,15 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
   client_id:        "<select id="impersonate-client_id" class="client-selector with-id"></select>",
   <textarea id="impersonate-additional_parameters" rows="3" style="width:95%;">"response_type": "code",&#13;&#10;"state": ""</textarea>
 }
-</form></code></pre>
+    </form></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='impersonate-result'
-        data-runner='impersonate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='impersonate-result'
+      data-runner='impersonate'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-<pre class='tryme-result'><code id='impersonate-result'>Press the Try me! button to see the output result.</code></pre>
+    <pre class='tryme-result'><code id='impersonate-result'>Press the Try me! button to see the output result.</code></pre>
 
   </div>
 
@@ -297,44 +297,44 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 
 <div class="accordion">
 
-<!-- GET /authorize (link) -->
+  <!-- GET /authorize (link) -->
   <div class="markdown" data-verb="GET" data-path="/authorize" data-path2="/link" data-description="Trigger the login flow to link an existing account with a new one">
-Return a 302 redirect to the `connection` that wants to be linked to the current user identified by an `access_token` that was returned on login.
+    Return a 302 redirect to the `connection` that wants to be linked to the current user identified by an `access_token` that was returned on login.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
   response_type=   <select id="link-response_type" class="response_type-selector"></select>
   &amp;client_id=      <span class="client_client_id"></span> // <span class="client_name"></span>
   &amp;connection=     <select id="link-connection" class="connection-selector with-optional"></select>
   &amp;redirect_uri=   <span class="client_callback"></span>
   &amp;access_token=   <textarea id="link-access_token" rows="2" placeholder="logged-in user access token" style="width:290px;" required></textarea>
-</code></pre>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='link-result'
-        data-runner='link'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='link-result'
+      data-runner='link'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
   </div>
 
-<!-- POST /unlink -->
+  <!-- POST /unlink -->
   <div class="markdown" data-verb="POST" data-path="/unlink" data-description="Unlink an account">
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>unlink
+    <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>unlink
 Content-Type: 'application/json'
 <form id='unlink-form'>{
   "clientID":     "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "access_token": "<textarea id="unlink-access_token" rows="2" style="width:290px;" placeholder="logged-in user access token" required></textarea>",
   "user_id":      "<select id="unlink-user_id" class="user-selector"></select>"
 }
-</form></code></pre>
+    </form></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='unlink-result'
-        data-runner='unlink'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='unlink-result'
+      data-runner='unlink'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
 
-<pre class='tryme-result'><code id='unlink-result'>Press the Try me! button to see the output result.</code></pre>
+    <pre class='tryme-result'><code id='unlink-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 </div>
@@ -343,18 +343,18 @@ Content-Type: 'application/json'
 <div class="markdown">Auth0 supports logging the user out of the identity provider that was used for login. Note that this might not be recommended for certain providers as described here <https://<%= docsDomain %>/logout>.</div>
 <div class="accordion">
 
-<!-- GET /logout -->
+  <!-- GET /logout -->
   <div class="markdown" data-verb="GET" data-path="/logout" data-description="Trigger the logout flow">
- Logout the user from the identity provider. If you specifcy a `returnTo` parameter, we will redirect to the url specified after the logout. Read more about [here](https://<%= docsDomain %>/logout).
+    Logout the user from the identity provider. If you specifcy a `returnTo` parameter, we will redirect to the url specified after the logout. Read more about [here](https://<%= docsDomain %>/logout).
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>logout?returnTo=<input type="text" id="logout-returnTo" placeholder="return url"></input>
-</code></pre>
+    <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>logout?returnTo=<input type="text" id="logout-returnTo" placeholder="return url"></input>
+    </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='logout-result'
-        data-runner='logout'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+    <button class='btn btn-primary btn-tryme'
+      data-result='logout-result'
+      data-runner='logout'>
+      <i class='icon-white icon-hand-right'></i> Try me!
+    </button>
   </div>
 
 </div>

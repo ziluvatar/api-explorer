@@ -106,7 +106,7 @@ define(function (require) {
     }
 
     function loadConnections (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       $.ajax({
         url: 'https://' + settings.tenantDomain + '/api/connections',
@@ -160,7 +160,7 @@ define(function (require) {
     }
 
     function loadClients (settings) {
-      $('.client-selector', target).html('');
+      $('select[name="client-list"]', target).html('');
 
       var r = clientsModel(settings).findAll().then(function (result) {
           clients = result;
@@ -170,24 +170,24 @@ define(function (require) {
 
           $.each(nonGlobalClients, function (i, c) {
             $('<option value=' + c.clientID + '>' + (c.name || 'default') + '</option>')
-              .appendTo($('.client-selector', target));
+              .appendTo($('select[name="client-list"]', target));
           });
 
           // [Auth
           $.each(nonGlobalClients, function (i, c) {
             $('<option value=' + c.clientID + '>' + c.clientID + ' (' + c.name + ')</option>')
-              .appendTo($('.client-selector.with-id', target));
+              .appendTo($('select[name="client-list"].with-id', target));
           });
 
           // Auth]
 
           $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
-            .appendTo($('.client-selector', target));
+            .appendTo($('select[name="client-list"]', target));
 
-          $('.client-selector option[value=' + globalClient.clientID + ']', target)
+          $('select[name="client-list"] option[value=' + globalClient.clientID + ']', target)
             .prop('selected', true);
 
-          $('.client-selector', target)
+          $('select[name="client-list"]', target)
             .off('change')
             .on('change', withSettings(onClientChanged, settings));
 
@@ -199,7 +199,7 @@ define(function (require) {
     }
 
     function loadRules (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       $('.rule-selector, .optional-rule-selector').html('');
 
@@ -225,7 +225,7 @@ define(function (require) {
     }
 
     function onClientChanged (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       selectedClient = clients.filter(function (c) {
         return c.clientID === clientID;
@@ -236,6 +236,9 @@ define(function (require) {
       $('.client_callback', target).html(selectedClient.callback);
       $('.client_client_secret', target).html(selectedClient.clientSecret);
       $('.client_name', target).html(selectedClient.name);
+
+      $('input[name="current-client-id"]', target).attr('value', selectedClient.clientID);
+      $('input[name="current-client-secret"]', target).attr('value', selectedClient.clientSecret);
 
       selectedClient.namespace = 'https://' + settings.tenantDomain;
       var executors;
@@ -250,7 +253,7 @@ define(function (require) {
       if (settings.readOnly) {
         $('.btn-tryme', target).attr('disabled', 'disabled');
         $('.btn-tryme', target).addClass('disabled');
-        $('.client-selector', target).attr('disabled', 'disabled');
+        $('select[name="client-list"]', target).attr('disabled', 'disabled');
       } else {
         $('.btn-tryme', target)
           .off('click')
@@ -270,7 +273,7 @@ define(function (require) {
     }
 
     var loadAllConnections = function (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findAllEnabled({ client: clientID }).done(function (connections) {
 
@@ -286,7 +289,7 @@ define(function (require) {
     };
     
     var loadSocialConnections = function (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findOnlySocials({ client: clientID }).done(function (connections) {
 
@@ -304,7 +307,7 @@ define(function (require) {
     };
 
     var loadDbConnections = function (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
 
@@ -326,7 +329,7 @@ define(function (require) {
     };
 
     var loadEnterpriseConnections = function (settings) {
-      var clientID = $('.client-selector', target).val();
+      var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
 
@@ -485,6 +488,12 @@ define(function (require) {
 
     function renderAndPopulate(settings) {
       renderMarkdown();
+      $('input[name="current-client-id"]', target).click(function () {
+        this.select();
+      });
+      $('input[name="current-client-secret"]', target).click(function () {
+        this.select();
+      });
       populateLists(settings);
       hookStrategySelector();
       hookJsonTogglers();
