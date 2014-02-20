@@ -117,14 +117,14 @@ define(function (require) {
         cache: false
       }).done(function (connections) {
         // all connections
-        $('.connection-selector, .optional-connection-selector').html('');
+        $('.connection-selector, .optional-connection-selector', target).html('');
 
         $.each(connections, function (i, c) {
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('.connection-selector');
+            .appendTo($('.connection-selector', target));
 
           $('<option value=' + c.name + '>&connection=' + c.name + '</option>')
-            .appendTo('.optional-connection-selector');
+            .appendTo($('.optional-connection-selector', target));
         });
 
         // db connections
@@ -132,30 +132,30 @@ define(function (require) {
           return c.strategy === 'auth0';
         });
 
-        $('#dbconn-signup-connection-selector, #dbconn-changePassword-connection-selector, #api-create-user-connection-selector, #api-user-sendverificationemail-selector, #dbconn-forgotPassword-connection-selector, #api-update-user-password-byemail-connection-selector').html('');
+        $('#dbconn-signup-connection-selector, #dbconn-changePassword-connection-selector, #api-create-user-connection-selector, #api-user-sendverificationemail-selector, #dbconn-forgotPassword-connection-selector, #api-update-user-password-byemail-connection-selector', target).html('');
     
         $.each(dbConnections, function (i, c) {
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#dbconn-signup-connection-selector');
+            .appendTo($('#dbconn-signup-connection-selector', target));
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#dbconn-changePassword-connection-selector');
+            .appendTo($('#dbconn-changePassword-connection-selector', target));
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#api-create-user-connection-selector');
+            .appendTo($('#api-create-user-connection-selector', target));
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#api-user-sendverificationemail-selector');
+            .appendTo($('#api-user-sendverificationemail-selector', target));
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#dbconn-forgotPassword-connection-selector');
+            .appendTo($('#dbconn-forgotPassword-connection-selector', target));
 
           $('<option value=' + c.name + '>' + c.name + '</option>')
-            .appendTo('#api-update-user-password-byemail-connection-selector');
+            .appendTo($('#api-update-user-password-byemail-connection-selector', target));
         });
       });
 
-      $('.optional-connection-selector')
+      $('.optional-connection-selector', target)
         .prepend('<option value="none"></option>');
     }
 
@@ -276,14 +276,16 @@ define(function (require) {
       var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findAllEnabled({ client: clientID }).done(function (connections) {
+        var selector = $('.connection-selector', target)
+        var optionalSelector = $('.connection-selector.with-optional', target);
 
-        $('.connection-selector', target).html('');
+        selector.html('');
         $('<option value="">(none)</option>')
-          .appendTo('.connection-selector.with-optional', target);
+          .appendTo(optionalSelector);
 
         $.each(connections, function (i, c) {
           $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo('.connection-selector', target);
+              .appendTo(selector);
         });
       });
     };
@@ -310,10 +312,12 @@ define(function (require) {
       var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
+        var selector = $('.db_connection-selector', target);
+        var optionalSelector = $('.db_connection-selector.with-optional', target);
 
-        $('.db_connection-selector', target).html('');
+        selector.html('');
         $('<option value="">(none)</option>')
-          .appendTo('.db_connection-selector.with-optional', target);
+          .appendTo(optionalSelector);
 
         var dbConnections = connections.filter(function (c) {
           return usernamePasswordStrategies.indexOf(c.strategy) > -1;
@@ -322,7 +326,7 @@ define(function (require) {
         $.each(dbConnections, function (i, c) {
           if (c.status) {
             $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo('.db_connection-selector', target);
+              .appendTo(selector);
           }
         });
       });
@@ -332,10 +336,12 @@ define(function (require) {
       var clientID = $('select[name="client-list"]', target).val();
 
       clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
+        var selector = $('.enterprise_connection-selector', target);
+        var optionalSelector = $('.enterprise_connection-selector.with-optional', target);
 
-        $('.enterprise_connection-selector', target).html('');
+        selector.html('');
         $('<option value="">(none)</option>')
-          .appendTo('.enterprise_connection-selector.with-optional', target);
+          .appendTo(optionalSelector);
 
         var enterpriseConnections = connections.filter(function (c) {
           return usernamePasswordStrategies.indexOf(c.strategy) < 0;
@@ -344,7 +350,7 @@ define(function (require) {
         $.each(enterpriseConnections, function (i, c) {
           if (c.status) {
             $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo('.enterprise_connection-selector', target);
+              .appendTo(selector);
           }
         });
       });
@@ -366,35 +372,44 @@ define(function (require) {
     };
 
     var loadScopes = function () {
-      $('.scope-selector', target).html('');
+      var selector = $('.scope-selector', target);
+      var optionalSelector = $('.scope-selector.with-optional', target);
+
+      selector.html('');
       $('<option value="">(none)</option>')
-        .appendTo('.scope-selector.with-optional', target);
+        .appendTo(optionalSelector);
 
       $.each(['openid', 'openid profile'], function (i, c) {
         $('<option value="' + c + '">' + c + '</option>')
-          .appendTo('.scope-selector', target);
+          .appendTo(selector);
       });
     };
 
     var loadResponseTypes = function () {
-      $('.response_type-selector', target).html('');
+      var selector = $('.response_type-selector', target);
+      var optionalSelector = $('.response_type-selector.with-optional', target);
+
+      selector.html('');
       $('<option value="">(none)</option>')
-        .appendTo('.response_type-selector.with-optional', target);
+        .appendTo(optionalSelector);
 
       $.each(['code', 'token'], function (i, c) {
         $('<option value="' + c + '">' + c + '</option>')
-          .appendTo('.response_type-selector', target);
+          .appendTo(selector);
       });
     };
 
     var loadProtocols = function () {
-      $('.protocol-selector', target).html('');
+      var selector = $('.protocol-selector', target);
+      var optionalSelector = $('.protocol-selector.with-optional', target);
+
+      selector.html('');
       $('<option value="">(none)</option>')
-        .appendTo('.protocol-selector.with-optional', target);
+        .appendTo(optionalSelector);
 
       $.each(['oauth2', 'wsfed', 'wsfed-rms', 'samlp'], function (i, c) {
         $('<option value="' + c + '">' + c + '</option>')
-          .appendTo('.protocol-selector', target);
+          .appendTo(selector);
       });
     };
 

@@ -13,7 +13,7 @@ html(lang="en")
       require(['api-explorer'], function () {
         var api_explorer = require('api-explorer');
         api_explorer({
-          el:             $('body'),
+          el:             $('#my-sdk'),
           isAuth:         false,
           tenantDomain:   'login0.myauth0.com',
           docsDomain:     'docs.auth0.com',
@@ -29,7 +29,7 @@ html(lang="en")
         });
         
         api_explorer({
-          el:             $('body'),
+          el:             $('#my-sdk-auth'),
           isAuth:         true,
           tenantDomain:   'login0.myauth0.com',
           docsDomain:     'docs.auth0.com',
@@ -47,3 +47,5 @@ html(lang="en")
 
 
 body
+  div#my-sdk
+  div#my-sdk-auth
