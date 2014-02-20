@@ -86,13 +86,16 @@ define(["text", "ejs"], function (text, ejs) {
     load: function (name, req, load, config) {
       var url;
       url = req.toUrl(name + "." + extension);
-      console.log(url);
       text.get(url, function(template) {
         injectIncludes(req, template, function (processedTemplate) {
           if (config.isBuild) {
             buildMap[name] = JSON.stringify(processedTemplate);
           }
-          load(ejs.compile(processedTemplate));
+          try {
+            load(ejs.compile(processedTemplate, {debug: true, filename: url}));
+          } catch (e) {
+            console.error(e.stack);
+          }
         }, this);
       });
     }

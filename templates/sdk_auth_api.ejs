@@ -1,7 +1,10 @@
-<p><span class="label label-info">Heads up!</span> Before implementing these APIs, check out our <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a>.</p>
+<p>
+  <span class="label label-info">Heads up!</span> Before implementing these APIs, check out our <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a>.
+</p>
+
 <div class="markdown">
-<p>The authentication API takes a client id and secret. Choose one from the list to prepopulate the API explorer:</p>
-<select class='client-selector with-global'></select>
+  <p>The authentication API takes a client id and secret. Choose one from the list to prepopulate the API explorer:</p>
+<% include client_selector %>
 </div>
 
 <h2>Protocol: OpenID Connect / OAuth2 Login</h2>
