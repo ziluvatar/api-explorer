@@ -89,7 +89,7 @@ module.exports = function (grunt) {
           paths: {
             'text':             'bower_components/requirejs-text/text',
             'ejs':              'bower_components/ejs/ejs',
-            'rejs':             'vendor/rejs',
+            'rejs':             'bower_components/requirejs-ejs/index',
 
             'jquery':           'js/jquery.wrapper',
             'jsoneditor':       'bower_components/jsoneditor/jsoneditor',

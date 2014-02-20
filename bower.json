@@ -10,6 +10,7 @@
     "showdown": "~0.3.1",
     "requirejs-text": "~2.0.10",
     "ejs": "~0.8.5",
-    "text": "https://github.com/requirejs/text.git#~2.0.6"
+    "text": "https://github.com/requirejs/text.git#~2.0.6",
+    "requirejs-ejs": "https://raw2.github.com/jfromaniello/requirejs-ejs/master/rejs.js"
   }
 }
