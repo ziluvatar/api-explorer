@@ -18,6 +18,7 @@ module.exports = function (grunt) {
       src: {
         files: [
           'js/**/*.js',
+          'templates/**/*.ejs',
           'less/**/*.less',
           'api-explorer.js',
           'Gruntfile.js',
