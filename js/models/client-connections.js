@@ -3,12 +3,28 @@ define(function(require) {
   var clientsModel = require('./clients');
   var $ = require('jquery');
 
+  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0'];
+
   return function(settings) {
     var actions = {
       findAll: 'GET /api/connections?client=:client',
       findOne: 'GET /api/connections/:name?client=:client',
       findOnlySocials: 'GET /api/connections?only_socials=true&client=:client',
       findOnlyEnterprise: 'GET /api/connections?only_enterprise=true&client=:client',
+      findOnlyStrictEnterpriseEnabled: function () {
+        return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
+          return connections.filter(function (c) {
+            return usernamePasswordStrategies.indexOf(c.strategy) < 0 && c.status;
+          });
+        });
+      },
+      findOnlyEnterpriseCustomDbEnabled: function () {
+        return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
+          return connections.filter(function (c) {
+            return usernamePasswordStrategies.indexOf(c.strategy) > -1 && c.status;
+          });
+        });
+      },
       update: 'PUT /api/connections/:name?client=:!client',
       create: 'POST /api/connections/?client=:!client',
       changeStatus: 'PUT /api/connections/:name/status?client=:!client',

@@ -15,7 +15,6 @@ define(function (require) {
     var ApiExecutors              = require('./sdk.ApiExecutors');
     var AuthApiExecutors          = require('./sdk.AuthApiExecutors');
 
-    var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0'];
     var clients = [], selectedClient, target;
     var jsoneditor = require('jsoneditor');
 
@@ -50,60 +49,6 @@ define(function (require) {
         $(this).html('false');
       });
     };
-
-
-    function loadUsers (settings) {
-      $.ajax({
-        url: 'https://' + settings.tenantDomain + '/api/users',
-        headers: {
-          Authorization: 'Bearer ' + settings.accessToken
-        },
-        data: { perPage: 10 }
-      }).done(function (users) {
-        $('.user-selector').html('');
-        $('.user-email-selector').html('');
-        $('#sdk-jsoneditor').html('');
-        $('#sdk-patch-jsoneditor').html('');
-
-        $.each(users, function (i, u) {
-          $('<option value=' + u.user_id + '>' + u.user_id + '</option>')
-            .appendTo('.user-selector');
-        });
-
-        $.each(users, function (i, u) {
-          $('<option value=' + u.email + '>' + u.email + '</option>')
-            .appendTo('.user-email-selector');
-        });
-
-        $('#update-user-password-byemail-email-selector').change(function () {
-          $('#api-update-user-password-byemail-email').val($(this).val());
-        });
-
-        $('#update-user-password-byemail-email-selector').trigger('change');
-
-        var options = {
-          mode: 'text',
-          search: false,
-          history: false
-        };
-
-        var updateContainer = document.getElementById('sdk-jsoneditor');
-        if (updateContainer) {
-          // PUT
-          var updateEditor = new jsoneditor.JSONEditor(updateContainer, options);
-          updateEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
-          window.updateJSONEditor = updateEditor;
-        }
-
-        var updatePatchContainer = document.getElementById('sdk-patch-jsoneditor');
-        // PATCH
-        if (updatePatchContainer) {
-          var updatePatchEditor = new jsoneditor.JSONEditor(updatePatchContainer, options);
-          updatePatchEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
-          window.updatePatchJSONEditor = updatePatchEditor;
-        }
-      });
-    }
 
     function loadConnections (settings) {
       var clientID = $('select[name="client-list"]', target).val();
@@ -159,45 +104,6 @@ define(function (require) {
         .prepend('<option value="none"></option>');
     }
 
-    function loadClients (settings) {
-      $('select[name="client-list"]', target).html('');
-
-      var r = clientsModel(settings).findAll().then(function (result) {
-          clients = result;
-
-          var nonGlobalClients = result.filter(function (c) { return !c.global; }); // ignore global client
-          var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
-
-          $.each(nonGlobalClients, function (i, c) {
-            $('<option value=' + c.clientID + '>' + (c.name || 'default') + '</option>')
-              .appendTo($('select[name="client-list"]', target));
-          });
-
-          // [Auth
-          $.each(nonGlobalClients, function (i, c) {
-            $('<option value=' + c.clientID + '>' + c.clientID + ' (' + c.name + ')</option>')
-              .appendTo($('select[name="client-list"].with-id', target));
-          });
-
-          // Auth]
-
-          $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
-            .appendTo($('select[name="client-list"]', target));
-
-          $('select[name="client-list"] option[value=' + globalClient.clientID + ']', target)
-            .prop('selected', true);
-
-          $('select[name="client-list"]', target)
-            .off('change')
-            .on('change', withSettings(onClientChanged, settings));
-
-          loading(settings, false);
-          target.fadeIn('slow');
-      });
-
-      return r;
-    }
-
     function loadRules (settings) {
       var clientID = $('select[name="client-list"]', target).val();
 
@@ -249,7 +155,6 @@ define(function (require) {
         executors = new ApiExecutors(selectedClient, settings);
       }
 
-
       if (settings.readOnly) {
         $('.btn-tryme', target).attr('disabled', 'disabled');
         $('.btn-tryme', target).addClass('disabled');
@@ -272,91 +177,6 @@ define(function (require) {
       ensureClientAccessToken(settings);
     }
 
-    var loadAllConnections = function (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
-
-      clientConnectionsModel(settings).findAllEnabled({ client: clientID }).done(function (connections) {
-        var selector = $('.connection-selector', target)
-        var optionalSelector = $('.connection-selector.with-optional', target);
-
-        selector.html('');
-        $('<option value="">(none)</option>')
-          .appendTo(optionalSelector);
-
-        $.each(connections, function (i, c) {
-          $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo(selector);
-        });
-      });
-    };
-    
-    var loadSocialConnections = function (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
-
-      clientConnectionsModel(settings).findOnlySocials({ client: clientID }).done(function (connections) {
-
-        $('.social_connection-selector', target).html('');
-        $('<option value="">(none)</option>')
-          .appendTo('.social_connection-selector.with-optional', target);
-
-        $.each(connections, function (i, c) {
-          if (c.status) {
-            $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo('.social_connection-selector', target);
-          }
-        });
-      });
-    };
-
-    var loadDbConnections = function (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
-
-      clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
-        var selector = $('.db_connection-selector', target);
-        var optionalSelector = $('.db_connection-selector.with-optional', target);
-
-        selector.html('');
-        $('<option value="">(none)</option>')
-          .appendTo(optionalSelector);
-
-        var dbConnections = connections.filter(function (c) {
-          return usernamePasswordStrategies.indexOf(c.strategy) > -1;
-        });
-
-        $.each(dbConnections, function (i, c) {
-          if (c.status) {
-            $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo(selector);
-          }
-        });
-      });
-    };
-
-    var loadEnterpriseConnections = function (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
-
-      clientConnectionsModel(settings).findOnlyEnterprise({ client: clientID }).done(function (connections) {
-        var selector = $('.enterprise_connection-selector', target);
-        var optionalSelector = $('.enterprise_connection-selector.with-optional', target);
-
-        selector.html('');
-        $('<option value="">(none)</option>')
-          .appendTo(optionalSelector);
-
-        var enterpriseConnections = connections.filter(function (c) {
-          return usernamePasswordStrategies.indexOf(c.strategy) < 0;
-        });
-
-        $.each(enterpriseConnections, function (i, c) {
-          if (c.status) {
-            $('<option value="' + c.name + '">' + c.name + '</option>')
-              .appendTo(selector);
-          }
-        });
-      });
-    };
-
-
     var ensureClientAccessToken = function () {
       var url = urljoin(selectedClient.namespace, '/oauth/token');
 
@@ -371,47 +191,197 @@ define(function (require) {
       });
     };
 
-    var loadScopes = function () {
-      var selector = $('.scope-selector', target);
-      var optionalSelector = $('.scope-selector.with-optional', target);
-
+    var loadFromList = function (settings, list, selector, optionalSelector) {
       selector.html('');
-      $('<option value="">(none)</option>')
-        .appendTo(optionalSelector);
 
-      $.each(['openid', 'openid profile'], function (i, c) {
-        $('<option value="' + c + '">' + c + '</option>')
-          .appendTo(selector);
+      if (optionalSelector) {
+        $('<option value="">(none)</option>')
+          .appendTo(optionalSelector);
+      }
+
+      $.each(list, function (i, c) {
+        //is c an array?
+        if( Object.prototype.toString.call(c) === '[object Array]' && c.length === 2 ) {
+          $('<option value="' + c[0] + '">' + (c[1] || 'default') + '</option>')
+            .appendTo(selector);
+        } else {
+          $('<option value="' + c + '">' + c + '</option>')
+            .appendTo(selector);
+        }
       });
     };
 
-    var loadResponseTypes = function () {
-      var selector = $('.response_type-selector', target);
-      var optionalSelector = $('.response_type-selector.with-optional', target);
-
-      selector.html('');
-      $('<option value="">(none)</option>')
-        .appendTo(optionalSelector);
-
-      $.each(['code', 'token'], function (i, c) {
-        $('<option value="' + c + '">' + c + '</option>')
-          .appendTo(selector);
+    var loadFromPromise = function (settings, promise, selector, optionalSelector) {
+      promise(settings).done(function (list) {
+        loadFromList(settings, list, selector, optionalSelector);
       });
     };
 
-    var loadProtocols = function () {
-      var selector = $('.protocol-selector', target);
-      var optionalSelector = $('.protocol-selector.with-optional', target);
-
-      selector.html('');
-      $('<option value="">(none)</option>')
-        .appendTo(optionalSelector);
-
-      $.each(['oauth2', 'wsfed', 'wsfed-rms', 'samlp'], function (i, c) {
-        $('<option value="' + c + '">' + c + '</option>')
-          .appendTo(selector);
-      });
+    var loadGenerator = function (f, obj, selector, optionalSelector) {
+      return function (settings) {
+        var parent = target;
+        if (optionalSelector) {
+          optionalSelector = $(optionalSelector, parent);
+        }
+        f(settings, obj, $(selector, parent), optionalSelector);
+      };
     };
+
+    function filterEnterpriseBy(settings, prom) {
+      var d = $.Deferred();
+
+      prom.done(function (connections) {
+        var enterpriseConnections = connections.map(function (e) {
+          return e.name;
+        });
+
+        d.resolve(enterpriseConnections);
+      });
+
+      return d.promise();
+    }
+
+    function loadClients (settings) {
+      $('select[name="client-list"]', target).html('');
+
+      var r = clientsModel(settings).findAll().then(function (result) {
+        clients = result;
+
+        loadFromList(settings, result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), $('select[name="client-list"]', target));
+
+        // [Auth
+        loadFromList(settings, result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), $('select[name="client-list"].with-id', target));
+        // Auth]
+
+        var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
+        $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
+          .appendTo($('select[name="client-list"]', target));
+
+        $('select[name="client-list"] option[value=' + globalClient.clientID + ']', target)
+          .prop('selected', true);
+
+        $('select[name="client-list"]', target)
+          .off('change')
+          .on('change', withSettings(onClientChanged, settings));
+
+        loading(settings, false);
+        target.fadeIn('slow');
+      });
+
+      return r;
+    }
+
+    function findAllUsers(settings) {
+      return $.ajax({
+        url: 'https://' + settings.tenantDomain + '/api/users',
+        headers: {
+          Authorization: 'Bearer ' + settings.accessToken
+        },
+        data: { perPage: 10 }
+      });
+    }
+
+    function loadUsers (settings) {
+      findAllUsers(settings).done(function (users) {
+
+        loadFromList(settings, users.map(function(u) { return u.user_id; }), $('.user-selector', target));
+        loadFromList(settings, users.map(function(u) { return u.email;   }), $('.user-email-selector', target));
+
+        $('#update-user-password-byemail-email-selector').change(function () {
+          $('#api-update-user-password-byemail-email').val($(this).val());
+        });
+
+        $('#update-user-password-byemail-email-selector').trigger('change');
+
+        var options = {
+          mode: 'text',
+          search: false,
+          history: false
+        };
+
+        $('#sdk-jsoneditor').html('');
+        var updateContainer = document.getElementById('sdk-jsoneditor');
+        if (updateContainer) {
+          // PUT
+          var updateEditor = new jsoneditor.JSONEditor(updateContainer, options);
+          updateEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
+          window.updateJSONEditor = updateEditor;
+        }
+
+        $('#sdk-patch-jsoneditor').html('');
+        var updatePatchContainer = document.getElementById('sdk-patch-jsoneditor');
+        // PATCH
+        if (updatePatchContainer) {
+          var updatePatchEditor = new jsoneditor.JSONEditor(updatePatchContainer, options);
+          updatePatchEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
+          window.updatePatchJSONEditor = updatePatchEditor;
+        }
+      });
+    }
+
+    var loadAllConnections = loadGenerator(loadFromPromise, function (settings) {
+        var d = $.Deferred();
+        var clientID = $('select[name="client-list"]', target).val();
+        clientConnectionsModel(settings).findAllEnabled({ client: clientID }).done(function (connections) {
+          connections = connections.map(function (c) { return c.name; });
+          d.resolve(connections);
+        });
+        return d.promise();
+      },
+      '.connection-selector',
+      '.connection-selector.with-optional'
+    );
+
+    var loadSocialConnections = loadGenerator(loadFromPromise, function (settings) {
+        var d = $.Deferred();
+
+        var clientID = $('select[name="client-list"]', target).val();
+        clientConnectionsModel(settings).findOnlySocials({ client: clientID }).done(function (connections) {
+
+          connections = connections
+            .filter(function (c) { return c.status; })
+            .map(function (c) { return c.name; });
+
+          d.resolve(connections);
+
+
+        });
+        return d.promise();
+
+      },
+      '.social_connection-selector',
+      '.social_connection-selector.with-optional'
+    );
+
+    var loadEnterpriseConnections = loadGenerator(loadFromPromise, function (settings) {
+        var clientID = $('select[name="client-list"]', target).val();
+        var prom = clientConnectionsModel(settings).findOnlyStrictEnterpriseEnabled({ client: clientID });
+        return filterEnterpriseBy(settings, prom);
+      },
+      '.enterprise_connection-selector',
+      '.enterprise_connection-selector.with-optional'
+    );
+
+    var loadDbConnections = loadGenerator(loadFromPromise, function (settings) {
+        var clientID = $('select[name="client-list"]', target).val();
+        var prom = clientConnectionsModel(settings).findOnlyEnterpriseCustomDbEnabled({ client: clientID });
+        return filterEnterpriseBy(settings, prom);
+      },
+      '.db_connection-selector',
+      '.db_connection-selector.with-optional'
+    );
+
+    var staticLists = {
+      scopes:         ['openid', 'openid profile'],
+      responseTypes:  ['code', 'token'],
+      protocols:      ['oauth2', 'wsfed', 'wsfed-rms', 'samlp']
+    };
+
+    var staticListGenerators = [
+      [loadFromList, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
+      [loadFromList, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
+      [loadFromList, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
+    ];
 
     function tryMeButton (executors) {
       return function (e) {
@@ -488,9 +458,9 @@ define(function (require) {
     function populateLists(settings) {
       if (settings.isAuth) {
         loadClients(settings).then(withSettings(onClientChanged, settings));
-        loadScopes(settings);
-        loadResponseTypes(settings);
-        loadProtocols(settings);
+        staticListGenerators.map(function (listGenerator) {
+          loadGenerator.apply(null, listGenerator)(settings);
+        });
       } else {
         loadClients(settings)
           .then(withSettings(onClientChanged, settings))
@@ -525,8 +495,6 @@ define(function (require) {
         return deferred.promise();
       };
     }
-
-
 
     if (settings.readOnly) {
       var mockClients = [{global: true, clientID: 'GLOBAL_CLIENT_ID' },
