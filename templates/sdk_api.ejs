@@ -44,7 +44,8 @@ Once authenticated, the `access_token` can be included in the request as part of
 
 Gets all users who have logged in through any of your connections.
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -60,7 +61,8 @@ Gets all users who have logged in through any of your connections.
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users" data-description="Gets all users from an enterprise directory">
 <span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS), it will return the users who have logged in through that connection.
 
-<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users?access_token=<span class='tokenme param'>{token}</span></pre>
+<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users
+Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
 <button class='btn btn-primary btn-tryme'
         data-result='connection-users-result'
@@ -76,7 +78,8 @@ Gets all users who have logged in through any of your connections.
 
 Gets all users who have logged in through social connections
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -93,7 +96,8 @@ Gets all users who have logged in through social connections
 
 Gets all users who have logged in with a specific client
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/users?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/users
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -111,7 +115,8 @@ Gets all users who have logged in with a specific client
   Creates a user. The body of the request must include the <code>email</code>, the <code>password</code>, and the <code>connection</code> of the user. Also it can include the user's <code>email_verified</code> parameter and the <code>extra attributes</code> that you want to add.
 
   <pre>
-  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/?access_token=<span class='tokenme param'>{token}</span>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/
+  Authorization: Bearer <span class="tokenme param">{token}</span>
   Content-Type: 'application/json'
   <form id='user-form'>
   {
@@ -141,7 +146,8 @@ Gets all users who have logged in with a specific client
   Resends verification account email. The body of the request must include the <code>email</code> and the <code>connection</code> of the user.
 
   <pre>
-  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/`send_verification_email`?access_token=<span class='tokenme param'>{token}</span>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/`send_verification_email`
+  Authorization: Bearer <span class="tokenme param">{token}</span>
   Content-Type: 'application/json'
   <form id='user-sendverificationemail-form'>
   {
@@ -166,7 +172,8 @@ Gets all users who have logged in with a specific client
   Generates change password ticket. The body of the request must include the <code>newPassword</code> of the user. Optionally, you can include the <code>resultUrl</code> (post verification url).
 
   <pre>
-  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-changepasswordticket' class='user-selector'></select>/`change_password_ticket`?access_token=<span class='tokenme param'>{token}</span>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-changepasswordticket' class='user-selector'></select>/`change_password_ticket`
+  Authorization: Bearer <span class="tokenme param">{token}</span>
   Content-Type: 'application/json'
   <form id='user-changepasswordticket-form'>
   {
@@ -190,7 +197,8 @@ Gets all users who have logged in with a specific client
   Generates verification account ticket. Optionally, you can include the <code>resultUrl</code> (post verification url) in the body of the request.
 
   <pre>
-  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-verificationticket' class='user-selector'></select>/`verification_ticket`?access_token=<span class='tokenme param'>{token}</span>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-verificationticket' class='user-selector'></select>/`verification_ticket`
+  Authorization: Bearer <span class="tokenme param">{token}</span>
   Content-Type: 'application/json'
   <form id='user-verificationticket-form'>
   {
@@ -211,7 +219,8 @@ Gets all users who have logged in with a specific client
 <div class="markdown" data-verb="PUT" data-path="/api/users/{user_id}/email" data-description="Updates user email">
 Update user email. The body of the request must include the new <code>email</code>.
 
-<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector-for-changeemail' class='user-selector'></select>/email?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector-for-changeemail' class='user-selector'></select>/email
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
 <form id='user-form' style="margin-bottom:-40px">
 {
@@ -235,7 +244,8 @@ Content-Type: 'application/json'
 Update user metadata. The body of the request must include a <code>json</code> object with metadata <code>attributes</code>.
 
 <pre>
-<code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector' class='user-selector'></select>/metadata?access_token=<span class='tokenme param'>{token}</span>
+<code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector' class='user-selector'></select>/metadata
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
 <div id="sdk-jsoneditor" class="user-metadata" style="width: 100%; height: 100%;"></div>
 </code>
@@ -254,7 +264,8 @@ Content-Type: 'application/json'
 <div class="markdown" data-verb="PUT" data-path="/api/users/{user_id}/password" data-description="Updates user password">
 Update user password. The body of the request must include the new <code>password</code>.
 
-<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector' class='user-selector'></select>/password?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-id-selector' class='user-selector'></select>/password
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
 <form id='user-form' style="margin-bottom:-40px">
 {
@@ -277,7 +288,8 @@ Content-Type: 'application/json'
 <div class="markdown" data-verb="PUT" data-path="/api/users/{email}/password" data-description="Updates user password">
 Update user password. The body of the request must include the <code>email</code>, <code>connection</code> and the new <code>password</code>.
 
-<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-password-byemail-email-selector' class='user-email-selector'></select>/password?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='update-user-password-byemail-email-selector' class='user-email-selector'></select>/password
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
 <form id='user-form' style="margin-bottom:-40px">
 {
@@ -304,12 +316,13 @@ Content-Type: 'application/json'
   Patch user metadata. The body of the request must include a <code>json</code> object with metadata <code>attributes</code>.
   It will not override metadata not specified attributes.
 
-  <pre>
-    <code><span class='http-verb'>PATCH</span> <span class="client_namespace"></span>api/users/<select id='user-patch-selector' class='user-selector'></select>/metadata?access_token=<span class='tokenme param'>{token}</span>
-      Content-Type: 'application/json'
-      <div id="sdk-patch-jsoneditor" class="user-metadata" style="width: 100%; height: 100%;"></div>
-    </code>
-  </pre>
+<pre>
+<code><span class='http-verb'>PATCH</span> <span class="client_namespace"></span>api/users/<select id='user-patch-selector' class='user-selector'></select>/metadata
+  Authorization: Bearer <span class="tokenme param">{token}</span>
+  Content-Type: 'application/json'
+  <div id="sdk-patch-jsoneditor" class="user-metadata" style="width: 100%; height: 100%;"></div>
+</code>
+</pre>
 
   <button class='btn btn-primary btn-tryme'
         data-result='usermetadatapatch-result'
@@ -324,7 +337,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="DELETE" data-path="/api/users/{user_id}" data-description="Deletes a user">
 Deletes a user identified by <code>user_id</code>
 
-<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete' class='user-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete' class='user-selector'></select>
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-danger btn-tryme'
@@ -346,7 +360,8 @@ Deletes a user identified by <code>user_id</code>
 
 Gets a list of all the connections (enterprise and social) and all its <code>options</code>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -363,7 +378,8 @@ Gets a list of all the connections (enterprise and social) and all its <code>opt
 
 Gets a connection by name (enterprise and social) and all its <code>options</code>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-get-selector' class='connection-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-get-selector' class='connection-selector'></select>
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -378,7 +394,8 @@ Gets a connection by name (enterprise and social) and all its <code>options</cod
   <div class="markdown" data-verb="DELETE" data-path="/api/connections/{connection-name}" data-description="Gets all connections">
 Deletes a connection identified by <code>connectionName</code>
 
-<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/connections/<select id='connection-delete-selector' class='connection-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/connections/<select id='connection-delete-selector' class='connection-selector'></select>
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-danger btn-tryme'
@@ -397,7 +414,8 @@ Creates a connection. The body of the request must include the <code>name</code>
 
 <span class='label label-info'>Heads up!</span> Instead of creating the user interface for setting up connections for your customers, you can embed the [Provisioning JavaScript Widget](#/sdk/provisioning) in your website and save some development time.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/connections/?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/connections/
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
   <form id='connection-form'>
   {
@@ -452,7 +470,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="GET" data-path="/api/clients" data-description="Gets all applications/APIs">
 Gets a list of all the applications/APIs (aka clients) and all its <code>options</code>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -468,7 +487,8 @@ Gets a list of all the applications/APIs (aka clients) and all its <code>options
   <div class="markdown" data-verb="POST" data-path="/api/clients" data-description="Creates a new applications/APIs">
 Create a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/clients/?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/clients/
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
   <form id='create-client-form'>
   {
@@ -491,7 +511,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="PUT" data-path="/api/clients/{client-id}" data-description="Updates an applications/APIs">
 Update a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
 
-<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
   <form id='update-client-form'>
   {
@@ -520,7 +541,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="GET" data-path="/api/rules" data-description="Gets all rules">
 Gets a list of all the rules
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/rules?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/rules
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -536,7 +558,8 @@ Gets a list of all the rules
   <div class="markdown" data-verb="POST" data-path="/api/rules" data-description="Creates a new applications/APIs">
 Create a rule. The body of the request must include the <code>name</code>, <code>status</code> and <code>script</code> parameters.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/rules/?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/rules/
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
   <form id='create-rule-form'>
   {
@@ -564,7 +587,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="PUT" data-path="/api/rules/{rule-name}" data-description="Updates a rule">
 Update a rule. The body of the request must include the <code>status</code> and <code>script</code> parameters.
 
-<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/rules/<select id='rules-put-selector' class='rule-selector'></select>/?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/rules/<select id='rules-put-selector' class='rule-selector'></select>/
+Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
   <form id='update-rule-form'>
   {
@@ -592,7 +616,8 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="DELETE" data-path="/api/rules/{rule-name}" data-description="Deletes a rules">
 Deletes a rule identified by <code>rule-name</code> (url-encoded)
 
-<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/rules/<select id='rule-delete-selector' class='rule-selector'></select>?access_token=<span class='tokenme param'>{token}</span>
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/rules/<select id='rule-delete-selector' class='rule-selector'></select>
+Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
 <button class='btn btn-danger btn-tryme'
