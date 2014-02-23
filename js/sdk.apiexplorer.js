@@ -265,7 +265,7 @@ define(function (require) {
           .on('change', withSettings(onClientChanged, settings));
 
         loading(settings, false);
-        target.fadeIn('slow');
+        target.animate({opacity: 1}, 'slow');
       });
 
       return r;
@@ -518,7 +518,7 @@ define(function (require) {
       target = $('#sdk-api-content');
     }
 
-    target.hide();
+    target.css('opacity', 0);
 
     loading(settings, true);
 
