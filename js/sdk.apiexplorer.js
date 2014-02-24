@@ -482,6 +482,10 @@ define(function (require) {
       populateLists(settings);
       hookStrategySelector();
       hookJsonTogglers();
+
+      if (!settings.anchors) {
+        $('a.header-anchor').hide();
+      }
     }
 
     function returnAsPromise(l) {
