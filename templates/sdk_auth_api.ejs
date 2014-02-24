@@ -4,11 +4,11 @@
 <% include ./templates/client-selector %>
 </div>
 
-<h2>Protocol: OpenID Connect / OAuth2 Login</h2>
+<h2 id="openid-connect"><a class="header-anchor icon-link" href="#openid-connect"></a>Protocol: OpenID Connect / OAuth2 Login</h2>
 
 <div class="markdown">This is the **recommended** protocol for new applications. Read more about how it works for [web applications](https://<%= docsDomain %>/oauth-web-protocol) and [single page apps / native apps](https://<%= docsDomain %>/oauth-implicit-protocol). All the <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a> are built on top of this protocol.</div>
 
-<h3>Social Authentication</h3>
+<h3 id="social-auth"><a class="header-anchor icon-link" href="#social-auth"></a>Social Authentication</h3>
 <div class="markdown">These type of connections support only browser based (passive) auhtentication. This is because most of these providers don't allow entering the user/password in applications that don't belong to them, so the user gets redirected to the provider (e.g. Google sign in page).</div>
 <div class="accordion">
 
@@ -41,7 +41,7 @@ Remarks:
 
 </div>
 
-<h3>Database &amp; Active Directory / LDAP Authentication</h3>
+<h3 id="db-and-ad"><a class="header-anchor icon-link" href="#db-and-ad"></a>Database &amp; Active Directory / LDAP Authentication</h3>
 <div class="markdown">These type of connections support browser based (passive) authentication and API-based (active) authentication. The main difference between passive and active authentication is that the former happens in the browser through the [Login Page](/#/login_page) and the latter can be invoked from anywhere (a script, server to server, etc.). Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
@@ -98,7 +98,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3>Enterprise Authentication (SAML and Others)</h3>
+<h3 id="enterpise-auth"><a class="header-anchor icon-link" href="#enterpise-auth"></a>Enterprise Authentication (SAML and Others)</h3>
 <div class="markdown">These type of connections support browser based (passive) authentication. The user will be redirected to the SAML Provider (or Windows Azure AD and the rest) to enter their credentials. Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
@@ -131,7 +131,7 @@ Remarks:
 
 </div>
 
-<h2>Protocol: SAML</h2>
+<h2 id="saml"><a class="header-anchor icon-link" href="#saml"></a>Protocol: SAML</h2>
 <div class="markdown">The SAML protocol is used for 3rd party SaaS applications mostly (e.g. Salesforce, Box, etc.). Auth0 supports SP and IDP Initiated Sign On. All the parameters of the SAML response can be modified through [rules](/#/rules).</div>
 
 <div class="accordion">
@@ -187,7 +187,7 @@ SAMLResponse=<span class='param'>PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2F
 
 </div>
 
-<h2>Protocol: WS-Fed</h2>
+<h2 id="wsfed"><a class="header-anchor icon-link" href="#wsfed"></a>Protocol: WS-Fed</h2>
 <div class="markdown">The WS-Fed protocol is used for Microsoft applications (e.g.: Office365, Dynamics CRM, etc.). All the parameters of the SAML assertion can be modified through [rules](/#/rules).</div>
 
 <div class="accordion">
@@ -228,9 +228,9 @@ Remarks
 
 </div>
 
-<h2>Others</h2>
+<h2 id="others"><a class="header-anchor icon-link" href="#others"></a>Others</h2>
 
-<h3>Delegated Authentication</h3>
+<h3 id="delegated"><a class="header-anchor icon-link" href="#delegated"></a>Delegated Authentication</h3>
 <div class="markdown">Delegated authentication is used when some entity wants to call another on behalf of the user. For example, a user logs in to an application and then call an API. The application exchange the token of the logged in user with a token that is valid to call the API (signed with the API secret).</div>
 
 <div class="accordion">
@@ -261,7 +261,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3>Impersonation</h3>
+<h3 id="impersonation"><a class="header-anchor icon-link" href="#impersonation"></a>Impersonation</h3>
 <div class="markdown">Using this API you can generate a link that could be used to impersonate a user. This is useful for troubleshooting. **Note**: this API can only be used with the **Global Client** credentials.</div>
 
 <div class="accordion">
@@ -292,7 +292,7 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 
 </div>
 
-<h3>Link Accounts</h3>
+<h3 id="link-accounts"><a class="header-anchor icon-link" href="#link-accounts"></a>Link Accounts</h3>
 <div class="markdown">When a user wants to link a second authentication method (e.g user/password + facebook), call this API.</div>
 
 <div class="accordion">
@@ -339,7 +339,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3>Logout</h3>
+<h3 id="logout"><a class="header-anchor icon-link" href="#logout"></a>Logout</h3>
 <div class="markdown">Auth0 supports logging the user out of the identity provider that was used for login. Note that this might not be recommended for certain providers as described here <https://<%= docsDomain %>/logout>.</div>
 <div class="accordion">
 
