@@ -15,8 +15,9 @@ define(function (require) {
     var ApiExecutors              = require('./sdk.ApiExecutors');
     var AuthApiExecutors          = require('./sdk.AuthApiExecutors');
 
+    var jsonEditor                = require('./jsoneditor');
+
     var clients = [], selectedClient, target;
-    var jsoneditor = require('jsoneditor');
 
     var withSettings = function (f, settings) {
       return function () {
@@ -170,9 +171,16 @@ define(function (require) {
       loadDbConnections(settings);
       loadEnterpriseConnections(settings);
 
-      loadConnections(settings);
-      loadRules(settings);
-      loadUsers(settings);
+      var def = $.Deferred();
+
+      var promise = def.promise();
+
+      promise.then(withSettings(loadConnections, settings))
+             .then(withSettings(loadRules, settings))
+             .then(withSettings(loadUsers, settings))
+             .then(function () { jsonEditor.update(target); });
+
+      def.resolve();
 
       ensureClientAccessToken(settings);
     }
@@ -293,29 +301,6 @@ define(function (require) {
 
         $('#update-user-password-byemail-email-selector').trigger('change');
 
-        var options = {
-          mode: 'text',
-          search: false,
-          history: false
-        };
-
-        $('#sdk-jsoneditor').html('');
-        var updateContainer = document.getElementById('sdk-jsoneditor');
-        if (updateContainer) {
-          // PUT
-          var updateEditor = new jsoneditor.JSONEditor(updateContainer, options);
-          updateEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
-          window.updateJSONEditor = updateEditor;
-        }
-
-        $('#sdk-patch-jsoneditor').html('');
-        var updatePatchContainer = document.getElementById('sdk-patch-jsoneditor');
-        // PATCH
-        if (updatePatchContainer) {
-          var updatePatchEditor = new jsoneditor.JSONEditor(updatePatchContainer, options);
-          updatePatchEditor.set({ 'Policy': '1238907654', 'Customer Id': '1234' });
-          window.updatePatchJSONEditor = updatePatchEditor;
-        }
       });
     }
 
@@ -466,7 +451,8 @@ define(function (require) {
           .then(withSettings(onClientChanged, settings))
           .then(withSettings(loadConnections, settings))
           .then(withSettings(loadRules, settings))
-          .then(withSettings(loadUsers, settings));
+          .then(withSettings(loadUsers, settings))
+          .then(function () { jsonEditor.update(target); });
       }
     }
 
