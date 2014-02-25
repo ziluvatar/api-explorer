@@ -132,7 +132,12 @@ define(function (require) {
     }
 
     function onClientChanged (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
+      var clientID;
+      if (settings.isAuth) {
+        clientID = $('.client-selector select[name="client-list-without-global"]', target).val();
+      } else {
+        clientID = $('.client-selector select[name="client-list"]', target).val();
+      }
 
       selectedClient = clients.filter(function (c) {
         return c.clientID === clientID;
@@ -257,9 +262,7 @@ define(function (require) {
 
         loadFromList(settings, result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), $('select[name="client-list"]', target));
 
-        // [Auth
-        loadFromList(settings, result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), $('select[name="client-list"].with-id', target));
-        // Auth]
+        loadFromList(settings, result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), $('select[name="client-list-without-global"]', target));
 
         var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
         $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')

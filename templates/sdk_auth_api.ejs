@@ -245,7 +245,7 @@ Content-Type: 'application/json'
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "grant_type":  "<select id="delegation-grant_type" required><option>urn:ietf:params:oauth:grant-type:jwt-bearer</option></select>",
   "id_token":    "<textarea id="delegation-id_token" rows="2" style="width:293px;" required></textarea>",
-  "target":      "<select id="delegation-target" name="client-list" class="with-id"></select>",
+  "target":      "<select id="delegation-target" name="client-list-without-global"></select>",
   "scope":       "<select id="delegation-scope" class="scope-selector"></select>"
 }
 </form></code></pre>
@@ -275,7 +275,7 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 <form id='impersonate-form'>{
   protocol:         "<select id="impersonate-protocol" class="protocol-selector"></select>",
   impersonator_id:  "<span id="impersonate-impersonator_id"><%= user.id %></span>", // <%= user.name || user.email %>
-  client_id:        "<select id="impersonate-client_id" name="client-list" class="with-id"></select>",
+  client_id:        "<select id="impersonate-client_id" name="client-list-without-global"></select>",
   <textarea id="impersonate-additional_parameters" rows="3" style="width:95%;">"response_type": "code",&#13;&#10;"state": ""</textarea>
 }
 </form></code></pre>
