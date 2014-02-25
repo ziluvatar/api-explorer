@@ -375,6 +375,8 @@ define(function (require) {
       return function (e) {
         e.preventDefault();
 
+        var that = $(this);
+
         var runnerName = $(this).attr('data-runner'),
           resultPanel = $('#' + $(this).attr('data-result'), target);
 
@@ -389,7 +391,7 @@ define(function (require) {
           return;
         }
 
-        promise.done(function(result) {
+        promise.then(function(result) {
           resultPanel.parents('pre').removeClass('error');
 
           if (typeof result === 'object') {
@@ -398,13 +400,17 @@ define(function (require) {
           else {
             resultPanel.html(result);
           }
-        }).fail(function(response){
+        }, function(response){
           resultPanel.parents('pre').addClass('error');
           try{
             resultPanel.html(JSON.stringify(JSON.parse(response.responseText), null, 2));
           }catch (e) {
             resultPanel.html(response.responseText);
           }
+        }).then(function () {
+          $('html, body').animate({
+            scrollTop: that.closest('.accordion-group').offset().top
+          }, 200);
         });
       };
     }
