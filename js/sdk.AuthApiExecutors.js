@@ -2,7 +2,7 @@ define(function(require) {
   var $ = require('jquery');
   var urljoin = require('url-join');
 
-  return function(client) {
+  return function(client, globalAccessToken) {
 
     var validateJsonText = function(jsonText) {
       try {
@@ -52,7 +52,7 @@ define(function(require) {
         url: url,
         data: data,
         headers: {
-          Authorization: 'Bearer ' + client.access_token
+          Authorization: 'Bearer ' + globalAccessToken
         },
         global: false
       });
