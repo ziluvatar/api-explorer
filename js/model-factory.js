@@ -14,33 +14,54 @@ define(function (require) {
     };
   }
 
+  function createFixtures() {
+    var d = {};
+
+    var mockClients = [
+      {global: true, clientID: 'GLOBAL_CLIENT_ID' },
+      {global: false, clientID: 'APP_CLIENT_ID'}
+    ];
+
+    var mockSocials = [
+      {name: 'social-connection'}
+    ];
+
+    var mockCustomDB = [
+      {name: 'custom-db-connection'}
+    ];
+
+    var enterprise = [
+      {name: 'enterpise-connection'}
+    ];
+
+    d.clientsModel = function () {
+      return {
+        findAll: returnAsPromise(mockClients)
+      };
+    };
+    d.clientConnectionsModel = function () {
+      return {
+        findAllEnabled:                     returnAsPromise(mockClients),
+        findOnlySocials:                    returnAsPromise(mockSocials),
+        findOnlyEnterpriseCustomDbEnabled:  returnAsPromise(mockCustomDB),
+        findOnlyStrictEnterpriseEnabled:    returnAsPromise(enterprise)
+      };
+    };
+
+    return d;
+  }
+
   return function (useFixtures) {
-    var clientsModel, clientConnectionsModel;
-
+    var d;
     if (useFixtures) {
-      var mockClients = [
-        {global: true, clientID: 'GLOBAL_CLIENT_ID' },
-        {global: false, clientID: 'APP_CLIENT_ID'}
-      ];
-
-      clientsModel              = function () {
-        return {
-          findAll: returnAsPromise(mockClients),
-        };
-      };
-      clientConnectionsModel    = function () {
-        return {
-          findAllEnabled: returnAsPromise(mockClients)
-        };
-      };
+      d = createFixtures();
     } else {
-      clientsModel              = require('./models/clients');
-      clientConnectionsModel    = require('./models/client-connections');
+      d = {
+        clientsModel            :   require('./models/clients'),
+        clientConnectionsModel  :   require('./models/client-connections')
+      };
     }
 
-    return {
-      clientsModel:           clientsModel,
-      clientConnectionsModel: clientConnectionsModel
-    };
+    return d;
   };
 });
