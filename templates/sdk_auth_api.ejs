@@ -275,7 +275,7 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 <form id='impersonate-form'>{
   protocol:         "<select id="impersonate-protocol" class="protocol-selector"></select>",
   impersonator_id:  "<span id="impersonate-impersonator_id"><%= user.id %></span>", // <%= user.name || user.email %>
-  client_id:        "<select id="impersonate-client_id" name="client-list-without-global"></select>",
+  client_id:        "<select id="impersonate-client_id" name="client-list-without-global" class="with-id"></select>",
   <textarea id="impersonate-additional_parameters" rows="3" style="width:95%;">"response_type": "code",&#13;&#10;"state": ""</textarea>
 }
 </form></code></pre>

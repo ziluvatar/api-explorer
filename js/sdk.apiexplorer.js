@@ -228,6 +228,8 @@ define(function (require) {
 
         loadFromList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list-without-global"]', target)});
 
+        loadFromList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; }), {selector: $('select[name="client-list-without-global"].with-id', target)});
+
         var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
         $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
           .appendTo($('select[name="client-list"]', target));
