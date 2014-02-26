@@ -7,24 +7,72 @@ module.exports = function (grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 
+  var filesToWatch = [
+    'js/**/*.js',
+    'templates/**/*.ejs',
+    'less/**/*.less',
+    'api-explorer.js',
+    'Gruntfile.js',
+    'index.jade'
+  ];
+
+  var requireJSConfig = {
+    options: {
+      almond: true,
+      baseUrl: '.',
+      'shim': {
+        'bootstrap':        [ 'jquery' ],
+        ejs: {
+          exports: 'ejs'
+        }
+      },
+      include: ['api-explorer'],
+      generateSourceMaps: true,
+      preserveLicenseComments: false,
+      optimize: 'uglify2',
+      replaceRequireScript: [{
+        files: ['dist/index.html'],
+        module: 'main',
+        modulePath: '/js/api-explorer'
+      }],
+      paths: {
+        'text':             'bower_components/requirejs-text/text',
+        'ejs':              'bower_components/ejs/ejs',
+        'rejs':             'bower_components/requirejs-ejs/index',
+
+        'jquery':           'js/jquery.wrapper',
+        'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
+        'url-join':         'bower_components/url-join/lib/url-join',
+        'bootstrap':        'bower_components/bootstrap/docs/assets/js/bootstrap-collapse',
+        'jquerymd':         'vendor/jquery.markdown',
+        'showdown':         'bower_components/showdown/compressed/showdown'
+
+      },
+      out: 'dist/api-explorer.js'
+    }
+  };
+
+  var requireJSConfigDev = JSON.parse(JSON.stringify(requireJSConfig));
+  requireJSConfigDev.options.options = 'none';
+
   grunt.initConfig({
     clean: [
       'dist/'
     ],
     watch: {
-      options: {
-        livereload: true
-      },
-      src: {
-        files: [
-          'js/**/*.js',
-          'templates/**/*.ejs',
-          'less/**/*.less',
-          'api-explorer.js',
-          'Gruntfile.js',
-          'index.jade'
-        ],
+      min: {
+        options: {
+          livereload: true
+        },
+        files: filesToWatch,
         tasks: ['build']
+      },
+      dev: {
+        options: {
+          livereload: true
+        },
+        files: filesToWatch,
+        tasks: ['build-dev']
       },
     },
     template: {
@@ -39,7 +87,17 @@ module.exports = function (grunt) {
       }
     },
     connect: {
-      all: {
+      dev: {
+        options: {
+          port: 8443,
+          hostname: '0.0.0.0',
+          base: 'dist',
+          livereload: true,
+          protocol: 'http',
+          passphrase: ''
+        }
+      },
+      min: {
         options: {
           port: 8443,
           hostname: '0.0.0.0',
@@ -67,41 +125,8 @@ module.exports = function (grunt) {
       }
     },
     requirejs: {
-      compile: {
-        options: {
-          almond: true,
-          baseUrl: '.',
-          'shim': {
-            'bootstrap':        [ 'jquery' ],
-            ejs: {
-              exports: 'ejs'
-            }
-          },
-          include: ['api-explorer'],
-          generateSourceMaps: true,
-          preserveLicenseComments: false,
-          optimize: 'uglify2',
-          replaceRequireScript: [{
-            files: ['dist/index.html'],
-            module: 'main',
-            modulePath: '/js/api-explorer'
-          }],
-          paths: {
-            'text':             'bower_components/requirejs-text/text',
-            'ejs':              'bower_components/ejs/ejs',
-            'rejs':             'bower_components/requirejs-ejs/index',
-
-            'jquery':           'js/jquery.wrapper',
-            'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
-            'url-join':         'bower_components/url-join/lib/url-join',
-            'bootstrap':        'bower_components/bootstrap/docs/assets/js/bootstrap-collapse',
-            'jquerymd':         'vendor/jquery.markdown',
-            'showdown':         'bower_components/showdown/compressed/showdown'
-
-          },
-          out: 'dist/api-explorer.js'
-        }
-      }
+      dev: requireJSConfigDev,
+      min: requireJSConfig
     },
     s3: {
       options: {
@@ -144,8 +169,9 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('auth0-ui', ['clean', 'template', 'less','requirejs:auth0-ui']);
-  grunt.registerTask('build', ['clean', 'template', 'less','requirejs:compile']);
+  grunt.registerTask('build', ['clean', 'template', 'less','requirejs:min']);
+  grunt.registerTask('build-dev', ['clean', 'template', 'less','requirejs:dev']);
   grunt.registerTask('default', ['build', 'connect', 'watch']);
+  grunt.registerTask('dev', ['build-dev', 'connect:dev', 'watch:dev']);
   grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production']);
 };
