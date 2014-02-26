@@ -24,10 +24,7 @@ define(function (require) {
     }
   };
 
-  return function (settings) {
-    return model(actions, {
-      tenantDomain: settings.tenantDomain,
-      accessToken: settings.accessToken
-    });
+  return function (tenantDomainPromise, accessTokenPromise) {
+    return model(actions, tenantDomainPromise, accessTokenPromise);
   };
 });

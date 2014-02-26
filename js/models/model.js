@@ -8,7 +8,7 @@ define(function (require) {
    * @param {Object} settings: parameters to use when doing the $.ajax calls
    * @returns {Object} set of functions that makes call to endpoints
    */
-  var Model = function (actions, settings) {
+  var Model = function (actions, tenantDomainPromise, accessTokenPromise) {
     var model = {};
 
     $.each(actions, function (method, fn) {
@@ -36,17 +36,19 @@ define(function (require) {
             if (type === 'GET' || deleteToken) delete(data[key]);
           });
 
-          return $.ajax({
-            type: type,
-            url: 'https://' + settings.tenantDomain + parsedUrl,
-            headers: {
-              Authorization: 'Bearer ' + settings.accessToken
-            },
-            dataType: type === 'DELETE' ? null : 'json',
-            cache: false,
-            contentType: type !== 'GET' ?'application/json' : null,
-            data: type === 'GET' ? data : JSON.stringify(data)
-          });
+          return $.when(tenantDomainPromise, accessTokenPromise).then(function (tenantDomain, accessToken) {
+              return $.ajax({
+                type: type,
+                url: 'https://' + tenantDomain + parsedUrl,
+                headers: {
+                  Authorization: 'Bearer ' + accessToken
+                },
+                dataType: type === 'DELETE' ? null : 'json',
+                cache: false,
+                contentType: type !== 'GET' ?'application/json' : null,
+                data: type === 'GET' ? data : JSON.stringify(data)
+              });
+            });
         };
       }
     });
