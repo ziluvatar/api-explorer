@@ -1,11 +1,89 @@
 define(function (require) {
 
+  var $              = require('jquery');
+  var urljoin        = require('url-join');
+
   require('jquerymd');
   require('bootstrap');
 
   var loadApi = function(settings) {
-    var $              = require('jquery');
-    var urljoin        = require('url-join');
+
+    /**
+     * Populates a <select>
+     *
+     * @param   list      elements of the list
+     * @param   options   object that must contain 'selector' property with a jQuery
+     *                    selector representing where the <select> element is. An additional
+     *                    'optionalSelector' property may added which indicates another selector
+     *                    to populate with the same list plus a 'none' element.
+     */
+    var populateSelect = function (list, options) {
+      options.selector.html('');
+
+      if (options.optionalSelector) {
+        $('<option value="">(none)</option>')
+          .appendTo(options.optionalSelector);
+      }
+
+      $.each(list, function (i, c) {
+        //is c an array?
+        if( Object.prototype.toString.call(c) === '[object Array]' && c.length === 2 ) {
+          $('<option value="' + c[0] + '">' + (c[1] || 'default') + '</option>')
+            .appendTo(options.selector);
+        } else {
+          $('<option value="' + c + '">' + c + '</option>')
+            .appendTo(options.selector);
+        }
+      });
+    };
+
+    var populateSelectFromPromise = function (promise, options) {
+      promise(options).done(function (list) {
+        populateSelect(list, options);
+      });
+    };
+
+    var loadGenerator = function (f, obj, selector, optionalSelector) {
+      return function (clientId) {
+        var parent = target;
+        if (optionalSelector) {
+          optionalSelector = $(optionalSelector, parent);
+        }
+        f(obj, {selector: $(selector, parent), optionalSelector: optionalSelector, clientId: clientId});
+      };
+    };
+
+    function findAllConnections(clientID) {
+      return clientConnectionsModel.findAllEnabled({ client: clientID }).then(function (connections) {
+        return connections.map(function (c) { return c.name; });
+      });
+    }
+
+    function findOnlySocials(clientID) {
+      return clientConnectionsModel.findOnlySocials({ client: clientID }).then(function (connections) {
+        return connections
+          .filter(function (c) { return c.status; })
+          .map(function (c) { return c.name; });
+      });
+    }
+
+    function findOnlyStrictEnterpriseEnabled(clientID) {
+      return clientConnectionsModel.findOnlyStrictEnterpriseEnabled({ client: clientID })
+        .then(function (connections) {
+        return connections.map(function (e) {
+          return e.name;
+        });
+      });
+    }
+
+    function findOnlyEnterpriseCustomDbEnabled(clientID) {
+      return clientConnectionsModel.findOnlyEnterpriseCustomDbEnabled({ client: clientID })
+        .then(function (connections) {
+        return connections.map(function (e) {
+          return e.name;
+        });
+      });
+    }
 
     var apiItemTemplate           = require('rejs!../templates/sdk.api-method');
     var ApiExecutors              = require('./sdk.ApiExecutors');
@@ -22,6 +100,13 @@ define(function (require) {
     var tryMeButton             = require('./try');
 
     var clients = [], selectedClient, target;
+
+    var dinamicListGenerators = [
+      [populateSelectFromPromise, findAllConnections, '.connection-selector', '.connection-selector.with-optional'],
+      [populateSelectFromPromise, findOnlySocials, '.social_connection-selector', '.social_connection-selector.with-optional'],
+      [populateSelectFromPromise, findOnlyStrictEnterpriseEnabled, '.enterprise_connection-selector','.enterprise_connection-selector.with-optional'],
+      [populateSelectFromPromise, findOnlyEnterpriseCustomDbEnabled,'.db_connection-selector', '.db_connection-selector.with-optional']
+    ];
 
     var withSettings = function (f, settings) {
       return function () {
@@ -41,23 +126,32 @@ define(function (require) {
       });
     };
 
-    function loadRules (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
+    function getRules(tenantDomain, accessToken, clientID, readOnly) {
+      if (readOnly) {
+        var d = $.Deferred();
 
-      $('.rule-selector, .optional-rule-selector').html('');
+        setTimeout(function () {
+          d.resolve([{name: '{my-rule}'}]);
+        }, 0);
 
-      $.ajax({
+        return d.promise();
+      }
+
+      return $.ajax({
         url: 'https://' + settings.tenantDomain + '/api/rules',
         headers: {
           Authorization: 'Bearer ' + settings.accessToken
         },
         data:  {client: clientID},
         cache: false
-      }).done(function (rules) {
-        $.each(rules, function (i, c) {
-          $('<option value=' + encodeURIComponent(c.name) + '>' + encodeURIComponent(c.name) + '</option>')
-            .appendTo('.rule-selector');
-        });
+      });
+    }
+
+    function loadRules (settings) {
+      var clientID = $('select[name="client-list"]', target).val();
+
+      getRules(settings.tenantDomain, settings.accessToken, clientID, settings.readOnly).done(function (rules) {
+        populateSelect(rules.map(function (c) { return encodeURIComponent(c.name); }), {selector: $('.rule-selector', target)});
       });
     }
 
@@ -99,10 +193,22 @@ define(function (require) {
 
       tryMeButton(settings.readOnly, target, executors);
 
-      loadAllConnections(clientID);
-      loadSocialConnections(clientID);
-      loadDbConnections(clientID);
-      loadEnterpriseConnections(clientID);
+      dinamicListGenerators.map(function (listGenerator) {
+        if ( settings.readOnly ) {
+          var d = $.Deferred();
+          setTimeout(function () {
+            d.resolve([
+              '{connection}'
+            ]);
+          });
+          listGenerator[1] = function () {
+            return d.promise();
+          };
+          loadGenerator.apply(null, listGenerator)(clientID);
+        } else {
+          loadGenerator.apply(null, listGenerator)(clientID);
+        }
+      });
 
 
       loadConnections(settings);
@@ -126,63 +232,35 @@ define(function (require) {
       });
     };
 
-    /**
-     * Populates a <select>
-     *
-     * @param   list      elements of the list
-     * @param   options   object that must contain 'selector' property with a jQuery
-     *                    selector representing where the <select> element is. An additional
-     *                    'optionalSelector' property may added which indicates another selector
-     *                    to populate with the same list plus a 'none' element.
-     */
-    var populateList = function (list, options) {
-      options.selector.html('');
 
-      if (options.optionalSelector) {
-        $('<option value="">(none)</option>')
-          .appendTo(options.optionalSelector);
+    function getConnections(tenantDomain, accessToken, clientID, readOnly) {
+
+      if (readOnly) {
+        var d = $.Deferred();
+        setTimeout(function () {
+          d.resolve([{
+            name: '{connection-name}',
+            strategy: 'auth0'
+          }]);
+        }, 0);
+        return d.promise();
       }
 
-      $.each(list, function (i, c) {
-        //is c an array?
-        if( Object.prototype.toString.call(c) === '[object Array]' && c.length === 2 ) {
-          $('<option value="' + c[0] + '">' + (c[1] || 'default') + '</option>')
-            .appendTo(options.selector);
-        } else {
-          $('<option value="' + c + '">' + c + '</option>')
-            .appendTo(options.selector);
-        }
-      });
-    };
-
-    var loadFromPromise = function (promise, options) {
-      promise(options).done(function (list) {
-        populateList(list, options);
-      });
-    };
-
-    var loadGenerator = function (f, obj, selector, optionalSelector) {
-      return function (clientId) {
-        var parent = target;
-        if (optionalSelector) {
-          optionalSelector = $(optionalSelector, parent);
-        }
-        f(obj, {selector: $(selector, parent), optionalSelector: optionalSelector, clientId: clientId});
-      };
-    };
-
-    function loadConnections (settings) {
-      var clientID = $('select[name="client-list"]', target).val();
-
-      $.ajax({
+      return  $.ajax({
         url: 'https://' + settings.tenantDomain + '/api/connections',
         headers: {
           Authorization: 'Bearer ' + settings.accessToken
         },
         data: { client: clientID },
         cache: false
-      }).done(function (connections) {
-        populateList(connections.map(function (c) { return c.name; }), {selector: $('.connection-selector', target)});
+      });
+    }
+
+    function loadConnections (settings) {
+      var clientID = $('select[name="client-list"]', target).val();
+
+      getConnections(settings.tenantDomain, settings.accessToken, clientID, settings.readOnly).done(function (connections) {
+        populateSelect(connections.map(function (c) { return c.name; }), {selector: $('.connection-selector', target)});
 
         // db connections
         var dbConnections = connections.filter(function (c) {
@@ -191,12 +269,12 @@ define(function (require) {
           return c.name;
         });
 
-        populateList(dbConnections, {selector: $('#dbconn-signup-connection-selector', target)});
-        populateList(dbConnections, {selector: $('#dbconn-changePassword-connection-selector', target)});
-        populateList(dbConnections, {selector: $('#api-create-user-connection-selector', target)});
-        populateList(dbConnections, {selector: $('#api-user-sendverificationemail-selector', target)});
-        populateList(dbConnections, {selector: $('#dbconn-forgotPassword-connection-selector', target)});
-        populateList(dbConnections, {selector: $('#api-update-user-password-byemail-connection-selector', target)});
+        populateSelect(dbConnections, {selector: $('#dbconn-signup-connection-selector', target)});
+        populateSelect(dbConnections, {selector: $('#dbconn-changePassword-connection-selector', target)});
+        populateSelect(dbConnections, {selector: $('#api-create-user-connection-selector', target)});
+        populateSelect(dbConnections, {selector: $('#api-user-sendverificationemail-selector', target)});
+        populateSelect(dbConnections, {selector: $('#dbconn-forgotPassword-connection-selector', target)});
+        populateSelect(dbConnections, {selector: $('#api-update-user-password-byemail-connection-selector', target)});
 
       });
 
@@ -211,20 +289,49 @@ define(function (require) {
         $('select[name="client-list"]', target).html('');
       }
 
-      var r = clientsModel.findAll().then(function (result) {
+      var clientsPromise;
+
+      if (settings.readOnly) {
+        var d = $.Deferred();
+
+        setTimeout(function () {
+          d.resolve([{
+            clientID: '{client-id}',
+            name: '{client-name}',
+            clientSecret: '{client-secret}',
+            callback: 'http://localhost/callback',
+            global: false
+          },
+          {
+            clientID: '{global-client-id}',
+            clientSecret: '{global-client-secret}',
+            name: '{global-client-name}',
+            callback: 'http://localhost/callback',
+            global: true
+          }
+          ]);
+        }, 0);
+
+        clientsPromise = d.promise();
+      } else {
+        clientsPromise = clientsModel.findAll();
+      }
+
+      var r = clientsPromise.then(function (result) {
         clients = result;
 
-        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list"]', target)});
-
-        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list-without-global"]', target)});
-
-        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; }), {selector: $('select[name="client-list-without-global"].with-id', target)});
-
+        var nonGlobalClients = result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; });
+        var nonGlobalClientsWithBrackets = result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; })
         var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
-        $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
+
+        populateSelect(nonGlobalClients, {selector: $('select[name="client-list"]', target)});
+        populateSelect(nonGlobalClients, {selector: $('select[name="client-list-without-global"]', target)});
+        populateSelect(nonGlobalClientsWithBrackets, {selector: $('select[name="client-list-without-global"].with-id', target)});
+
+        $('<option class="global-client" value="' + globalClient.clientID + '">Global Client</option>')
           .appendTo($('select[name="client-list"]', target));
 
-        $('select[name="client-list"] option[value=' + globalClient.clientID + ']', target)
+        $('select[name="client-list"] option[value="' + globalClient.clientID + '"]', target)
           .prop('selected', true);
 
         $('select[name="client-list-without-global"]', target)
@@ -234,13 +341,22 @@ define(function (require) {
         $('select[name="client-list"]', target)
           .off('change')
           .on('change', withSettings(onClientChanged, settings));
-
       });
 
       return r;
     }
 
     function findAllUsers(settings) {
+
+      if (settings.readOnly) {
+        var d = $.Deferred();
+        d.resolve([{
+          user_id: '{user-id}',
+          email: '{email}'
+        }]);
+        return d.promise();
+      }
+
       return $.ajax({
         url: 'https://' + settings.tenantDomain + '/api/users',
         headers: {
@@ -253,57 +369,16 @@ define(function (require) {
     function loadUsers (settings) {
       findAllUsers(settings).done(function (users) {
 
-        populateList(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
-        populateList(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
+        populateSelect(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
+        populateSelect(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
 
         $('#update-user-password-byemail-email-selector').change(function () {
           $('#api-update-user-password-byemail-email').val($(this).val());
         });
 
         $('#update-user-password-byemail-email-selector').trigger('change');
-
       });
     }
-
-    function findAllConnections(clientID) {
-      return clientConnectionsModel.findAllEnabled({ client: clientID }).then(function (connections) {
-        return connections.map(function (c) { return c.name; });
-      });
-    }
-
-    function findOnlySocials(clientID) {
-      return clientConnectionsModel.findOnlySocials({ client: clientID }).then(function (connections) {
-        return connections
-          .filter(function (c) { return c.status; })
-          .map(function (c) { return c.name; });
-      });
-    }
-
-    function findOnlyStrictEnterpriseEnabled(clientID) {
-      return clientConnectionsModel.findOnlyStrictEnterpriseEnabled({ client: clientID })
-        .then(function (connections) {
-        return connections.map(function (e) {
-          return e.name;
-        });
-      });
-    }
-
-    function findOnlyEnterpriseCustomDbEnabled(clientID) {
-      return clientConnectionsModel.findOnlyEnterpriseCustomDbEnabled({ client: clientID })
-        .then(function (connections) {
-        return connections.map(function (e) {
-          return e.name;
-        });
-      });
-    }
-
-    var loadAllConnections = loadGenerator(loadFromPromise, findAllConnections, '.connection-selector', '.connection-selector.with-optional');
-
-    var loadSocialConnections = loadGenerator(loadFromPromise, findOnlySocials, '.social_connection-selector', '.social_connection-selector.with-optional');
-
-    var loadEnterpriseConnections = loadGenerator(loadFromPromise, findOnlyStrictEnterpriseEnabled, '.enterprise_connection-selector','.enterprise_connection-selector.with-optional');
-
-    var loadDbConnections = loadGenerator(loadFromPromise, findOnlyEnterpriseCustomDbEnabled,'.db_connection-selector', '.db_connection-selector.with-optional');
 
     var staticLists = {
       scopes:         ['openid', 'openid profile'],
@@ -312,9 +387,9 @@ define(function (require) {
     };
 
     var staticListGenerators = [
-      [populateList, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
-      [populateList, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
-      [populateList, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
+      [populateSelect, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
+      [populateSelect, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
+      [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
     ];
 
 
@@ -358,7 +433,7 @@ define(function (require) {
 
     }
 
-    function populateLists(settings) {
+    function populateSelects(settings) {
       if (settings.isAuth) {
         loadClients(settings)
         .then(function () {loading(settings, false); })
@@ -376,6 +451,10 @@ define(function (require) {
           .then(withSettings(loadRules, settings))
           .then(withSettings(loadUsers, settings));
       }
+
+      if (settings.readOnly) {
+        $('select').attr('disabled', 'disabled');
+      }
     }
 
 
@@ -387,7 +466,7 @@ define(function (require) {
       $('input[name="current-client-secret"]', target).click(function () {
         this.select();
       });
-      populateLists(settings);
+      populateSelects(settings);
       hookStrategySelector();
       hookJsonTogglers();
 
