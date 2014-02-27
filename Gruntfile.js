@@ -52,7 +52,7 @@ module.exports = function (grunt) {
   };
 
   var requireJSConfigDev = JSON.parse(JSON.stringify(requireJSConfig));
-  requireJSConfigDev.options.options = 'none';
+  requireJSConfigDev.options.optimize = 'none';
 
   grunt.initConfig({
     clean: [
