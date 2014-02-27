@@ -145,7 +145,16 @@ define(function (require) {
       });
     };
 
-    var loadFromList = function (list, options) {
+    /**
+     * Populates a <select>
+     *
+     * @param   list      elements of the list
+     * @param   options   object that must contain 'selector' property with a jQuery
+     *                    selector representing where the <select> element is. An additional
+     *                    'optionalSelector' property may added which indicates another selector
+     *                    to populate with the same list plus a 'none' element.
+     */
+    var populateList = function (list, options) {
       options.selector.html('');
 
       if (options.optionalSelector) {
@@ -167,7 +176,7 @@ define(function (require) {
 
     var loadFromPromise = function (promise, options) {
       promise(options).done(function (list) {
-        loadFromList(list, options);
+        populateList(list, options);
       });
     };
 
@@ -192,7 +201,7 @@ define(function (require) {
         data: { client: clientID },
         cache: false
       }).done(function (connections) {
-        loadFromList(connections.map(function (c) { return c.name; }), {selector: $('.connection-selector', target)});
+        populateList(connections.map(function (c) { return c.name; }), {selector: $('.connection-selector', target)});
 
         // db connections
         var dbConnections = connections.filter(function (c) {
@@ -201,12 +210,12 @@ define(function (require) {
           return c.name;
         });
 
-        loadFromList(dbConnections, {selector: $('#dbconn-signup-connection-selector', target)});
-        loadFromList(dbConnections, {selector: $('#dbconn-changePassword-connection-selector', target)});
-        loadFromList(dbConnections, {selector: $('#api-create-user-connection-selector', target)});
-        loadFromList(dbConnections, {selector: $('#api-user-sendverificationemail-selector', target)});
-        loadFromList(dbConnections, {selector: $('#dbconn-forgotPassword-connection-selector', target)});
-        loadFromList(dbConnections, {selector: $('#api-update-user-password-byemail-connection-selector', target)});
+        populateList(dbConnections, {selector: $('#dbconn-signup-connection-selector', target)});
+        populateList(dbConnections, {selector: $('#dbconn-changePassword-connection-selector', target)});
+        populateList(dbConnections, {selector: $('#api-create-user-connection-selector', target)});
+        populateList(dbConnections, {selector: $('#api-user-sendverificationemail-selector', target)});
+        populateList(dbConnections, {selector: $('#dbconn-forgotPassword-connection-selector', target)});
+        populateList(dbConnections, {selector: $('#api-update-user-password-byemail-connection-selector', target)});
 
       });
 
@@ -224,11 +233,11 @@ define(function (require) {
       var r = clientsModel.findAll().then(function (result) {
         clients = result;
 
-        loadFromList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list"]', target)});
+        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list"]', target)});
 
-        loadFromList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list-without-global"]', target)});
+        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }), {selector: $('select[name="client-list-without-global"]', target)});
 
-        loadFromList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; }), {selector: $('select[name="client-list-without-global"].with-id', target)});
+        populateList(result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; }), {selector: $('select[name="client-list-without-global"].with-id', target)});
 
         var globalClient = result.filter(function (c) { return c.global; })[0]; // global client
         $('<option class="global-client" value=' + globalClient.clientID + '>Global Client</option>')
@@ -263,8 +272,8 @@ define(function (require) {
     function loadUsers (settings) {
       findAllUsers(settings).done(function (users) {
 
-        loadFromList(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
-        loadFromList(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
+        populateList(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
+        populateList(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
 
         $('#update-user-password-byemail-email-selector').change(function () {
           $('#api-update-user-password-byemail-email').val($(this).val());
@@ -322,9 +331,9 @@ define(function (require) {
     };
 
     var staticListGenerators = [
-      [loadFromList, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
-      [loadFromList, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
-      [loadFromList, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
+      [populateList, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
+      [populateList, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
+      [populateList, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
     ];
 
     function tryMeButton (executors) {
