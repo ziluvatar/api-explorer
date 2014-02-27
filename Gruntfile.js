@@ -27,7 +27,6 @@ module.exports = function (grunt) {
         }
       },
       include: ['api-explorer'],
-      generateSourceMaps: true,
       preserveLicenseComments: false,
       optimize: 'uglify2',
       replaceRequireScript: [{
