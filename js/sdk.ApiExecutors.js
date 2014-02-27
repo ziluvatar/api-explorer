@@ -381,7 +381,7 @@ define(function(require) {
       var metadata = {};
 
       try {
-        metadata = window.updateJSONEditor.get();
+        metadata = validateJsonText($('#sdk-jsoneditor-user-metadata').val());
       } catch(err) {
         $('#usermetadataupdate-result').text('Wrong body');
         $('#usermetadataupdate-result').parent().addClass('error');
@@ -410,7 +410,7 @@ define(function(require) {
       var metadata = {};
 
       try {
-        metadata = window.updatePatchJSONEditor.get();
+        metadata = validateJsonText($('#sdk-patch-jsoneditor').val());
       } catch(err) {
         $('#usermetadatapatch-result').text('Wrong body');
         $('#usermetadatapatch-result').parent().addClass('error');

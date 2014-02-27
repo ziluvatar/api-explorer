@@ -41,7 +41,6 @@ module.exports = function (grunt) {
         'rejs':             'bower_components/requirejs-ejs/index',
 
         'jquery':           'js/jquery.wrapper',
-        'jsoneditor':       'bower_components/jsoneditor/jsoneditor',
         'url-join':         'bower_components/url-join/lib/url-join',
         'bootstrap':        'bower_components/bootstrap/docs/assets/js/bootstrap-collapse',
         'jquerymd':         'vendor/jquery.markdown',

@@ -19,8 +19,6 @@ define(function (require) {
     var clientsModel            = models.clientsModel(tenantDomainPromise, accessTokenPromise);
     var clientConnectionsModel  = models.clientConnectionsModel(tenantDomainPromise, accessTokenPromise);
 
-    var jsonEditor                = require('./jsoneditor');
-
     var clients = [], selectedClient, target;
 
     var withSettings = function (f, settings) {
@@ -38,7 +36,9 @@ define(function (require) {
       while (
           div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
           all[0]
-      );
+      ) {
+
+      }
 
       return v > 4 ? v : undef;
     }());
@@ -126,7 +126,6 @@ define(function (require) {
       loadConnections(settings);
       loadRules(settings);
       loadUsers(settings);
-      jsonEditor.update(target);
 
       ensureClientAccessToken(settings);
     }
@@ -436,8 +435,7 @@ define(function (require) {
           .then(withSettings(onClientChanged, settings))
           .then(withSettings(loadConnections, settings))
           .then(withSettings(loadRules, settings))
-          .then(withSettings(loadUsers, settings))
-          .then(function () { jsonEditor.update(target); });
+          .then(withSettings(loadUsers, settings));
       }
     }
 

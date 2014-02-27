@@ -247,7 +247,12 @@ Update user metadata. The body of the request must include a <code>json</code> o
 <code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector' class='user-selector'></select>/metadata
 Authorization: Bearer <span class="tokenme param">{token}</span>
 Content-Type: 'application/json'
-<div class="sdk-jsoneditor user-metadata" style="width: 100%; height: 100%;"></div>
+{
+  <textarea id="sdk-jsoneditor-user-metadata" rows="3" style="margin-top:7px;width:75%;">
+  "Policy": "1238907654",
+  "Customer Id": "1234"
+</textarea>
+}
 </code>
 </pre>
 
@@ -320,7 +325,12 @@ Content-Type: 'application/json'
 <code><span class='http-verb'>PATCH</span> <span class="client_namespace"></span>api/users/<select id='user-patch-selector' class='user-selector'></select>/metadata
   Authorization: Bearer <span class="tokenme param">{token}</span>
   Content-Type: 'application/json'
-  <div class="sdk-patch-jsoneditor user-metadata" style="width: 100%; height: 100%;"></div>
+{
+  <textarea id="sdk-patch-jsoneditor" rows="3" style="margin-top:7px;width:75%;">
+  "Policy": "1238907654",
+  "Customer Id": "1234"
+</textarea>
+}
 </code>
 </pre>
 
