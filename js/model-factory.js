@@ -18,7 +18,7 @@ define(function (require) {
     var d = {};
 
     var mockClients = [
-      {global: true, clientID: 'GLOBAL_CLIENT_ID' },
+      {global: true, clientID: 'GLOBAL_CLIENT_ID', clientSecret: 'GLOBAL_CLIENT_SECRET' },
       {global: false, clientID: 'APP_CLIENT_ID'}
     ];
 
