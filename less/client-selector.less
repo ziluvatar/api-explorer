@@ -13,6 +13,14 @@
     input {
       width: calc(~"100% - 14px");
       cursor: text;
+
+      &.secret {
+        text-align: center;
+        font-weight: inherit;
+      }
+      &.secret:hover {
+        cursor: pointer;
+      }
     }
   }
 

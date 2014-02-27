@@ -174,7 +174,18 @@ define(function (require) {
       $('.client_name', target).html(selectedClient.name);
 
       $('input[name="current-client-id"]', target).attr('value', selectedClient.clientID);
-      $('input[name="current-client-secret"]', target).attr('value', selectedClient.clientSecret);
+
+      var currentClientSecret = $('input[name="current-client-secret"]', target);
+      currentClientSecret.addClass('secret btn');
+      currentClientSecret.attr('value', '(click to show)');
+      currentClientSecret.off('click.secret');
+      currentClientSecret.on('click.secret', function (e) {
+        e.preventDefault();
+        currentClientSecret.attr('value', selectedClient.clientSecret);
+        currentClientSecret.off('click.secret');
+        currentClientSecret.removeClass('secret btn');
+        return false;
+      });
 
       selectedClient.namespace = 'https://' + settings.tenantDomain;
       var executors;
@@ -234,7 +245,6 @@ define(function (require) {
 
 
     function getConnections(tenantDomain, accessToken, clientID, readOnly) {
-
       if (readOnly) {
         var d = $.Deferred();
         setTimeout(function () {
