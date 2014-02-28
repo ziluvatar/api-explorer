@@ -1,72 +1,77 @@
 @import "client-selector.less";
 
-#sdk-auth-api-content {
-  pre {
-    code {
-      select, input, textarea, span {
-        margin-top: 4px;
-        margin-bottom: 4px;
+#sdk-api, #sdk-auth-api {
+
+  .sdk-api-content {
+    font-size: 13px;
+  }
+  #sdk-auth-api-content {
+    pre {
+      code {
+        select, input, textarea, span {
+          margin-top: 4px;
+          margin-bottom: 4px;
+        }
       }
     }
   }
-}
-#sdk-api, #sdk-auth-api {
+
   h1 { font-weight: 800 }
 
   h2 { font-weight: 700 }
 
   h3 { font-weight: 600 }
 
-  .form-horizontal input[type="url"] {
-    width: 80%;
-  }
-
-  @media (max-width: 480px) {
-    #content-header {
-      margin-top: 0;
-      height: 70px;
-      text-align: center;
+  h2, h3 {
+    // Headers anchors
+    a.header-anchor {
+      margin-right: 5px;
+      text-decoration: none;
+      opacity: 0;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
-  .sdk-api-content {
-    font-size: 13px;
-  }
+  pre {
 
-  pre .param {
-    padding: 2px 4px;
-    color: #d14;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(169, 169, 177);
-    border-radius: 3px;
-    padding: 2.5px;
-  }
+    &.error {
+      border: 1px solid red;
+    }
 
-  pre .http-verb {
-    color: rgb(21, 115, 189);
-    font-weight: bolder;
-    background-color: #f7f7f9;
-  }
+    &.tryme-result {
+      max-height: 400px;
+      overflow: auto;
+    }
 
-  pre select {
-    width: auto;
-    margin: 0;
-    padding: 0;
-    cursor: hand;
-  }
+    code {
+      font-weight: inherit;
+      font-size: 13px;
+    }
 
-  pre.error {
-    border: 1px solid red;
-  }
+    .param {
+      padding: 2px 4px;
+      color: #d14;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgb(169, 169, 177);
+      border-radius: 3px;
+      padding: 2.5px;
+    }
 
-  pre code {
-    font-weight: inherit;
-    font-size: 13px;
-  }
+    .http-verb {
+      color: rgb(21, 115, 189);
+      font-weight: bolder;
+      background-color: #f7f7f9;
+    }
 
-  pre.tryme-result {
-    max-height: 400px;
-    overflow: auto;
+    select {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      cursor: hand;
+    }
+
   }
 
   a.btn.disabled, span.btn.disabled {
@@ -98,57 +103,6 @@
   }
 
   /* Responsive design */
-  @media (max-width: 480px) {
-    #content-header {
-      margin-top: 0;
-      height: 140px;
-      text-align: center;
-    }
-    #content-header h1, #content-header .btn-group {
-      float: none;
-    }
-    #content-header h1 {
-      display: block;
-      text-align: center;
-      margin-left: auto;
-      margin-top: 0;
-      padding-top: 15px;
-      width: 100%;
-    }
-    #content-header .btn-group {
-      margin-top: 70px;
-      margin-bottom: 0;
-      margin-right: 0;
-      left: 30%;
-    }
-  }
-
-  @media (min-width: 481px) and (max-width: 767px) {
-    #header h1 {
-      top: 3px;
-    }
-    #content {
-      margin-left: 43px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    body {
-      padding: 0 !important;
-    }
-    .container-fluid {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
-  @media (min-width: 768px) and (max-width: 979px) {
-    [class*="span"], .row-fluid [class*="span"] {
-      display: block;
-      float: none;
-      margin-left: 0;
-      width: auto;
-    }
-  }
   .alert {
     margin: 5px 0;
     padding: 15px 30px 15px 15px;
@@ -253,7 +207,6 @@
 
   // TODO: Include me from bootstrap less file
 
-
   // Parent container
   .accordion {
     margin-bottom: @baseLineHeight;
@@ -284,24 +237,6 @@
     border-top: 1px solid #e5e5e5;
   }
 
-  // Headers anchors
-  h2 a.header-anchor, h3 a.header-anchor {
-    margin-right: 5px;
-    text-decoration: none;
-    opacity: 0;
-  }
-
-  h2 a.header-anchor:hover, h3 a.header-anchor:hover {
-    opacity: 1;
-  }
-
-  // Don't display API method descriptions if we don't have space
-  @media screen and (max-width: 480px) {
-    .accordion-toggle > .span6.api-description {
-      display: none;
-    }
-  }
-
   #connection-users_per-page, #connection-users_search {
     margin-top: 2px;
     margin-bottom: 2px;
@@ -321,6 +256,68 @@
 
   #socialconn-users_per-page {
     margin: 4px 0;
+  }
+
+  @media (max-width: 480px) {
+    // Don't display API method descriptions if we don't have space
+    .accordion-toggle > .span6.api-description {
+      display: none;
+    }
+
+    #content-header {
+      margin-top: 0;
+      height: 70px;
+      text-align: center;
+    }
+    #content-header {
+      margin-top: 0;
+      height: 140px;
+      text-align: center;
+    }
+    #content-header h1, #content-header .btn-group {
+      float: none;
+    }
+    #content-header h1 {
+      display: block;
+      text-align: center;
+      margin-left: auto;
+      margin-top: 0;
+      padding-top: 15px;
+      width: 100%;
+    }
+    #content-header .btn-group {
+      margin-top: 70px;
+      margin-bottom: 0;
+      margin-right: 0;
+      left: 30%;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    #header h1 {
+      top: 3px;
+    }
+    #content {
+      margin-left: 43px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    body {
+      padding: 0 !important;
+    }
+    .container-fluid {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 979px) {
+    [class*="span"], .row-fluid [class*="span"] {
+      display: block;
+      float: none;
+      margin-left: 0;
+      width: auto;
+    }
   }
 
 }
