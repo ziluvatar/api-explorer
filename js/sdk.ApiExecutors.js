@@ -124,7 +124,15 @@ define(function(require) {
 
     this['socialconn-users'] = function() {
       return getToken().then(function(token) {
+
+        var perPage = $('#socialconn-users_per-page').val();
+
         var url = urljoin(client.namespace, '/api/socialconnections/users');
+
+        if (perPage) {
+          url += '?per_page' + perPage;
+        }
+
         return $.ajax({
           url: url,
           headers: {
