@@ -61,7 +61,10 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users" data-description="Gets all users from an enterprise directory">
 <span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS), it will return the users who have logged in through that connection.
 
-<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users
+<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users?
+  search=     <input type="text" id="connection-users_search" />
+  &amp;per_page=  <input type="text" id="connection-users_per-page" value="500" />
+
 Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
 <button class='btn btn-primary btn-tryme'

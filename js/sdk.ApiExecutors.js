@@ -103,7 +103,23 @@ define(function(require) {
 
     this['connection-users'] = function() {
       return getToken().then(function(token) {
+        var search = $('#connection-users_search').val();
+        var perPage = $('#connection-users_per-page').val();
+
         var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
+
+        if (search) {
+          url += '?search=' + search;
+        }
+
+        if (perPage) {
+          if (search) {
+            url += '&per_page=' + perPage;
+          } else {
+            url += '?per_page=' + perPage;
+          }
+        }
+
         return $.ajax({
           url: url,
           headers: {
