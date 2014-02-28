@@ -63,7 +63,7 @@ define(function (require) {
         }catch (e) {
           resultPanel.html(response.responseText);
         }
-      }).then(function () {
+      }).always(function () {
         buttonIcon.removeClass('icon-spinner');
         buttonIcon.addClass('icon-hand-right');
         button.removeAttr('disabled');
