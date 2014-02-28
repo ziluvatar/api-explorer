@@ -62,6 +62,19 @@ define(function(require) {
       });
     };
 
+    this['user-by-id'] = function() {
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/', $('#user-by-id-users-selector').val());
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
     this['allconnections'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections');
