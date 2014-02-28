@@ -101,6 +101,27 @@ define(function(require) {
       });
     };
 
+    this['enterpriseconn-users'] = function() {
+      return getToken().then(function(token) {
+
+        var perPage = $('#enterpriseconn-users_per-page').val();
+
+        var url = urljoin(client.namespace, '/api/enterpriseconnections/users');
+
+        if (perPage) {
+          url += '?per_page=' + perPage;
+        }
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
     this['socialconn-users'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/socialconnections/users');

@@ -87,6 +87,25 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 <pre class='tryme-result'><code id='connection-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
+  <!-- GET /api/enterpriseconnections/users -->
+  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users" data-description="Gets all users who have logged in with enterprise">
+
+Gets all users who have logged in through enterprise connections
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users
+Authorization: Bearer <span class="tokenme param">{token}</span>
+  ?per_page=  <input type="text" id="enterpriseconn-users_per-page" value="500" />
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='enterpriseconn-users-result'
+        data-runner='enterpriseconn-users'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
   <!-- GET /api/socialconnections/users -->
   <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users" data-description="Gets all users who have logged in with social">
 
