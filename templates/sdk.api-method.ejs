@@ -3,12 +3,12 @@
     <% if (typeof path2 === 'undefined') {
         path2 = false;
       } %>
-    <a class="accordion-toggle" data-toggle="collapse" href="#<%= verb.toLowerCase() + '-' + (path2 || path).replace(/[\/{}]/g, '-') %>">
+    <a class="accordion-toggle" data-toggle="collapse" href="#<%= verb.toLowerCase() + '-' + (path2 || path).replace(/[\/{}?=]/g, '-') %>">
       <div class="span6 api-method"><span class="verb <%= verb.toLowerCase() %>"><%= verb %></span> <%= path %></div>
       <div class="span6 api-description" style="text-align:right"><%= description %></div>
     </a>
   </div>
-  <div class="accordion-body collapse" id="<%= verb.toLowerCase() + '-' + (path2 || path).replace(/[\/{}]/g, '-') %>">
+  <div class="accordion-body collapse" id="<%= verb.toLowerCase() + '-' + (path2 || path).replace(/[\/{}?=]/g, '-') %>">
     <div class="accordion-inner markdown">
 <%- markdown %>
     </div>

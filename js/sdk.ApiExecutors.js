@@ -145,8 +145,27 @@ define(function(require) {
 
     this['connection-users'] = function() {
       return getToken().then(function(token) {
-        var search = $('#connection-users_search').val();
         var perPage = $('#connection-users_per-page').val();
+        var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
+
+        if (perPage) {
+          url += '?per_page=' + perPage;
+        }
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
+    this['connection-users-search'] = function() {
+      return getToken().then(function(token) {
+        var search = $('#connection-users-search_search').val();
+        var perPage = $('#connection-users-search_per-page').val();
 
         var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
 

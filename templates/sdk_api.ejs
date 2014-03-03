@@ -70,10 +70,9 @@ Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
   <!-- GET /api/connections/{connection}/users -->
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users" data-description="Gets all users from an enterprise directory">
-<span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS), it will return the users who have logged in through that connection.
+<span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS, SAMLP), it will return the users who have logged in through that connection.
 
 <pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-selector' class='connection-selector'></select>/users?
-  search=     <input type="text" id="connection-users_search" />
   &amp;per_page=  <input type="text" id="connection-users_per-page" value="500" />
 
 Authorization: Bearer <span class="tokenme param">{token}</span></pre>
@@ -85,6 +84,32 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 </button>
 
 <pre class='tryme-result'><code id='connection-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+  <!-- GET /api/connections/{connection}/users?search={criteria} -->
+  <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users?search={criteria}" data-description="Search users from an enterprise directories">
+**Search** remarksDepending on your connection type the search will be done in different fields:
+
+  * Active Directory/LDAP: by default uses Ambigous name resolution ([ANR](http://technet.microsoft.com/en-us/library/cc755809(v=ws.10).aspx)) which expands to givenName (first name), sn (surname, or last name), displayName, RDN, legacyExchangeDN, physicalDeliveryOfficeName (for example, Building A, Suite 1234), proxyAddresses (the collection of e-mail addresses over all e-mail address spaces that the Exchange server knows about).
+  * Database Connections (not custom): Name/Email case insensitive.
+  * Google Apps: Email/username case insensitive.
+  * WAAD/WAAD2: Name/Email case insensitive.
+  * Windows Azure Active Directory or Office365: name/email case insensitive
+
+<span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS, SAMLP), it will return the users who have logged in through that connection.
+
+<pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-search-selector' class='connection-selector'></select>/users?
+  search=     <input type="text" id="connection-users-search_search" />
+  &amp;per_page=  <input type="text" id="connection-users-search_per-page" value="500" />
+
+Authorization: Bearer <span class="tokenme param">{token}</span></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='connection-users-search-search-result'
+        data-runner='connection-users-search'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='connection-users-search-search-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/enterpriseconnections/users -->
