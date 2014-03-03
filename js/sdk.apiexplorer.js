@@ -416,7 +416,7 @@ define(function (require) {
       });
     }
 
-    function renderMarkdown() {
+    function renderApiMethods() {
       if (!target.hasClass('converted')){
         var top = $('body').scrollTop();
 
@@ -471,7 +471,7 @@ define(function (require) {
 
 
     function renderAndPopulate(settings) {
-      renderMarkdown();
+      renderApiMethods();
       $('input[name="current-client-id"]', target).click(function () {
         this.select();
       });
