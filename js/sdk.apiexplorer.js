@@ -404,12 +404,14 @@ define(function (require) {
 
 
     function hookStrategySelector() {
-      $('.create-connection-strategy-pane').hide();
+      var strategyPane = $('.create-connection-strategy-pane', target);
+      var strategySelector = $('#api-create-connection-strategy-selector', target);
+      strategyPane.hide();
       $('#create-connection-options-office365').show();
 
-      $('#api-create-connection-strategy-selector').on('change', function () {
-        $('.create-connection-strategy-pane').hide();
-        var strategy = $('#api-create-connection-strategy-selector option:selected').val();
+      strategySelector.on('change', function () {
+        strategyPane.hide();
+        var strategy = $('option:selected', strategySelector).val();
         $('#create-connection-options-' + strategy).show();
       });
     }
