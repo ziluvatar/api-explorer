@@ -87,7 +87,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
   </div>
   <!-- GET /api/connections/{connection}/users?search={criteria} -->
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users?search={criteria}" data-description="Search users from an enterprise directories">
-**Search** remarksDepending on your connection type the search will be done in different fields:
+**Search** remarks: Depending on your connection type the search will be done in different fields:
 
   * Active Directory/LDAP: by default uses Ambigous name resolution ([ANR](http://technet.microsoft.com/en-us/library/cc755809(v=ws.10).aspx)) which expands to givenName (first name), sn (surname, or last name), displayName, RDN, legacyExchangeDN, physicalDeliveryOfficeName (for example, Building A, Suite 1234), proxyAddresses (the collection of e-mail addresses over all e-mail address spaces that the Exchange server knows about).
   * Database Connections (not custom): Name/Email case insensitive.
