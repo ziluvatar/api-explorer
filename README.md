@@ -8,7 +8,7 @@ This project documents Auth0 API and Auth0 Authentication API.
 AUTH0_CLIENT_ID=XXXX AUTH0_CLIENT_SECRET=YYYY grunt dev
 ```
 
-and go to http://localhost:8443/
+and open [http://localhost:8443/](http://localhost:8443/)
 
 ## API
 
