@@ -99,6 +99,8 @@ define(function (require) {
 
     var tryMeButton             = require('./try');
 
+    var scrollToAnchors         = require('./scroll-to-anchors.js');
+
     var clients = [], selectedClient, target;
 
     var dinamicListGenerators = [
@@ -418,7 +420,6 @@ define(function (require) {
 
     function renderApiMethods() {
       if (!target.hasClass('converted')){
-        var top = $('body').scrollTop();
 
         $('.markdown', target).each(function() {
           $(this).markdown();
@@ -440,7 +441,6 @@ define(function (require) {
         });
 
         target.addClass('converted');
-        $('body').scrollTop(top);
       }
 
     }
@@ -482,9 +482,7 @@ define(function (require) {
       hookStrategySelector();
       hookJsonTogglers();
 
-      if (!settings.anchors) {
-        $('a.header-anchor').hide();
-      }
+      scrollToAnchors(settings.anchors, target);
     }
 
     if (settings.isAuth) {
