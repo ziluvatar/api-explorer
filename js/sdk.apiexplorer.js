@@ -37,6 +37,14 @@ define(function (require) {
     [populateSelect, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
     [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
   ];
+
+  var dynamicListGenerators = [
+    [populateSelectFromPromise, 'findAllConnections', '.connection-selector', '.connection-selector.with-optional'],
+    [populateSelectFromPromise, 'findOnlySocials', '.social_connection-selector', '.social_connection-selector.with-optional'],
+    [populateSelectFromPromise, 'findOnlyStrictEnterpriseEnabled', '.enterprise_connection-selector','.enterprise_connection-selector.with-optional'],
+    [populateSelectFromPromise, 'findOnlyEnterpriseCustomDbEnabled','.db_connection-selector', '.db_connection-selector.with-optional']
+  ];
+
     
   function hookStrategySelector(target) {
       var strategyPane = $('.create-connection-strategy-pane', target);
@@ -102,7 +110,6 @@ define(function (require) {
 
   function loadConnections (connectionsPromise, target) {
     connectionsPromise.done(function (connections) {
-
       // db connections
       var dbConnections = connections
       .filter(function (c) {
@@ -115,16 +122,19 @@ define(function (require) {
       populateSelect(dbConnections, {selector: $('#api-create-user-connection-selector', target)});
       populateSelect(dbConnections, {selector: $('#api-user-sendverificationemail-selector', target)});
       populateSelect(dbConnections, {selector: $('#api-update-user-password-byemail-connection-selector', target)});
-
     });
-
-    $('.optional-connection-selector', target)
-    .prepend('<option value="none"></option>');
   }
 
   function loadRules (rulesPromise, target) {
     rulesPromise.done(function (rules) {
       populateSelect(rules.map(function (c) { return encodeURIComponent(c.name); }), {selector: $('.rule-selector', target)});
+    });
+  }
+
+  function loadUsers (usersPromise, target) {
+    usersPromise.done(function (users) {
+      populateSelect(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
+      populateSelect(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
     });
   }
 
@@ -150,19 +160,6 @@ define(function (require) {
     return r;
   }
 
-  function loadUsers (usersPromise, target) {
-    usersPromise.done(function (users) {
-      populateSelect(users.map(function(u) { return u.user_id; }), {selector: $('.user-selector', target)});
-      populateSelect(users.map(function(u) { return u.email;   }), {selector: $('.user-email-selector', target)});
-    });
-  }
-
-  var dynamicListGenerators = [
-    [populateSelectFromPromise, 'findAllConnections', '.connection-selector', '.connection-selector.with-optional'],
-    [populateSelectFromPromise, 'findOnlySocials', '.social_connection-selector', '.social_connection-selector.with-optional'],
-    [populateSelectFromPromise, 'findOnlyStrictEnterpriseEnabled', '.enterprise_connection-selector','.enterprise_connection-selector.with-optional'],
-    [populateSelectFromPromise, 'findOnlyEnterpriseCustomDbEnabled','.db_connection-selector', '.db_connection-selector.with-optional']
-  ];
 
   var generateListFactory = function (readOnly, loadGenerator, dynamicListGeneratorsWithModel) {
     return function (selectedClient) {
@@ -219,6 +216,7 @@ define(function (require) {
 
     accessTokenPromise.always(function (accessToken) {
       loadConnections(getConnections(tenantDomain, accessToken, selectedClient.clientID));
+      $('.optional-connection-selector', target).prepend('<option value="none"></option>');
       loadRules(getRules(tenantDomain, accessToken, selectedClient.clientID), target);
       loadUsers(findAllUsers(tenantDomain, accessToken), target);
       $('#update-user-password-byemail-email-selector').change(function () {
@@ -333,6 +331,6 @@ define(function (require) {
     });
   };
 
-  return loadApi;;
+  return loadApi;
 
 });
