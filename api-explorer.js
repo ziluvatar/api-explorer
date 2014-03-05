@@ -21,11 +21,7 @@ define(function (require) {
 
         $('.tokenme').html(settings.accessToken);
 
-        if (settings.isAuth) {
-          apiExplorer.routes['/sdk/auth_api'](settings);
-        } else {
-          apiExplorer.routes['/sdk/api'](settings);
-        }
+        apiExplorer(settings);
 
       });
     }(settings));
