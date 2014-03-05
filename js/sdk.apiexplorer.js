@@ -13,9 +13,9 @@ define(function (require) {
   var AuthApiExecutors          = require('./sdk.AuthApiExecutors');
 
   var tryMeButton               = require('./try');
-  var scrollToAnchors           = require('./scroll-to-anchors.js');
+  var scrollToAnchors           = require('./scroll-to-anchors');
 
-  var selectModels              = require('./models/select-models.js');
+  var selectModels              = require('./models/select-models');
   var getRules;
   var getConnections;
   var getClients;
