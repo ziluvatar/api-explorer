@@ -1,0 +1,20 @@
+[
+  {
+    "client_id": "{some-client-id}",
+    "global": true,
+    "global_client_id": "{some-global-client-id}",
+    "name": "My-Connection",
+    "options": {"strategy": "auth0"},
+    "status": true,
+    "strategy": "auth0"
+  },
+  {
+    "client_id": "{some-client-id}",
+    "global": true,
+    "global_client_id": "{some-global-client-id}",
+    "name": "bluth",
+    "options": {"strategy": "auth0"},
+    "status": true,
+    "strategy": "auth0"
+  }
+]

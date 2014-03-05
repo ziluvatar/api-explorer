@@ -1,0 +1,24 @@
+[
+  {
+    "callback": "https://bluth.auth0.com/callback",
+    "callbacks": [],
+    "clientID": "{some-client-id}",
+    "clientSecret": "{shhh-client-secret}",
+    "global": false,
+    "hasRules": true,
+    "name": "Faceblock Application",
+    "owners": ["auth0|george-michael-bluth"],
+    "tenant": "bluth"
+  },
+  {
+    "callback": "https://faceblock.auth0.com/other-callback",
+    "callbacks": [],
+    "clientID": "{some-client-id}",
+    "clientSecret": "{some-client-secret}  ",
+    "global": true,
+    "hasRules": true,
+    "name": "Bluth Company App",
+    "owners": ["auth0|michael-bluth"],
+    "tenant": "faceblock"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "clientID": "{some-client-id}",
+    "global": true,
+    "name": "my-rule",
+    "script": "function (user, context, callback) {\n  user.foo = 'bar'; callback(null, user, context);\n}",
+    "status": true
+  },
+  {
+    "clientID": "{some-client-id}",
+    "global": true,
+    "name": "another-rule",
+    "script": "function (user, context, callback) {\n  user.money++; \n  callback(null, user, context);\n}",
+    "status": true
+  }
+]

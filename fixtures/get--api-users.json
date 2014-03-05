@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "eee5c5c59c8d8f718ce9e04c8218f4d5",
+    "birthdate": "1970-03-23T03:00:00.000Z",
+    "created_at": "2014-03-05T03:34:38.628Z",
+    "email": "michael@bluth.com",
+    "email_verified": true,
+    "identities": [
+      {
+        "connection": "Bluth-Connection",
+        "isSocial": false,
+        "provider": "auth0",
+        "user_id": "53169b4ee2fa468521000006"
+      }
+    ],
+    "name": "Michael Bluth",
+    "nickname": "Michael",
+    "picture": "https://secure.gravatar.com/avatar/5a4f8090fd2692026d8634a5b521fc95?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png",
+    "user_id": "auth0|53169b4ee2fa468521000006",
+    "vip": true
+  },
+  {
+    "_id": "6fc4c90e54e6554eec97f8c48f2aa6a4",
+    "birthdate": "1984-10-03T03:00:00.000Z",
+    "created_at": "2014-03-05T03:35:05.117Z",
+    "email": "george.michael@bluth.com",
+    "email_verified": true,
+    "identities": [
+      {
+        "connection": "Bluth-Connection",
+        "isSocial": false,
+        "provider": "auth0",
+        "user_id": "53169b69e2fa468521000009"
+      }
+    ],
+    "name": "George Michael Bluth",
+    "nickname": "George Michael",
+    "picture": "https://secure.gravatar.com/avatar/cbed71a4a366dd2b518659672cb08151?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png",
+    "user_id": "auth0|53169b69e2fa468521000009",
+    "vip": true
+  },
+  {
+    "_id": "98c7fd9dd31b9f2d5392cdb7ea1d4bac",
+    "birthdate": "1985-09-10T03:00:00.000Z",
+    "created_at": "2014-03-05T03:35:27.626Z",
+    "email": "maeby.funke@bluth.com",
+    "email_verified": true,
+    "identities": [
+      {
+        "connection": "Bluth-Connection",
+        "isSocial": false,
+        "provider": "auth0",
+        "user_id": "53169b7fe2fa46852100000c"
+      }
+    ],
+    "name": "Maeby Funke",
+    "nickname": "Maeby",
+    "picture": "https://secure.gravatar.com/avatar/5d81bdb009bde558a9feded5b8d1b744?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png",
+    "user_id": "auth0|53169b7fe2fa46852100000c",
+    "vip": true
+  }
+]
