@@ -24,8 +24,8 @@ define(function (require) {
 
       var that = $(this);
 
-      var runnerName = $(this).attr('data-runner'),
-        resultPanel = $('#' + $(this).attr('data-result'), target);
+      var runnerName = $(this).attr('data-runner');
+      var resultPanel = $('#' + $(this).attr('data-result'), target);
 
       var promise = executors[runnerName]();
 
@@ -75,8 +75,56 @@ define(function (require) {
     }
 
     if (readOnly) {
-      $('.btn-tryme', target).attr('disabled', 'disabled');
-      $('.btn-tryme', target).addClass('disabled');
+      var fixtures = {};
+
+      // Yes, I would like to make this a list too but RequireJS won't parse it >:(
+      var users = require('text!../fixtures/get--api-users.json');
+
+      fixtures['get--api-users']                                              = users;
+      fixtures['get--api-users--user_id-']                                    = users;
+      fixtures['get--api-connections--connection--users']                     = users;
+      fixtures['get--api-connections--connection--users-search--criteria-']   = users;
+      fixtures['get--api-enterpriseconnections-users']                        = users;
+      fixtures['get--api-enterpriseconnections-users']                        = users;
+      fixtures['get--api-socialconnections-users']                            = users;
+      fixtures['get--api-clients--client-id--users']                          = users;
+
+      var connections = require('text!../fixtures/get--api-connections.json');
+
+      fixtures['get--api-connections']                   = connections;
+      fixtures['get--api-connections--connection-name-'] = connections;
+
+      fixtures['get--api-clients']      = require('text!../fixtures/get--api-clients.json');
+
+      fixtures['get--api-rules']        = require('text!../fixtures/get--api-rules.json');
+
+      Object.keys(fixtures).forEach(function (fixtureKey) {
+        fixtures[fixtureKey] = JSON.parse(fixtures[fixtureKey]);
+      });
+
+      $('.btn-tryme', target).each(function (index, e) {
+        // We look for id attributes matching the fixture name so we don't disable those
+        var btnTryMe = $(e);
+        var accordionBody = $(btnTryMe.closest('div.accordion-body'));
+        var matchingFixture = fixtures[accordionBody.attr('id')];
+
+        if ( matchingFixture ) {
+          btnTryMe.off('click');
+          executors[btnTryMe.data('runner')] = function () {
+            var deferred = $.Deferred();
+
+            setTimeout(function () {
+              deferred.resolve(matchingFixture);
+            }, 0);
+
+            return deferred.promise();
+          };
+          btnTryMe.on('click', executeTry);
+        } else {
+          btnTryMe.attr('disabled', 'disabled');
+          btnTryMe.addClass('disabled');
+        }
+      });
     } else {
       $('.btn-tryme', target)
         .off('click')
