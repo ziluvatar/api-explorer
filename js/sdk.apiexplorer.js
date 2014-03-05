@@ -211,6 +211,7 @@ define(function (require) {
     }
 
     tryMeButton(readOnly, target, executors);
+  
 
     populateDynamicSelects(selectedClient);
 
@@ -227,7 +228,7 @@ define(function (require) {
     });
 
   }
-  function populateSelects(isAuth, readOnly, tenantDomain, clientsModel, target, populateDynamicSelects) {
+  function populateSelects(isAuth, readOnly, tenantDomain, target, populateDynamicSelects) {
     var clientsLoadedPromise = loadClients(getClients(isAuth, target), target);
     clientsLoadedPromise.then(function (clients) {
       var onClientChangedListener = function (event) {
@@ -280,7 +281,7 @@ define(function (require) {
       staticListGenerators.map(function (listGenerator) {
         loadGenerator.apply(null, listGenerator)();
       });
-      populateSelects(settings.isAuth, settings.readOnly, settings.tenantDomain, clientsModel, target, loadGenerator, clientConnectionsModel, populateDynamicSelects);
+      populateSelects(settings.isAuth, settings.readOnly, settings.tenantDomain, target, populateDynamicSelects);
 
       if (settings.readOnly) {
         $('select', target).attr('disabled', 'disabled');
