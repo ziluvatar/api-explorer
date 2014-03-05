@@ -217,7 +217,7 @@ define(function (require) {
 
     populateDynamicSelects(selectedClient);
 
-    accessTokenPromise.then(function (accessToken) {
+    accessTokenPromise.always(function (accessToken) {
       loadConnections(getConnections(tenantDomain, accessToken, selectedClient.clientID));
       loadRules(getRules(tenantDomain, accessToken, selectedClient.clientID), target);
       loadUsers(findAllUsers(tenantDomain, accessToken), target);
@@ -324,6 +324,7 @@ define(function (require) {
       renderAndPopulate(settings);
     },
     function () {
+      accessTokenPromise.reject();
       if (settings.readOnly) {
         renderAndPopulate(settings);
       } else {
