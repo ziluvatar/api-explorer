@@ -22,14 +22,18 @@
 
   h3 { font-weight: 600 }
 
+
   h2, h3 {
     // Headers anchors
     a.header-anchor {
       margin-right: 5px;
       text-decoration: none;
-      opacity: 0;
-      &:hover {
+      color: black;
+      &:hover i {
         opacity: 1;
+      }
+      i {
+        opacity: 0;
       }
     }
   }
@@ -319,5 +323,4 @@
       width: auto;
     }
   }
-
 }
