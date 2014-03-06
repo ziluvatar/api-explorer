@@ -193,7 +193,7 @@ define(function (require) {
 
   }
   function populateSelects(isAuth, readOnly, tenantDomain, target) {
-    var clientsPromise = getClients(isAuth, target);
+    var clientsPromise = getClients(target);
 
     // Load Clients
     var nonGlobalClients = clientsPromise.then(function (result) { return result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }); });
@@ -271,21 +271,21 @@ define(function (require) {
       var clientConnectionsModel  = models.clientConnectionsModel(tenantDomainPromise, accessTokenPromise);
       var loadedSelectModels = selectModels(settings.readOnly, clientsModel, clientConnectionsModel);
 
-      getRules              = loadedSelectModels.getRules;
+      getRules                            = loadedSelectModels.getRules;
 
-      findAllConnections    = loadedSelectModels.findAllConnections;
-      findOnlySocials       = loadedSelectModels.findOnlySocials;
-      findOnlyStrictEnterpriseEnabled = loadedSelectModels.findOnlyStrictEnterpriseEnabled;
-      findOnlyEnterpriseCustomDbEnabled = loadedSelectModels.findOnlyEnterpriseCustomDbEnabled;
-      getConnections        = loadedSelectModels.getConnections;
-      getConnectionsByName  = loadedSelectModels.getConnectionsByName;
-      getDbConnections      = loadedSelectModels.getDbConnections;
+      findAllConnections                  = loadedSelectModels.findAllConnections;
+      findOnlySocials                     = loadedSelectModels.findOnlySocials;
+      findOnlyStrictEnterpriseEnabled     = loadedSelectModels.findOnlyStrictEnterpriseEnabled;
+      findOnlyEnterpriseCustomDbEnabled   = loadedSelectModels.findOnlyEnterpriseCustomDbEnabled;
+      getConnections                      = loadedSelectModels.getConnections;
+      getConnectionsByName                = loadedSelectModels.getConnectionsByName;
+      getDbConnections                    = loadedSelectModels.getDbConnections;
 
-      getClients            = loadedSelectModels.getClients;
+      getClients                          = loadedSelectModels.getClients;
 
-      findAllUsers          = loadedSelectModels.findAllUsers;
-      findAllUsersById      = loadedSelectModels.findAllUsersById;
-      findAllUsersByMail    = loadedSelectModels.findAllUsersByMail;
+      findAllUsers                        = loadedSelectModels.findAllUsers;
+      findAllUsersById                    = loadedSelectModels.findAllUsersById;
+      findAllUsersByMail                  = loadedSelectModels.findAllUsersByMail;
 
       var loadGenerator = loadGeneratorFactory(target);
       staticListGenerators.map(function (listGenerator) {
