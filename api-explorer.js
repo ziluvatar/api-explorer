@@ -19,8 +19,6 @@ define(function (require) {
         var s = template(settings);
         $(settings.el).append(s);
 
-        $('.tokenme').html(settings.accessToken);
-
         apiExplorer(settings);
 
       });

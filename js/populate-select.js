@@ -41,7 +41,11 @@ define(function (require) {
    * @param   options   object that contains same options as populateSelect
    */
   var populateSelectFromPromise = function (promise, options) {
-    promise(options).then(function (list) {
+    // if it's not a jquery promise execute it an assign its value to itself
+    if (!promise.then) {
+      promise = promise(options);
+    }
+    promise.then(function (list) {
       populateSelect(list, options);
     });
   };
