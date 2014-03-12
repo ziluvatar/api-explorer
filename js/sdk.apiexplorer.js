@@ -85,8 +85,6 @@ define(function (require) {
     }
   }
 
-  var loading = function(el, l) { $('.loading-spin', el).toggle(l); };
-
   function getSelectedClient(target, clients) {
     var clientID;
 
@@ -297,8 +295,7 @@ define(function (require) {
         $('select', target).attr('disabled', 'disabled');
         $('select[name="client-list"]', target).attr('disabled', 'disabled');
       }
-      loading(settings.el, false);
-      target.animate({opacity: 1}, 'slow');
+      target.closest('.api-explorer').removeClass('loading');
       hookStrategySelector(target);
 
       scrollToAnchors(settings.anchors, target);
@@ -310,8 +307,7 @@ define(function (require) {
       target = $('#sdk-api-content');
     }
 
-    target.css('opacity', 0);
-    loading(settings.el, true);
+    target.closest('.api-explorer').addClass('loading');
 
     getAccessToken(settings.tenantDomain, settings.clientId, settings.clientSecret)
     .then(function (token) {

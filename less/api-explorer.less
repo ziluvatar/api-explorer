@@ -1,7 +1,22 @@
 @import "client-selector.less";
 
-#sdk-api, #sdk-auth-api {
+.transition(@param) {
+    -webkit-transition: @param;
+       -moz-transition: @param;
+        -ms-transition: @param;
+         -o-transition: @param;
+            transition: @param;
+}
 
+.api-explorer {
+  opacity: 1;
+  .transition(opacity 0.5s ease-in-out);
+  &.loading { opacity: 0; }
+  .loading-spin { display: none; }
+  &.loading .loading-spin { display: inline; }
+}
+
+#sdk-api, #sdk-auth-api {
   .sdk-api-content {
     font-size: 13px;
   }
@@ -87,7 +102,7 @@
     margin-left: 200px;
     margin-top: 40px;
     margin-bottom: 60px;
-    transition: all .3s ease-in-out;
+    .transition(all .3s ease-in-out);
     background-color: #fcfcfc;
   }
 
