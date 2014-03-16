@@ -34,8 +34,8 @@ In order to include API Explorer in your project you will need to do the followi
       isAuth:         false,                  // Render as Authentication API?
       tenantDomain:   'my.myauth0.com',       // Tenant URL where to point the requests
       docsDomain:     'docs.auth0.com',       // Where are auth0 docs located?
-      clientId:       'XXXX',                 // Your Global Client ID goes here
-      clientSecret:   'YYYY',                 // Your Global Client Secret goes here
+      clientId:       'YOUR_CLIENT_ID',       // Your Global Client ID goes here
+      clientSecret:   'YOUR_CLIENT_SECRET',   // Your Global Client Secret goes here
       readOnly:       false,                  // Don't allow requets
       anchors:        true,                   // Should headers have anchors for linking?
 
