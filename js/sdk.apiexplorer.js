@@ -138,7 +138,7 @@ define(function (require) {
 
     tryMeButton(readOnly, target, executors);
   
-    accessTokenPromise.always(function (accessToken) {
+    return accessTokenPromise.always(function (accessToken) {
       // Load Connections
       var dbConnections       = getDbConnections(tenantDomain, accessToken, selectedClient.clientID);
       var connectionsByName   = getConnectionsByName(tenantDomain, accessToken, selectedClient.clientID);
@@ -171,22 +171,27 @@ define(function (require) {
         [ usersMappedUserId,  '.user-selector' ]
       ];
 
-      selectsToPopulate.forEach(function (selectToPopulate) {
+      /* Populate each of the selects and returns an array with promises to each of
+       * the elements */
+      var selectPopulatePromises = selectsToPopulate.map(function (selectToPopulate) {
         var args = [selectToPopulate[0], {selector: $(selectToPopulate[1], target)}];
 
         if (selectToPopulate[2]) {
           args[1].optionalSelector = $(selectToPopulate[2], target);
         }
-        populateSelectFromPromise.apply(null, args);
+        return populateSelectFromPromise.apply(null, args);
       });
 
-      var updateUserPasswordByEmailEmailSelector = $('#update-user-password-byemail-email-selector');
+      /* After all the selects are populate execute this */
+      return $.when.apply($, selectPopulatePromises).then(function () {
+        var updateUserPasswordByEmailEmailSelector = $('#update-user-password-byemail-email-selector');
 
-      updateUserPasswordByEmailEmailSelector.change(function () {
-        $('#api-update-user-password-byemail-email').val($(this).val());
+        updateUserPasswordByEmailEmailSelector.change(function () {
+          $('#api-update-user-password-byemail-email').val($(this).val());
+        });
+
+        updateUserPasswordByEmailEmailSelector.trigger('change');
       });
-
-      updateUserPasswordByEmailEmailSelector.trigger('change');
     });
 
   }
@@ -220,7 +225,7 @@ define(function (require) {
       .prop('selected', true);
     });
 
-    clientsPromise.then(function (clients) {
+    return clientsPromise.then(function (clients) {
       var onClientChangedListener = function (event) {
         var clientID = $(event.target).val();
         var selectedClient = clients.filter(function (c) { return c.clientID === clientID; })[0];

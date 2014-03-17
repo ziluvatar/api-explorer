@@ -39,13 +39,15 @@ define(function (require) {
    *
    * @param   promise   promise that will resolve into a list
    * @param   options   object that contains same options as populateSelect
+   *
+   * @returns a promise that returns when the select gets populated
    */
   var populateSelectFromPromise = function (promise, options) {
     // if it's not a jquery promise execute it an assign its value to itself
     if (!promise.then) {
       promise = promise(options);
     }
-    promise.then(function (list) {
+    return promise.then(function (list) {
       populateSelect(list, options);
     });
   };
