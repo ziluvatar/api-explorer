@@ -241,7 +241,14 @@ define(function (require) {
     });
   }
 
-  function getAccessToken(tenantDomain, clientId, clientSecret) {
+  function getAccessToken(tenantDomain, clientId, clientSecret, readOnly) {
+    if (readOnly) {
+      var deferred = $.Deferred();
+      setTimeout(function () {
+        deferred.reject({});
+      }, 0);
+      return deferred.promise();
+    }
     var url = urljoin('https://' + tenantDomain, '/oauth/token');
     return $.ajax({
       url: url,
@@ -309,7 +316,8 @@ define(function (require) {
 
     target.closest('.api-explorer').addClass('loading');
 
-    getAccessToken(settings.tenantDomain, settings.clientId, settings.clientSecret)
+    getAccessToken(settings.tenantDomain, settings.clientId, settings.clientSecret,
+                   settings.readOnly)
     .then(function (token) {
       accessTokenPromise.resolve(token.access_token);
       tenantDomainPromise.resolve(settings.tenantDomain);
