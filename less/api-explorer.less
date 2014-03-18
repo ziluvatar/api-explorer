@@ -10,16 +10,17 @@
 
 .api-explorer {
   opacity: 1;
-  .transition(opacity 0.5s ease-in-out);
+  .transition(opacity 0.2s ease-in-out);
   &.loading { opacity: 0; }
   .loading-spin { display: none; }
   &.loading .loading-spin { display: inline; }
 }
 
+body.api-explorer{
+  padding: 20px;
+}
+
 #sdk-api, #sdk-auth-api {
-  .sdk-api-content {
-    font-size: 13px;
-  }
   #sdk-auth-api-content {
     pre {
       code {
@@ -31,27 +32,6 @@
     }
   }
 
-  h1 { font-weight: 800 }
-
-  h2 { font-weight: 700 }
-
-  h3 { font-weight: 600 }
-
-
-  h2, h3 {
-    // Headers anchors
-    a.header-anchor {
-      margin-right: 5px;
-      text-decoration: none;
-      color: black;
-      &:hover i {
-        opacity: 1;
-      }
-      i {
-        opacity: 0;
-      }
-    }
-  }
 
   pre {
 
@@ -98,28 +78,8 @@
     cursor: default;
   }
 
-  #content {
-    margin-left: 200px;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    .transition(all .3s ease-in-out);
-    background-color: #fcfcfc;
-  }
-
-  #content-header h1 {
-    font-weight: 400;
-    float: none;
-    position: relative;
-    display: inline-block;
-    margin-left: 30px;
-  }
 
 
-  #content-header .btn {
-    margin-left: 25px;
-    margin-top: -7px;
-    text-transform: uppercase;
-  }
 
   /* Responsive design */
   .alert {
