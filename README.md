@@ -4,6 +4,14 @@ This project documents Auth0 API and Auth0 Authentication API.
 
 ## Building
 
+Install project dependencies:
+
+```sh
+npm i && bower i
+```
+
+Run grunt in development mode:
+
 ```sh
 AUTH0_CLIENT_ID=XXXX AUTH0_CLIENT_SECRET=YYYY grunt dev
 ```
