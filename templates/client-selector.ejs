@@ -1,16 +1,18 @@
 <div class="client-selector">
   <div style="">
     <label for="client-list">Choose an App from your list:</label>
-    <% if (isAuth) { %>
-    <!-- On Auth API don't show global client -->
-    <select name="client-list-without-global"></select>
-    <% } else { %>
-    <select name="client-list"></select>
-    <% } %>
+    <p>
+      <% if (isAuth) { %>
+      <!-- On Auth API don't show global client -->
+        <select name="client-list-without-global"></select>
+      <% } else { %>
+        <select name="client-list"></select>
+      <% } %>
+    </p>
   </div>
   <div>
     <label for="current-client-id">Client Id</label>
-    <input autocorrect="off" readonly type="text" name="current-client-id" />
+    <p><input autocorrect="off" readonly type="text" name="text current-client-id" /></p>
   </div>
   <div>
     <label for="current-client-secret">Client Secret</label>

@@ -1,8 +1,13 @@
-<span class='label label-info'>Heads up!</span> before you write a new client for the Auth0 API check our <a href="https://github.com/auth0/">Github</a> to see if we already have something for your prefered language.
+<div class="alert-info alert">
+
+  <strong>Heads up!</strong> before you write a new client for the Auth0 API check our <a href="https://github.com/auth0/">Github</a> to see if we already have something for your prefered language.
+
+</div>
+
 <p>This API works on a specific App.</p>
 <% include ./templates/client-selector %>
 
-<h3 id="authentication"><a class="header-anchor" href="#authentication"><i class="icon-link"> </i>Authentication</a></h3>
+<h3 id="authentication"><a class="anchor" href="#authentication"><i class="icon-budicon-345"> </i>Authentication</a></h3>
 
 <div class="accordion">
 
@@ -20,10 +25,8 @@ Content-Type: 'application/json'
 }
 </form></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='accesstoken-result'
-        data-runner='accesstoken'>
-  <i class="icon-white icon-road"></i> Try me!
+<button class='btn btn-primary btn-tryme' data-result='accesstoken-result'  data-runner='accesstoken'> 
+  Try me!
 </button>
 
 <pre class='tryme-result'><code id='accesstoken-result'>Select a client and press the Try me! button to see the output result</code></pre>
@@ -35,7 +38,7 @@ Once authenticated, the `access_token` can be included in the request as part of
 
 </div>
 
-<h3 id="users"><a class="header-anchor" href="#users"><i class="icon-link"> </i>Users</a></h3>
+<h3 id="users"><a class="anchor" href="#users"><i class="icon-budicon-345"> </i>Users</a></h3>
 
 <div class="accordion">
 
@@ -421,7 +424,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
 </div>
 
-<h3 id="connections"><a class="header-anchor" href="#connections"><i class="icon-link"> </i>Connections</a></h3>
+<h3 id="connections"><a class="anchor" href="#connections"><i class="icon-budicon-345"> </i>Connections</a></h3>
 <div class="accordion">
 
   <!-- GET /api/connections -->
@@ -531,7 +534,7 @@ Content-Type: 'application/json'
   </div>
 </div>
 
-<h3 id="applications"><a class="header-anchor" href="#applications"><i class="icon-link"> </i>Applications / APIs (Clients)</a></h3>
+<h3 id="applications"><a class="anchor" href="#applications"><i class="icon-budicon-345"> </i>Applications / APIs (Clients)</a></h3>
 
 <div class="accordion">
 
@@ -602,7 +605,7 @@ Content-Type: 'application/json'
 </div>
 
 <!-- rules -->
-<h3 id="rules"><a class="header-anchor" href="#rules"><i class="icon-link"> </i>Rules</a></h3>
+<h3 id="rules"><a class="anchor" href="#rules"><i class="icon-budicon-345"> </i>Rules</a></h3>
 
 <div class="accordion">
 

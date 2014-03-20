@@ -16,7 +16,7 @@
   &.loading .loading-spin { display: inline; }
 }
 
-body.api-explorer{
+body.page-api-explorer{
   padding: 20px;
 }
 
@@ -78,34 +78,6 @@ body.api-explorer{
     cursor: default;
   }
 
-
-
-
-  /* Responsive design */
-  .alert {
-    margin: 5px 0;
-    padding: 15px 30px 15px 15px;
-    border: 0;
-    border-left: 5px solid #eee;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    color: #333333;
-  }
-
-  .alert-info {
-    background-color: #f0f7fd;
-    border-color: #d0e3f0;
-  }
-
-  .alert-error {
-    border-color: #dFb5b4;
-  }
-
-  #api-accordion .accordion-group {
-    border-radius: 2px;
-  }
-
   .verb {
     padding: 7px;
     padding-top: 4px;
@@ -114,6 +86,10 @@ body.api-explorer{
     text-transform: uppercase;
     font-weight: bold;
     font-size: 12px;
+    border-radius: 3px;
+    min-width: 60px;
+    text-align: center;
+    display: inline-block;
     &.verb.post {
       background-color: green;
       color: white;
@@ -141,7 +117,8 @@ body.api-explorer{
   }
   .api-description {
     font-size: 12px;
-    color: black;
+    color: rgba(0,0,0,.8);
+    margin-top: 5px;
   }
 
   .api-get {
@@ -188,15 +165,14 @@ body.api-explorer{
 
   // Parent container
   .accordion {
-    margin-bottom: @baseLineHeight;
+    margin-bottom: 60px;
   }
 
   // Group == heading + body
   .accordion-group {
     margin-bottom: 2px;
-    border: 1px solid #e5e5e5;
-    .border-radius(@baseBorderRadius);
   }
+
   .accordion-heading {
     border-bottom: 0;
   }
@@ -213,7 +189,8 @@ body.api-explorer{
   // Inner needs the styles because you can't animate properly with any styles on the element
   .accordion-inner {
     padding: 9px 15px;
-    border-top: 1px solid #e5e5e5;
+    border: 1px solid #f1f1f1;
+    border-top: 0;
   }
 
   #connection-users_per-page, #connection-users_search {
@@ -241,6 +218,7 @@ body.api-explorer{
     // Don't display API method descriptions if we don't have space
     .accordion-toggle > .span6.api-description {
       display: none;
+      margin-top: 4px;
     }
 
     #content-header {

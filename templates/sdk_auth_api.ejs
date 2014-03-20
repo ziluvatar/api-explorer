@@ -1,14 +1,20 @@
-<p><span class="label label-info">Heads up!</span> Before implementing these APIs, check out our <a href="<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="<%= docsDomain %>/login-widget2">Login Widget</a>.</p>
+<div class="alert-info alert">
+
+  <strong>Heads up!</strong> Before implementing these APIs, check out our <a href="<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="<%= docsDomain %>/login-widget2">Login Widget</a>.
+
+</div>
+
+
 <div class="markdown">
 <p>The authentication API takes a client id and secret. </p>
 <% include ./templates/client-selector %>
 </div>
 
-<h2 id="openid-connect"><a class="header-anchor" href="#openid-connect"><i class="icon-link"> </i>Protocol: OpenID Connect / OAuth2 Login</a></h2>
+<h2 id="openid-connect"><a class="anchor" href="#openid-connect"><i class="icon-budicon-345"></i></a>Protocol: OpenID Connect / OAuth2 Login</h2>
 
 <div class="markdown">This is the **recommended** protocol for new applications. Read more about how it works for [web applications](https://<%= docsDomain %>/oauth-web-protocol) and [single page apps / native apps](https://<%= docsDomain %>/oauth-implicit-protocol). All the <a href="https://<%= docsDomain %>" target="_new">libraries</a> and the <a target="_new" href="https://<%= docsDomain %>/login-widget2">Login Widget</a> are built on top of this protocol.</div>
 
-<h3 id="social-auth"><a class="header-anchor" href="#social-auth"><i class="icon-link"> </i>Social Authentication</a></h3>
+<h3 id="social-auth"><a class="anchor" href="#social-auth"><i class="icon-budicon-345"> </i></a>Social Authentication</h3>
 <div class="markdown">These type of connections support only browser based (passive) auhtentication. This is because most of these providers don't allow entering the user/password in applications that don't belong to them, so the user gets redirected to the provider (e.g. Google sign in page).</div>
 <div class="accordion">
 
@@ -28,7 +34,7 @@ Returns a 302 redirect to the social provider specified in the `connection`.
 <button class='btn btn-primary btn-tryme'
         data-result='authorize_social-result'
         data-runner='authorize_social'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 Remarks:
@@ -41,7 +47,7 @@ Remarks:
 
 </div>
 
-<h3 id="db-and-ad"><a class="header-anchor" href="#db-and-ad"><i class="icon-link"> </i>Database &amp; Active Directory / LDAP Authentication</a></h3>
+<h3 id="db-and-ad"><a class="anchor" href="#db-and-ad"><i class="icon-budicon-345"> </i></a>Database &amp; Active Directory / LDAP Authentication</h3>
 <div class="markdown">These type of connections support browser based (passive) authentication and API-based (active) authentication. The main difference between passive and active authentication is that the former happens in the browser through the [Login Page](/#/login_page) and the latter can be invoked from anywhere (a script, server to server, etc.). Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
@@ -61,7 +67,7 @@ Returns a 302 redirect to <a href="/#/login_page">Auth0 Login Page</a> that will
 <button class='btn btn-primary btn-tryme'
         data-result='authorize_db-result'
         data-runner='authorize_db'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 Remarks:
@@ -90,7 +96,7 @@ Content-Type: 'application/json'
 <button class='btn btn-primary btn-tryme'
         data-result='ro-result'
         data-runner='ro'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 <pre class='tryme-result'><code id='ro-result'>Press the Try me! button to see the output result.</code></pre>
@@ -98,7 +104,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3 id="enterpise-auth"><a class="header-anchor" href="#enterpise-auth"><i class="icon-link"> </i>Enterprise Authentication (SAML and Others)</a></h3>
+<h3 id="enterpise-auth"><a class="anchor" href="#enterpise-auth"><i class="icon-budicon-345"> </i></a>Enterprise Authentication (SAML and Others)</h3>
 <div class="markdown">These type of connections support browser based (passive) authentication. The user will be redirected to the SAML Provider (or Windows Azure AD and the rest) to enter their credentials. Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
 <div class="accordion">
 
@@ -118,7 +124,7 @@ Returns a 302 redirect to the enterprise provider specified in the `connection`.
 <button class='btn btn-primary btn-tryme'
         data-result='authorize_enterprise-result'
         data-runner='authorize_enterprise'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 Remarks:
@@ -131,7 +137,7 @@ Remarks:
 
 </div>
 
-<h2 id="saml"><a class="header-anchor" href="#saml"><i class="icon-link"> </i></a>Protocol: SAML</h2>
+<h2 id="saml"><a class="anchor" href="#saml"><i class="icon-budicon-345"> </i></a>Protocol: SAML</h2>
 <div class="markdown">The SAML protocol is used for 3rd party SaaS applications mostly (e.g. Salesforce, Box, etc.). Auth0 supports SP and IDP Initiated Sign On. All the parameters of the SAML response can be modified through [rules](/#/rules).</div>
 
 <div class="accordion">
@@ -146,7 +152,7 @@ Optionally, accepts a connection parameter to login with a specific provider. If
 <button class='btn btn-primary btn-tryme'
         data-result='samlp-result'
         data-runner='samlp'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 Remarks
@@ -163,7 +169,7 @@ Remarks
 <button class='btn btn-primary btn-tryme'
         data-result='samlp_metadata-result'
         data-runner='samlp_metadata'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
   </div>
 
@@ -180,14 +186,14 @@ SAMLResponse=<span class='param'>PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2F
 <!--<button class='btn btn-primary btn-tryme'
         data-result='samlp_idp_initiated-result'
         data-runner='samlp_idp_initiated'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>-->
 
   </div>
 
 </div>
 
-<h2 id="wsfed"><a class="header-anchor" href="#wsfed"><i class="icon-link"> </i>Protocol: WS-Fed</a></h2>
+<h2 id="wsfed"><a class="anchor" href="#wsfed"><i class="icon-budicon-345"> </i></a>Protocol: WS-Fed</h2>
 <div class="markdown">The WS-Fed protocol is used for Microsoft applications (e.g.: Office365, Dynamics CRM, etc.). All the parameters of the SAML assertion can be modified through [rules](/#/rules).</div>
 
 <div class="accordion">
@@ -202,7 +208,7 @@ The `client id` parameter is optional. You can use `wtrealm` as well.
 <button class='btn btn-primary btn-tryme'
         data-result='wsfed-result'
         data-runner='wsfed'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 Remarks
@@ -222,15 +228,15 @@ Remarks
 <button class='btn btn-primary btn-tryme'
         data-result='wsfed_metadata-result'
         data-runner='wsfed_metadata'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
   </div>
 
 </div>
 
-<h2 id="others"><a class="header-anchor" href="#others"><i class="icon-link"> </i>Others</a></h2>
+<h2 id="others"><a class="anchor" href="#others"><i class="icon-budicon-345"> </i></a>Others</h2>
 
-<h3 id="delegated"><a class="header-anchor" href="#delegated"><i class="icon-link"> </i>Delegated Authentication</a></h3>
+<h3 id="delegated"><a class="anchor" href="#delegated"><i class="icon-budicon-345"> </i></a>Delegated Authentication</h3>
 <div class="markdown">Delegated authentication is used when some entity wants to call another on behalf of the user. For example, a user logs in to an application and then call an API. The application exchange the token of the logged in user with a token that is valid to call the API (signed with the API secret).</div>
 
 <div class="accordion">
@@ -253,7 +259,7 @@ Content-Type: 'application/json'
 <button class='btn btn-primary btn-tryme'
         data-result='delegation-result'
         data-runner='delegation'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 <pre class='tryme-result'><code id='delegation-result'>Press the Try me! button to see the output result.</code></pre>
@@ -261,7 +267,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3 id="impersonation"><a class="header-anchor" href="#impersonation"><i class="icon-link"> </i>Impersonation</a></h3>
+<h3 id="impersonation"><a class="anchor" href="#impersonation"><i class="icon-budicon-345"> </i></a>Impersonation</h3>
 <div class="markdown">Using this API you can generate a link that could be used to impersonate a user. This is useful for troubleshooting. **Note**: this API can only be used with the **Global Client** credentials.</div>
 
 <div class="accordion">
@@ -283,7 +289,7 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 <button class='btn btn-primary btn-tryme'
         data-result='impersonate-result'
         data-runner='impersonate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 <pre class='tryme-result'><code id='impersonate-result'>Press the Try me! button to see the output result.</code></pre>
@@ -292,7 +298,7 @@ Authorization:  'Bearer <span class="client_access_token"></span>'
 
 </div>
 
-<h3 id="link-accounts"><a class="header-anchor" href="#link-accounts"><i class="icon-link"> </i>Link Accounts</a></h3>
+<h3 id="link-accounts"><a class="anchor" href="#link-accounts"><i class="icon-budicon-345"> </i></a>Link Accounts</h3>
 <div class="markdown">When a user wants to link a second authentication method (e.g user/password + facebook), call this API.</div>
 
 <div class="accordion">
@@ -312,7 +318,7 @@ Return a 302 redirect to the `connection` that wants to be linked to the current
 <button class='btn btn-primary btn-tryme'
         data-result='link-result'
         data-runner='link'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
   </div>
 
@@ -331,7 +337,7 @@ Content-Type: 'application/json'
 <button class='btn btn-primary btn-tryme'
         data-result='unlink-result'
         data-runner='unlink'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
 
 <pre class='tryme-result'><code id='unlink-result'>Press the Try me! button to see the output result.</code></pre>
@@ -339,7 +345,7 @@ Content-Type: 'application/json'
 
 </div>
 
-<h3 id="logout"><a class="header-anchor" href="#logout"><i class="icon-link"> </i>Logout</a></h3>
+<h3 id="logout"><a class="anchor" href="#logout"><i class="icon-budicon-345 "> </i></a>Logout</h3>
 <div class="markdown">Auth0 supports logging the user out of the identity provider that was used for login. Note that this might not be recommended for certain providers as described here <https://<%= docsDomain %>/logout>.</div>
 <div class="accordion">
 
@@ -353,7 +359,7 @@ Content-Type: 'application/json'
 <button class='btn btn-primary btn-tryme'
         data-result='logout-result'
         data-runner='logout'>
-  <i class='icon-white icon-hand-right'></i> Try me!
+   Try me!
 </button>
   </div>
 

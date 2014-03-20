@@ -101,14 +101,14 @@ define(function (require) {
 
   function renderClientSecret(clientSecret, target) {
     var currentClientSecret = $('input[name="current-client-secret"]', target);
-    currentClientSecret.addClass('secret btn');
-    currentClientSecret.attr('value', '(click to show)');
+    currentClientSecret.addClass('secret btn btn-primary');
+    currentClientSecret.attr('value', 'Click to show');
     currentClientSecret.off('click.secret');
     currentClientSecret.on('click.secret', function (e) {
       e.preventDefault();
       currentClientSecret.attr('value', clientSecret);
       currentClientSecret.off('click.secret');
-      currentClientSecret.removeClass('secret btn');
+      currentClientSecret.removeClass('secret btn btn-primary');
       return false;
     });
 
