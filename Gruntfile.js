@@ -1,3 +1,16 @@
+var pkg = require('./package');
+
+var minorVersion = pkg.version.replace(/\.(\d)*$/, '');
+var majorVersion = pkg.version.replace(/\.(\d)*\.(\d)*$/, '');
+var path = require('path');
+
+function  renameRelease (v) {
+  return function (d, f) {
+    var dest = path.join(d, f.replace(/(\.min)?\.js$/, '-'+ v + '$1.js'));
+    return dest;
+  };
+}
+
 module.exports = function (grunt) {
 
   if (!process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_CLIENT_SECRET) {
@@ -138,16 +151,15 @@ module.exports = function (grunt) {
         }
       },
       clean: {
-        del: [{
-          src: 'api-explorer/hello.txt'
-        }],
+        del: [
+          { src: 'api-explorer/api-explorer.js', },
+          { src: 'api-explorer/api-explorer.css', },
+        ]
       },
       publish: {
-        upload: [{
-          src:    'dist/*',
-          dest:   'api-explorer/',
-          options: { gzip: true }
-        }]
+        upload: [
+          { src:    'dist/*', dest:   'api-explorer/', gzip: true }
+        ]
       }
     },
     invalidate_cloudfront: {
@@ -165,6 +177,21 @@ module.exports = function (grunt) {
           dest:     'api-explorer/'
         }]
       }
+    },
+    maxcdn: {
+      purgeCache: {
+        options: {
+          companyAlias:   process.env.MAXCDN_COMPANY_ALIAS,
+          consumerKey:    process.env.MAXCDN_CONSUMER_KEY,
+          consumerSecret: process.env.MAXCDN_CONSUMER_SECRET,
+          zone_id:        process.env.MAXCDN_ZONE_ID,
+          method:         'delete'
+        },
+        files: [
+          { dest:     'api-explorer/api-explorer.js' },
+          { dest:     'api-explorer/api-explorer.css' }
+        ],
+      },
     }
   });
 
@@ -172,5 +199,5 @@ module.exports = function (grunt) {
   grunt.registerTask('build-dev', ['clean', 'template', 'less','requirejs:dev']);
   grunt.registerTask('default', ['build', 'connect', 'watch']);
   grunt.registerTask('dev', ['build-dev', 'connect:dev', 'watch:dev']);
-  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production']);
+  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production', 'maxcdn']);
 };

@@ -11,9 +11,10 @@
     "grunt-requirejs": "~0.4.0",
     "grunt-s3": "~0.2.0-alpha.3",
     "grunt-templater": "0.0.4-1",
+    "grunt-maxcdn": "0.0.2",
     "jade": "~1.1.5",
     "matchdep": "~0.3.0"
   },
-  "name": "api-explorer",
+  "name": "auth0-api-explorer",
   "version": "0.0.1"
 }
