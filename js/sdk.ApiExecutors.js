@@ -586,6 +586,20 @@ define(function(require) {
       });
     };
 
+    this['usersdelete'] = function() {
+      return getToken().then(function (token) {
+        var url = urljoin(client.namespace, '/api/users');
+        
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'DELETE'
+        });
+      });
+    };
+
     this['userdelete'] = function() {
       var user_id = $('#user-id-selector-for-delete option:selected').val();
 
