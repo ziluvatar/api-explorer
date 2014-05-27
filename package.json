@@ -17,5 +17,8 @@
     "matchdep": "~0.3.0"
   },
   "name": "auth0-api-explorer",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "scripts": {
+    "test": "bower install && grunt build"
+  }
 }
