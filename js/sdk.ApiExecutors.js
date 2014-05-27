@@ -167,7 +167,7 @@ define(function(require) {
         var search = $('#connection-users-search_search').val();
         var perPage = $('#connection-users-search_per-page').val();
 
-        var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-selector option:selected').val(), '/users');
+        var url = urljoin(client.namespace, '/api/connections/', $('#connection-users-search-selector option:selected').val(), '/users');
 
         if (search) {
           url += '?search=' + search;
