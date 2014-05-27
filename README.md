@@ -10,13 +10,26 @@ Install project dependencies:
 npm i && bower i
 ```
 
+Add to `auth0-users.json`:
+```sh
+ALLOWED_ORIGINS="http://localhost:8443"
+```
+
 Run grunt in development mode:
 
 ```sh
-AUTH0_CLIENT_ID=XXXX AUTH0_CLIENT_SECRET=YYYY grunt dev
+MYAUTH0_CLIENT_ID=XXXX MYAUTH0_CLIENT_SECRET=YYYY grunt dev
 ```
 
 and open [http://localhost:8443/](http://localhost:8443/)
+
+If you are getting:
+
+```js
+{"error":"invalid_grant","error_description":"invalid client credentials - too many requests"}
+```
+
+Then, you may want to disable in `auth0-server` the `lib/limits/client_credentials` middleware.
 
 ## API
 

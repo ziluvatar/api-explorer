@@ -13,8 +13,8 @@ function  renameRelease (v) {
 
 module.exports = function (grunt) {
 
-  if (!process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_CLIENT_SECRET) {
-    grunt.log.error('Warning: Environment variables AUTH0_CLIENT_ID or AUTH0_CLIENT_SECRET were not found');
+  if (!process.env.MYAUTH0_CLIENT_ID || !process.env.MYAUTH0_CLIENT_SECRET) {
+    grunt.log.error('Warning: Environment variables MYAUTH0_CLIENT_ID or MYAUTH0_CLIENT_SECRET were not found');
   }
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -91,8 +91,8 @@ module.exports = function (grunt) {
         src: 'index.jade',
         dest: 'dist/index.html',
         variables: {
-          clientId:     process.env.AUTH0_CLIENT_ID,
-          clientSecret: process.env.AUTH0_CLIENT_SECRET,
+          clientId:     process.env.MYAUTH0_CLIENT_ID,
+          clientSecret: process.env.MYAUTH0_CLIENT_SECRET,
           isAuth:       process.env.AUTH0_AUTH_API || false,
           readOnly:     false
         }
