@@ -218,6 +218,36 @@ define(function(require) {
       });
     };
 
+    this['tokeninfo'] = function() {
+
+      var data = {
+        id_token: $('#tokeninfo-id_token').val()
+      };
+
+      var url = urljoin(client.namespace, '/tokeninfo');
+      return $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        global: false
+      });
+    };
+
+    this['userinfo'] = function() {
+
+      var access_token = $('#userinfo-access_token').val();
+      var url = urljoin(client.namespace, '/userinfo');
+
+      return $.ajax({
+        type: 'GET',
+        url: url,
+        headers: {
+          Authorization: 'Bearer ' + access_token
+        },
+        global: false
+      });
+    };
+
     this['logout'] = function() {
 
       var returnTo = $('#logout-returnTo').val();

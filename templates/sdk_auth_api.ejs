@@ -260,6 +260,49 @@ Remarks
 
 <h2 id="others"><a class="anchor" href="#others"><i class="icon-budicon-345"> </i></a>Others</h2>
 
+<h3 id="user-profile"><a class="anchor" href="#user-profile"><i class="icon-budicon-345"> </i></a>User Profile</h3>
+<div class="markdown"></div>
+
+<div class="accordion">
+
+<!-- GET /userinfo -->
+  <div class="markdown" data-verb="GET" data-path="/userinfo" data-description="Returns user profile based on the Auth0 access token">
+Returns the user information based on the Auth0 access token (obtained during login).
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>userinfo
+Authorization: 'Bearer <input type="text" id="userinfo-access_token" placeholder="Auth0 access_token">'
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='userinfo-result'
+        data-runner='userinfo'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='userinfo-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+<!-- POST /tokeninfo -->
+  <div class="markdown" data-verb="POST" data-path="/tokeninfo" data-description="Returns user profile based on the user's JWT">
+Validates a JSON Web Token (signature and expiration) and returns the user information associated with the user id (`sub` property) of the token.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>tokeninfo
+Content-Type: 'application/json'
+<form id='tokeninfo-form'>{
+  "id_token": "<textarea id="tokeninfo-id_token" rows="2" style="width:293px;" required></textarea>"
+}</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='tokeninfo-result'
+        data-runner='tokeninfo'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='tokeninfo-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+</div>
+
 <h3 id="delegated"><a class="anchor" href="#delegated"><i class="icon-budicon-345"> </i></a>Delegated Authentication</h3>
 <div class="markdown">Delegated authentication is used when some entity wants to call another on behalf of the user. For example, a user logs in to an application and then call an API. The application exchange the token of the logged in user with a token that is valid to call the API (signed with the API secret).</div>
 
