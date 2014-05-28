@@ -384,15 +384,10 @@ define(function(require) {
     };
 
     this['user-sendverificationemail'] = function() {
-      var connection = $('#api-user-sendverificationemail-selector option:selected').val();
-
-      var body = {
-        email: $('#api-user-sendverificationemail-email').val(),
-        connection: connection,
-      };
+      var user_id = $('#user-id-selector-for-sendverificationemail option:selected').val();
 
       return getToken().then(function(token) {
-        var url = urljoin(client.namespace, '/api/users/send_verification_email', '');
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/send_verification_email');
         return $.ajax({
 
           url: url,
@@ -401,7 +396,7 @@ define(function(require) {
           },
           type: 'POST',
           contentType: 'application/json',
-          data: JSON.stringify(body)
+          data: JSON.stringify({})
         });
 
       });
@@ -414,7 +409,7 @@ define(function(require) {
       };
 
       return getToken().then(function(token) {
-        var url = urljoin(client.namespace, '/api/users/' + user_id + '/verification_ticket', '');
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/verification_ticket');
         return $.ajax({
 
           url: url,

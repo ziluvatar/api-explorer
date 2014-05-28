@@ -202,22 +202,14 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
   <pre class='tryme-result'><code id='usercreate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
-<!-- POST api/users/send_verification_email -->
+<!-- POST api/users/{user_id}/send_verification_email -->
 
-<div class="markdown" data-verb="POST" data-path="/api/users/send_verification_email" data-description="Resends verification account email">
-  Resends verification account email. The body of the request must include the <code>email</code> and the <code>connection</code> of the user.
+<div class="markdown" data-verb="POST" data-path="/api/users/{user_id}/send_verification_email" data-description="Resends verification account email">
+  Resends verification account email.
 
   <pre>
-  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/`send_verification_email`
-  Authorization: Bearer <span class="tokenme param">{token}</span>
-  Content-Type: 'application/json'
-  <form id='user-sendverificationemail-form'>
-  {
-    "email":          "<input type="email" placeholder="email" id="api-user-sendverificationemail-email">",
-    "connection":     "<select style="min-width:221px" id="api-user-sendverificationemail-selector">
-    </select>" // only database connections
-  }
-  </form></code></pre>
+  <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-sendverificationemail' class='user-selector'></select>/`send_verification_email`
+  Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
   <button class='btn btn-primary btn-tryme'
     data-result='user-sendverificationemail-result'
