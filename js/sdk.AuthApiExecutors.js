@@ -82,6 +82,24 @@ define(function(require) {
       window.open(url, '_new');
     };
 
+    this['oauth_access_token'] = function() {
+
+      var data = {
+        client_id:    client.clientID,
+        access_token: $('#oauth_access_token-access_token').val(),
+        connection:   $('#oauth_access_token-connection').val(),
+        scope:        $('#oauth_access_token-scope option:selected').val()
+      };
+
+      var url = urljoin(client.namespace, '/oauth/access_token');
+      return $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        global: false
+      });
+    };
+
     this['authorize_db'] = function() {
 
       var response_type = $('#authorize_db-response_type option:selected').val();
