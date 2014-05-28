@@ -10,9 +10,12 @@ Install project dependencies:
 npm i && bower i
 ```
 
-Add to `auth0-users.json`:
-```sh
-ALLOWED_ORIGINS="http://localhost:8443"
+Add to `/etc/auth0-users.json`:
+```json
+{
+  ...
+  ALLOWED_ORIGINS: "http://localhost:8443"
+}
 ```
 
 Run grunt in development mode:
