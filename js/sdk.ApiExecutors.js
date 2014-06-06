@@ -62,6 +62,20 @@ define(function(require) {
       });
     };
 
+    this['allusers-search'] = function() {
+      return getToken().then(function(token) {
+        var search = $('#allusers-search_search').val();
+        var url = urljoin(client.namespace, '/api/users?search=' + search);
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
     this['user-by-id'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/users/', $('#user-by-id-users-selector').val());
