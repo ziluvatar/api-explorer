@@ -51,17 +51,17 @@ define(function (require) {
         resultPanel.parents('pre').removeClass('error');
 
         if (typeof result === 'object') {
-          resultPanel.html(JSON.stringify(result, null, 2));
+          resultPanel.text(JSON.stringify(result, null, 2));
         }
         else {
-          resultPanel.html(result);
+          resultPanel.text(result);
         }
       }, function(response){
         resultPanel.parents('pre').addClass('error');
         try{
-          resultPanel.html(JSON.stringify(JSON.parse(response.responseText), null, 2));
+          resultPanel.text(JSON.stringify(JSON.parse(response.responseText), null, 2));
         }catch (e) {
-          resultPanel.html(response.responseText);
+          resultPanel.text(response.responseText);
         }
       }).always(function () {
         buttonIcon.removeClass('icon-spinner');
