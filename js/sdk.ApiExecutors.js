@@ -65,7 +65,7 @@ define(function(require) {
     this['allusers-search'] = function() {
       return getToken().then(function(token) {
         var search = $('#allusers-search_search').val();
-        var url = urljoin(client.namespace, '/api/users?search=' + search);
+        var url = urljoin(client.namespace, '/api/users?connection=All&search=' + search);
         return $.ajax({
           url: url,
           headers: {
