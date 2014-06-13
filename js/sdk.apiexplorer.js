@@ -15,7 +15,9 @@ define(function (require) {
   var tryMeButton               = require('./try');
   var scrollToAnchors           = require('./scroll-to-anchors');
 
+  var logsSelects               = require('./models/logs-selects');
   var selectModels              = require('./models/select-models');
+  
   var getRules;
   var getConnections;
   var getClients;
@@ -43,7 +45,12 @@ define(function (require) {
   var staticListGenerators = [
     [populateSelect, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
     [populateSelect, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
-    [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional']
+    [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional'],
+    [ populateSelect,  logsSelects.pages,  '#logs-get-page-selector' ],
+    [ populateSelect,  logsSelects.items,  '#logs-get-items-selector' ],
+    [ populateSelect,  logsSelects.fields,  '#logs-get-field-selector' ],
+    [ populateSelect, logsSelects.directions,  '#logs-get-sort-direction-selector' ],
+    [ populateSelect, logsSelects.exclude_fields,  '#logs-get-exclude-fields-selector' ],
   ];
 
   function hookStrategySelector(target) {
