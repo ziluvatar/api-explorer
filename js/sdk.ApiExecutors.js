@@ -714,6 +714,28 @@ define(function(require) {
         });
       });
     };
+    
+    this['logsget'] = function() {
+      var query = {
+        sort: $('#logs-get-field-selector').val().trim() + ':' + $('#logs-get-sort-direction-selector').val().trim(),
+        page: $('#logs-get-page-selector').val().trim(),
+        per_page: $('#logs-get-items-selector').val().trim(),
+        fields: $('#logs-get-fields').val().trim(),
+        exclude_fields: $('#logs-get-exclude-fields-selector').val().trim()
+      };
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/logs?' + $.param(query));
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
 
     this['dbconn-changePassword'] = function() {
       var valid = $('#dbconn-changePassword-form')[0].checkValidity();

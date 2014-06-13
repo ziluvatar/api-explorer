@@ -79,6 +79,7 @@ define(function (require) {
 
       // Yes, I would like to make this a list too but RequireJS won't parse it >:(
       var users = require('text!../fixtures/get--api-users.json');
+      var logs = require('text!../fixtures/get--api-logs.json');
 
       fixtures['get--api-users']                                              = users;
       fixtures['get--api-users--user_id-']                                    = users;
@@ -95,8 +96,8 @@ define(function (require) {
       fixtures['get--api-connections--connection-name-'] = connections;
 
       fixtures['get--api-clients']      = require('text!../fixtures/get--api-clients.json');
-
-      fixtures['get--api-rules']        = require('text!../fixtures/get--api-rules.json');
+      
+    fixtures['get--api-logs-page--number--per_page--items--sort--field----1-1-']        = logs;
 
       Object.keys(fixtures).forEach(function (fixtureKey) {
         fixtures[fixtureKey] = JSON.parse(fixtures[fixtureKey]);
