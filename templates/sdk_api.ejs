@@ -744,13 +744,13 @@ Retrieves data about log entries based on the specified parameters. Log entries 
 
 Possible values for <code>field</code> are:
 <ul>
-  <li><code>at</code>: The moment when the event occured.</li>
-  <li><code>c</code>: The connection related to the event.</li>
-  <li><code>cn</code>: The name of the client related to the event.</li>
-  <li><code>un</code>: The user name releated to the event.</li>
+  <li><code>date</code>: The moment when the event occured.</li>
+  <li><code>connection</code>: The connection related to the event.</li>
+  <li><code>client_name</code>: The name of the client related to the event.</li>
+  <li><code>user_name</code>: The user name releated to the event.</li>
 </ul>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?page=<select id='logs-get-page-selector' class='logs-selector'></select>&amp;per_page=<select id='logs-get-items-selector' class='logs-selector'></select>&amp;sort=<select id='logs-get-field-selector' class='logs-selector'></select>:<select id='logs-get-sort-direction-selector' class='logs-selector'></select>&amp;fields=<textarea id="logs-get-fields" style="width:150px;height:20px;">at,c,cn,un</textarea>&amp;exclude_fields=<select id='logs-get-exclude-fields-selector' class='logs-selector'></select>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?page=<select id='logs-get-page-selector' class='logs-selector'></select>&amp;per_page=<select id='logs-get-items-selector' class='logs-selector'></select>&amp;sort=<select id='logs-get-field-selector' class='logs-selector'></select>:<select id='logs-get-sort-direction-selector' class='logs-selector'></select>&amp;fields=<textarea id="logs-get-fields" style="width:150px;height:20px;">date,connection,client_name,user_name</textarea>&amp;exclude_fields=<select id='logs-get-exclude-fields-selector' class='logs-selector'></select>
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
 
@@ -772,17 +772,17 @@ The following is a description of the values returned by the request:
   <li><code>limit</code>: The maximum amount of items in a page.</li>
   <li><code>logs</code>: A collection of log entries.
     <ul>
-      <li><code>at</code>: The moment when the event occured.</li>
-      <li><code>c</code>: The connection related to the event.</li>
-      <li><code>cid</code>: The id of the client related to the event.</li>
-      <li><code>cn</code>: The name of the client related to the event.</li>
+      <li><code>date</code>: The moment when the event occured.</li>
+      <li><code>connection</code>: The connection related to the event.</li>
+      <li><code>client_id</code>: The id of the client related to the event.</li>
+      <li><code>client_name</code>: The name of the client related to the event.</li>
       <li><code>ip</code>: The IP address from where the request that caused the log entry originated.</li>
-      <li><code>uid</code>: The user id releated to the event.</li>
-      <li><code>un</code>: The user name releated to the event.</li>
-      <li><code>ed</code>: The event&apos;s description.</li>
-      <li><code>ua</code>: The user agent that was used to cause the creation of the log entry.</li>
-      <li><code>e</code>: An abbreviation of the event type. Refer to the event acronym mappings below for the mapping between abbreviations and their meaning.</li>
-      <li><code>d</code>: Additional (and very useful) details about the event. They don&apos;t have a specific schema as they vary based on event type.</li>
+      <li><code>user_id</code>: The user id releated to the event.</li>
+      <li><code>user_name</code>: The user name releated to the event.</li>
+      <li><code>description</code>: The event&apos;s description.</li>
+      <li><code>user_agent</code>: The user agent that was used to cause the creation of the log entry.</li>
+      <li><code>type</code>: An abbreviation of the event type. Refer to the event acronym mappings below for the mapping between abbreviations and their meaning.</li>
+      <li><code>details</code>: Additional (and very useful) details about the event. They don&apos;t have a specific schema as they vary based on event type.</li>
     </ul>
   </li>
 </ul>
