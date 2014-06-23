@@ -517,7 +517,6 @@ Content-Type: 'application/json'
   {
     "name":     "<input type="text" class="input-xxlarge" placeholder="connection identifier (e.g.: customerconnection)" id="api-create-connection-name">"
     "strategy": "<select id="api-create-connection-strategy-selector">
-    <option value="office365">office365</option>
     <option value="waad">waad</option>
     <option value="google-apps">google-apps</option>
     <option value="adfs">adfs</option>
@@ -525,9 +524,7 @@ Content-Type: 'application/json'
     <option value="samlp">samlp</option>
     <option value="auth0">auth0</option>
     </select>",
-    "options":   {<div class="create-connection-strategy-pane" id="create-connection-options-office365">
-      "tenant_domain": <input type="text" data-field='tenant_domain' required name="office365-tenant_domain">
-    </div><div class="create-connection-strategy-pane" id="create-connection-options-waad">
+    "options":   {<div class="create-connection-strategy-pane" id="create-connection-options-waad">
       "tenant_domain": <input type="text" data-field='tenant_domain' required name="waad-tenant_domain">
     </div><div class="create-connection-strategy-pane" id="create-connection-options-google-apps">
       "tenant_domain": <input type="text" data-field="tenant_domain" required name="tenant_domain">
