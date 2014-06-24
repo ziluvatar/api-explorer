@@ -13,7 +13,7 @@ define(function (require) {
     items: range(1, 20),
     pages: range(0, 4),
     directions: [1, -1],
-    fields: ['at', 'c', 'cn','un'],
+    fields: ['date', 'connection', 'client_name','user_name'],
     exclude_fields: [false, true]
   };
 });
