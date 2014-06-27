@@ -752,6 +752,27 @@ define(function(require) {
         });
       });
     }
+    
+    this['user-logs-get'] = function(){
+      var user_id = $('#logs-by-user-id-selector').val().trim();
+
+      var query = {
+        page: $('#logs-by-user-id-page-selector').val().trim(),
+        per_page: $('#logs-by-user-id-items-selector').val().trim(),
+      };
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/logs?' + $.param(query));
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    }
 
     this['dbconn-changePassword'] = function() {
       var valid = $('#dbconn-changePassword-form')[0].checkValidity();
