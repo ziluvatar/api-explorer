@@ -19,6 +19,7 @@ define(function (require) {
   var selectModels              = require('./models/select-models');
   
   var getRules;
+  var getLogs;
   var getConnections;
   var getClients;
   var findAllUsers;
@@ -46,8 +47,8 @@ define(function (require) {
     [populateSelect, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
     [populateSelect, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
     [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional'],
-    [ populateSelect,  logsSelects.pages,  '#logs-get-page-selector' ],
-    [ populateSelect,  logsSelects.items,  '#logs-get-items-selector' ],
+    [ populateSelect,  logsSelects.pages,  '.logs-page-selector' ],
+    [ populateSelect,  logsSelects.items,  '.logs-per-page-selector' ],
     [ populateSelect,  logsSelects.fields,  '#logs-get-field-selector' ],
     [ populateSelect, logsSelects.directions,  '#logs-get-sort-direction-selector' ],
     [ populateSelect, logsSelects.exclude_fields,  '#logs-get-exclude-fields-selector' ],
@@ -152,6 +153,9 @@ define(function (require) {
       
       // Load Rules
       var rulesPromise        = getRules(tenantDomain, accessToken, selectedClient.clientID);
+      
+      // Load Logs
+      var logsPromise         = getLogs(tenantDomain, accessToken);
 
       // Load Users
       var usersMappedUserId   = findAllUsersById(tenantDomain, accessToken);
@@ -173,6 +177,7 @@ define(function (require) {
         [ dbConnections,      '#api-user-sendverificationemail-selector' ],
 
         [ rulesPromise,       '.rule-selector' ],
+        [ logsPromise,       '.logs-selector' ],
 
         [ usersMappedEmail,   '.user-email-selector' ],
         [ usersMappedUserId,  '.user-selector' ]
@@ -289,6 +294,7 @@ define(function (require) {
       var loadedSelectModels = selectModels(settings.readOnly, clientsModel, clientConnectionsModel);
 
       getRules                            = loadedSelectModels.getRules;
+      getLogs                            = loadedSelectModels.getLogs;
 
       findAllConnections                  = loadedSelectModels.findAllConnections;
       findOnlySocials                     = loadedSelectModels.findOnlySocials;
