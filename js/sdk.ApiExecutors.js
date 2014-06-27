@@ -773,6 +773,22 @@ define(function(require) {
         });
       });
     }
+    
+    this['logs-search'] = function(){
+      var search = $('#logs-search-query').val().trim();
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/logs?search=' + search);
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    }
 
     this['dbconn-changePassword'] = function() {
       var valid = $('#dbconn-changePassword-form')[0].checkValidity();
