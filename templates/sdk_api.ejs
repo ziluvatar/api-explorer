@@ -724,9 +724,23 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
 </div>
 
-<h3 id="logs"><a class="anchor" href="#rules"><i class="icon-budicon-345"> </i></a>Logs</h3>
+<h3 id="logs"><a class="anchor" href="#logs"><i class="icon-budicon-345"> </i></a>Logs</h3>
 
 <div class="accordion">
+  
+  <div class="markdown" data-verb="GET" data-path="/api/logs/{_id}" data-description="Gets a log entry">
+Retrieves the data related to the log entry identified by <code>_id</code>.
+
+  <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs/<select id="log-get-id-selector" class="logs-selector" style="width:240px;height:20px;"></select>
+Authorization: Bearer <span class='tokenme param'>{token}</span></code></pre>
+  <button class='btn btn-primary btn-tryme'
+          data-result='logget-result'
+          data-runner='logget'>
+    <i class='icon-white icon-hand-right'></i> Try me!
+  </button>
+
+  <pre class='tryme-result'><code id='logget-result'>Press the Try me! button to see the output result</code></pre>
+</div>
   
   <div class="markdown" data-verb="GET" data-path="/api/logs?page={number}&per_page={items}&sort={field}:{-1|1}&fields={fields}&exclude_fields{true|false}" data-description="Gets log entries">
 Retrieves data about log entries based on the specified parameters. Log entries are split into pages of a particular size to avoid returning all data at once:
@@ -747,7 +761,7 @@ Possible values for <code>field</code> are:
   <li><code>user_name</code>: The user name releated to the event.</li>
 </ul>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?page=<select id='logs-get-page-selector' class='logs-selector'></select>&amp;per_page=<select id='logs-get-items-selector' class='logs-selector'></select>&amp;sort=<select id='logs-get-field-selector' class='logs-selector'></select>:<select id='logs-get-sort-direction-selector' class='logs-selector'></select>&amp;fields=<textarea id="logs-get-fields" style="width:150px;height:20px;">date,connection,client_name,user_name</textarea>&amp;exclude_fields=<select id='logs-get-exclude-fields-selector' class='logs-selector'></select>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?page=<select id='logs-get-page-selector'></select>&amp;per_page=<select id='logs-get-items-selector'></select>&amp;sort=<select id='logs-get-field-selector'></select>:<select id='logs-get-sort-direction-selector'></select>&amp;fields=<textarea id="logs-get-fields" style="width:150px;height:20px;">date,connection,client_name,user_name</textarea>&amp;exclude_fields=<select id='logs-get-exclude-fields-selector'></select>
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
 

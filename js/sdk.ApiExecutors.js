@@ -736,6 +736,22 @@ define(function(require) {
         });
       });
     };
+    
+    this['logget'] = function(){
+      var id = $('#log-get-id-selector').val().trim();
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/logs/' + id);
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    }
 
     this['dbconn-changePassword'] = function() {
       var valid = $('#dbconn-changePassword-form')[0].checkValidity();

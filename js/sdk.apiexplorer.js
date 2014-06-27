@@ -19,6 +19,7 @@ define(function (require) {
   var selectModels              = require('./models/select-models');
   
   var getRules;
+  var getLogs;
   var getConnections;
   var getClients;
   var findAllUsers;
@@ -152,6 +153,9 @@ define(function (require) {
       
       // Load Rules
       var rulesPromise        = getRules(tenantDomain, accessToken, selectedClient.clientID);
+      
+      // Load Logs
+      var logsPromise         = getLogs(tenantDomain, accessToken);
 
       // Load Users
       var usersMappedUserId   = findAllUsersById(tenantDomain, accessToken);
@@ -173,6 +177,7 @@ define(function (require) {
         [ dbConnections,      '#api-user-sendverificationemail-selector' ],
 
         [ rulesPromise,       '.rule-selector' ],
+        [ logsPromise,       '.logs-selector' ],
 
         [ usersMappedEmail,   '.user-email-selector' ],
         [ usersMappedUserId,  '.user-selector' ]
@@ -289,6 +294,7 @@ define(function (require) {
       var loadedSelectModels = selectModels(settings.readOnly, clientsModel, clientConnectionsModel);
 
       getRules                            = loadedSelectModels.getRules;
+      getLogs                            = loadedSelectModels.getLogs;
 
       findAllConnections                  = loadedSelectModels.findAllConnections;
       findOnlySocials                     = loadedSelectModels.findOnlySocials;

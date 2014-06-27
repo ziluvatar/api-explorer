@@ -223,9 +223,32 @@ define(function (require) {
         });
       });
     };
+    
+    getLogs = function(tenantDomain, accessToken) {
+      if (readOnly) {
+        var d = $.Deferred();
+        
+        setTimeout(function () {
+          d.resolve(['{_id}']);
+        }, 0);
+        
+        return d.promise();
+      }
+
+      return $.ajax({
+        url: 'https://' + tenantDomain + '/api/logs/?page=0&per_page=10',
+        headers: {
+          Authorization: 'Bearer ' + accessToken
+        },
+        cache: false
+      }).then(function (result) {
+        return result.logs.map(function (log) { return log._id; });
+      });
+    };
 
     return {
       getRules:  getRules,
+      getLogs: getLogs,
       getConnections:  getConnections,
       getClients:  getClients,
       findAllUsers:  findAllUsers,
