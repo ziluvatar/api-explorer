@@ -57,7 +57,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
   </div>
 
   <!-- GET /api/users?search={criteria} -->
-  <div class="markdown" data-verb="GET" data-path="/api/users?search={criteria}" data-description="Search users">Perform a 'starts with' search by name or email. Or search by field, for example: email\_verified:true; loginsCount:1; family\_name:"johnson"
+  <div class="markdown" data-verb="GET" data-path="/api/users?search={criteria}" data-description="Search users">Performs a 'starts with' search by name or email. Or search by field, for example: email\_verified:true; loginsCount:1; family\_name:"johnson"
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users?search=<input type="text" id="allusers-search_search" />
 
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
@@ -105,15 +105,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
   </div>
   <!-- GET /api/connections/{connection}/users?search={criteria} -->
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users?search={criteria}" data-description="Search users from an enterprise directories">
-**Search** remarks: Depending on your connection type the search will be done in different fields:
-
-  * Active Directory/LDAP: by default uses Ambigous name resolution ([ANR](http://technet.microsoft.com/en-us/library/cc755809(v=ws.10).aspx)) which expands to givenName (first name), sn (surname, or last name), displayName, RDN, legacyExchangeDN, physicalDeliveryOfficeName (for example, Building A, Suite 1234), proxyAddresses (the collection of e-mail addresses over all e-mail address spaces that the Exchange server knows about).
-  * Database Connections (not custom): Name/Email case insensitive.
-  * Google Apps: Email/username case insensitive.
-  * WAAD/WAAD2: Name/Email case insensitive.
-  * Windows Azure Active Directory or Office365: name/email case insensitive
-
-<span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS, SAMLP), it will return the users who have logged in through that connection.
+<% include ./templates/enterprise-conn-user-search-doc %>
 
 <pre><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/connections/<select id='connection-users-search-selector' class='connection-selector'></select>/users?
   search=     <input type="text" id="connection-users-search_search" />
@@ -131,13 +123,13 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
   </div>
 
   <!-- GET /api/enterpriseconnections/users -->
-  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users" data-description="Gets all users who have logged in with enterprise">
+  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users" data-description="Gets all users who have logged in with enterprise connections.">
 
 Gets all users who have logged in through enterprise connections
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?per_page=  <input type="text" id="enterpriseconn-users-per-page" value="500" />
 Authorization: Bearer <span class="tokenme param">{token}</span>
-  ?per_page=  <input type="text" id="enterpriseconn-users_per-page" value="500" />
+  
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -148,15 +140,31 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
 <pre class='tryme-result'><code id='enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
+  
+  <!-- GET /api/enterpriseconnections/users?search={criteria} -->
+  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users?search={criteria}" data-description="Gets all users who have logged in through enterprise connections that match the search criteria">
+Gets all users who have logged in through enterprise connections that match the search <code>criteria</code>.
+<% include ./templates/enterprise-conn-user-search-doc %>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?search=<textarea id="search-enterprise-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="search-enterpriseconn-users-per-page" value="500" />
+Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='search-enterpriseconn-users-result'
+        data-runner='search-enterpriseconn-users'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='search-enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
 
   <!-- GET /api/socialconnections/users -->
-  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users" data-description="Gets all users who have logged in with social">
+  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users" data-description="Gets all users who have logged in with social connections">
 
 Gets all users who have logged in through social connections
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?per_page=  <input type="text" id="socialconn-users_per-page" value="500" />
 Authorization: Bearer <span class="tokenme param">{token}</span>
-  ?per_page=  <input type="text" id="socialconn-users_per-page" value="500" />
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'
@@ -166,6 +174,25 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 </button>
 
 <pre class='tryme-result'><code id='socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+  
+  <!-- GET /api/socialconnections/users?search={criteria} -->
+  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users?search={criteria}" data-description="Gets all users who have logged in with social connections that match the search criteria">
+Gets all users who have logged in through social connections that match the specified search <code>criteria</code>.
+
+Performs a 'starts with' search by name or email. Or searches by field, for example: email\_verified:true; loginsCount:1; family\_name:"johnson"
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?search=<textarea id="search-socialconn-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="search-socialconn-users_per-page" value="500" />
+Authorization: Bearer <span class="tokenme param">{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='search-socialconn-users-result'
+        data-runner='search-socialconn-users'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='search-socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
 <!-- GET /api/clients/{client-id}/users -->

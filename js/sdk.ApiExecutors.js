@@ -114,48 +114,59 @@ define(function(require) {
         });
       });
     };
+    
+    var connectionUsers = function (perPageBaseId, urlPath){
+      return function(search){
+        return getToken().then(function(token) {
 
-    this['enterpriseconn-users'] = function() {
-      return getToken().then(function(token) {
+          var id = perPageBaseId;
+          
+          if (search) {
+            id = 'search-' + id;
+          }
 
-        var perPage = $('#enterpriseconn-users_per-page').val();
+          var perPage = $('#' + id).val();
 
-        var url = urljoin(client.namespace, '/api/enterpriseconnections/users');
+          var url = urljoin(client.namespace, '/api/' + urlPath + '/users');
 
-        if (perPage) {
-          url += '?per_page=' + perPage;
-        }
+          if (perPage) {
+            url += '?per_page=' + perPage;
+            
+            if (search){
+              url += '&search=' + search;
+            }
+          }
 
-        return $.ajax({
-          url: url,
-          headers: {
-            Authorization: 'Bearer ' + token.access_token
-          },
-          type: 'GET'
+          return $.ajax({
+            url: url,
+            headers: {
+              Authorization: 'Bearer ' + token.access_token
+            },
+            type: 'GET'
+          });
         });
-      });
+      };
+    }
+    
+    var enterpriseConnectionUsers = connectionUsers('enterpriseconn-users-per-page', 'enterpriseconnections');
+  
+    this['enterpriseconn-users'] = enterpriseConnectionUsers;
+    
+    this['search-enterpriseconn-users'] = function() {
+      var search = $('#search-enterprise-users-search-query').val();
+      
+      return enterpriseConnectionUsers(search);
     };
+    
+    var socialConnectionUsers = connectionUsers('socialconn-users_per-page', 'socialconnections');
 
-    this['socialconn-users'] = function() {
-      return getToken().then(function(token) {
-
-        var perPage = $('#socialconn-users_per-page').val();
-
-        var url = urljoin(client.namespace, '/api/socialconnections/users');
-
-        if (perPage) {
-          url += '?per_page' + perPage;
-        }
-
-        return $.ajax({
-          url: url,
-          headers: {
-            Authorization: 'Bearer ' + token.access_token
-          },
-          type: 'GET'
-        });
-      });
-    };
+    this['socialconn-users'] = socialConnectionUsers;
+    
+    this['search-socialconn-users'] = function(){
+      var search = $('#search-socialconn-users-search-query').val();
+      
+      return socialConnectionUsers(search);
+    }
 
     this['connection-users'] = function() {
       return getToken().then(function(token) {
