@@ -799,5 +799,41 @@ Authorization: Bearer <span class='tokenme param'>{token}</span>
   <% include ./templates/logs-doc %>
 
   </div>
+  
+  <div class="markdown" data-verb="GET" data-path="/api/logs?search={criteria}" data-description="Gets log entries">
+Retrieves logs that match the specified search <code>criteria</code>. This parameter can be combined with all the others in the <code>/api/logs</code> endpoint but is specified separately for clarity.
+
+If no fields are provided a case insensitive 'starts with' search is performed on all of the following fields:
+<ul>
+  <li><code>client_name</code></li>
+  <li><code>connection</code></li>
+  <li><code>user_name</code></li>
+</ul>
+
+Otherwise, you can specify multiple fields and specify the search using the <code>%field%:%search%</code>, for example: <code>application:node user:"John@contoso.com"</code>.
+
+Values specified without quotes are matched using a case insensitive 'starts with' search. If quotes are used a case insensitve exact search is used. If multiple fields are used, the AND operator is used to join the clauses.
+
+<h5>Available Fields</h5>
+<ul>
+  <li><code>application</code>: Maps to the <code>client_name</code> field.</li>
+  <li><code>connection</code>: Maps to the <code>connection</code> field.</li>
+  <li><code>user</code>: Maps to the <code>user_name</code> field.</li>
+</ul>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?search=<textarea id="logs-search-query" style="width:450px;height:20px;">application:node user:"John@contoso.com"</textarea>
+Authorization: Bearer <span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='logs-search-result'
+        data-runner='logs-search'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='logs-search-result'>Press the Try me! button to see the output result</code></pre>
+
+  <% include ./templates/logs-doc %>
+</div>
 
 </div>
