@@ -115,26 +115,16 @@ define(function(require) {
       });
     };
     
-    var connectionUsers = function (perPageBaseId, urlPath){
+    var connectionUsers = function (perPageId, urlPath){
       return function(search){
         return getToken().then(function(token) {
-
-          var id = perPageBaseId;
-          
-          if (search) {
-            id = 'search-' + id;
-          }
-
-          var perPage = $('#' + id).val();
+          var perPage = $('#' + perPageId).val();
 
           var url = urljoin(client.namespace, '/api/' + urlPath + '/users');
 
           if (perPage) {
             url += '?per_page=' + perPage;
-            
-            if (search){
-              url += '&search=' + search;
-            }
+            url += '&search=' + search;
           }
 
           return $.ajax({
@@ -148,22 +138,23 @@ define(function(require) {
       };
     }
     
-    var enterpriseConnectionUsers = connectionUsers('enterpriseconn-users-per-page', 'enterpriseconnections');
-  
-    this['enterpriseconn-users'] = enterpriseConnectionUsers;
+    var enterpriseConnectionUsers = connectionUsers('enterpriseconn-users-per-page', 'enterpriseconnections', true);
     
-    this['search-enterpriseconn-users'] = function() {
-      var search = $('#search-enterprise-users-search-query').val();
+    this['enterpriseconn-users'] = function() {
+      
+      var search = $('#enterprise-users-search-query').val();
+      
+      var element = document.getElementById('enterprise-users-search-query');
+      
+      if (!search) { return; }
       
       return enterpriseConnectionUsers(search);
     };
     
-    var socialConnectionUsers = connectionUsers('socialconn-users_per-page', 'socialconnections');
-
-    this['socialconn-users'] = socialConnectionUsers;
+    var socialConnectionUsers = connectionUsers('socialconn-users_per-page', 'socialconnections', false);
     
-    this['search-socialconn-users'] = function(){
-      var search = $('#search-socialconn-users-search-query').val();
+    this['socialconn-users'] = function(){
+      var search = $('#socialconn-users-search-query').val();
       
       return socialConnectionUsers(search);
     }
