@@ -121,16 +121,15 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
 <pre class='tryme-result'><code id='connection-users-search-search-result'>Press the Try me! button to see the output result</code></pre>
   </div>
-
-  <!-- GET /api/enterpriseconnections/users -->
-  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users" data-description="Gets all users who have logged in with enterprise connections.">
-
-Gets all users who have logged in through enterprise connections
-
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?per_page=  <input type="text" id="enterpriseconn-users-per-page" value="500" />
-Authorization: Bearer <span class="tokenme param">{token}</span>
   
-</code></pre>
+  <!-- GET /api/enterpriseconnections/users?search={criteria} -->
+  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users?search={criteria}" data-description="Search users from all enterprise directories">
+Search users from all enterprise directories based on the specified <code>criteria</code>. The parameter is mandatory.
+
+<% include ./templates/enterprise-conn-user-search-doc %>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?search=<textarea id="enterprise-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="enterpriseconn-users-per-page" value="500" />
+Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
 <button class='btn btn-primary btn-tryme'
         data-result='enterpriseconn-users-result'
@@ -140,30 +139,14 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
 <pre class='tryme-result'><code id='enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
-  
-  <!-- GET /api/enterpriseconnections/users?search={criteria} -->
-  <div class="markdown" data-verb="GET" data-path="/api/enterpriseconnections/users?search={criteria}" data-description="Gets all users who have logged in through enterprise connections that match the search criteria">
-Gets all users who have logged in through enterprise connections that match the search <code>criteria</code>.
-<% include ./templates/enterprise-conn-user-search-doc %>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?search=<textarea id="search-enterprise-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="search-enterpriseconn-users-per-page" value="500" />
-Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
+  <!-- GET /api/socialconnections/users?search={criteria} -->
+  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users?search={criteria}" data-description="Gets all users who have logged in with social connections that match the search criteria">
+Gets all users who have logged in through social connections that match the specified search <code>criteria</code>.
 
-<button class='btn btn-primary btn-tryme'
-        data-result='search-enterpriseconn-users-result'
-        data-runner='search-enterpriseconn-users'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
+Performs a 'starts with' search by name or email. Or searches by field, for example: email\_verified:true; loginsCount:1; family\_name:"johnson"
 
-<pre class='tryme-result'><code id='search-enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
-  </div>
-
-  <!-- GET /api/socialconnections/users -->
-  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users" data-description="Gets all users who have logged in with social connections">
-
-Gets all users who have logged in through social connections
-
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?per_page=  <input type="text" id="socialconn-users_per-page" value="500" />
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?search=<textarea id="socialconn-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="socialconn-users_per-page" value="500" />
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
@@ -174,25 +157,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 </button>
 
 <pre class='tryme-result'><code id='socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
-  </div>
-  
-  <!-- GET /api/socialconnections/users?search={criteria} -->
-  <div class="markdown" data-verb="GET" data-path="/api/socialconnections/users?search={criteria}" data-description="Gets all users who have logged in with social connections that match the search criteria">
-Gets all users who have logged in through social connections that match the specified search <code>criteria</code>.
-
-Performs a 'starts with' search by name or email. Or searches by field, for example: email\_verified:true; loginsCount:1; family\_name:"johnson"
-
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/socialconnections/users?search=<textarea id="search-socialconn-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="search-socialconn-users_per-page" value="500" />
-Authorization: Bearer <span class="tokenme param">{token}</span>
-</code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='search-socialconn-users-result'
-        data-runner='search-socialconn-users'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='search-socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
 <!-- GET /api/clients/{client-id}/users -->
