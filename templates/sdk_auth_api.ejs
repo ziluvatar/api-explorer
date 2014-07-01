@@ -344,7 +344,7 @@ Content-Type: 'application/json'
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>users/<select id="impersonate-user_id" class="user-selector"></select>/impersonate
 Content-Type:   'application/json'
-Authorization:  'Bearer <span class="client_access_token"></span>'
+Authorization:  'Bearer <span class="global_client_access_token"></span>'
 <form id='impersonate-form'>{
   protocol:             "<select id="impersonate-protocol" class="protocol-selector"></select>",
   impersonator_id:      "<span id="impersonate-impersonator_id"><%= user.id %></span>", // <%= user.name || user.email %>

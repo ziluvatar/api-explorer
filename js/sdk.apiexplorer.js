@@ -138,6 +138,7 @@ define(function (require) {
 
     if (isAuth) {
       accessTokenPromise.then(function (accessToken) {
+        $('.global_client_access_token').text(accessToken);
         executors = new AuthApiExecutors(selectedClient, accessToken);
       });
     } else {
