@@ -810,7 +810,7 @@ If no fields are provided a case insensitive 'starts with' search is performed o
   <li><code>user_name</code></li>
 </ul>
 
-Otherwise, you can specify multiple fields and specify the search using the <code>%field%:%search%</code>, for example: <code>application:face user:"John@contoso.com"</code>.
+Otherwise, you can specify multiple fields and specify the search using the <code>%field%:%search%</code>, for example: <code>application:node user:"John@contoso.com"</code>.
 
 Values specified without quotes are matched using a case insensitive 'starts with' search. If quotes are used a case insensitve exact search is used. If multiple fields are used, the AND operator is used to join the clauses.
 
@@ -821,7 +821,7 @@ Values specified without quotes are matched using a case insensitive 'starts wit
   <li><code>user</code>: Maps to the <code>user_name</code> field.</li>
 </ul>
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?search=<textarea id="logs-search-query" style="width:450px;height:20px;">application:face user:"John@contoso.com"</textarea>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?search=<textarea id="logs-search-query" style="width:450px;height:20px;">application:node user:"John@contoso.com"</textarea>
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
 
