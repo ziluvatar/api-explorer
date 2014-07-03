@@ -47,15 +47,16 @@ Remarks:
 
 <!-- POST /oauth/access_token -->
   <div class="markdown" data-verb="POST" data-path="/oauth/access_token" data-description="Login using a social provider's access token">
-Given the social provider's `access_token` and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. Currently, this endpoint only works for Facebook and Weibo.
+Given the social provider's `access_token` and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. Currently, this endpoint only works for Facebook, Google, Twitter and Weibo.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/access_token
 Content-Type: 'application/json'
 <form id='oauth_access_token-form'>{
   "client_id":    "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "access_token": "<input type="text" id="oauth_access_token-access_token" required>",
-  "connection":   "<input type="text" id="oauth_access_token-connection" value="facebook" required>",
-  "scope":        "<select id="oauth_access_token-scope" class="scope-selector"></select>"
+  "connection":   "<select id="oauth_access_token-connection"><option>facebook</option><option>google-oauth2</option><option>twitter</option><option>weibo</option></select>",
+  "scope":        "<select id="oauth_access_token-scope" class="scope-selector"></select>",
+  <textarea id="oauth_access_token-jsoneditor" rows="3" style="margin-top:7px;width:75%;"></textarea>
 }
 </form></code></pre>
 

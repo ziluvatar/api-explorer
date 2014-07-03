@@ -84,13 +84,19 @@ define(function(require) {
 
     this['oauth_access_token'] = function() {
 
-      var data = {
-        client_id:    client.clientID,
-        access_token: $('#oauth_access_token-access_token').val(),
-        connection:   $('#oauth_access_token-connection').val(),
-        scope:        $('#oauth_access_token-scope option:selected').val()
-      };
+      var additional_parameters = validateJsonText($('#oauth_access_token-jsoneditor').val());
+      if (!additional_parameters) {
+        $('#oauth_access_token-result').text('Invalid additional parameters');
+        $('#oauth_access_token-result').parent().addClass('error');
+        return;
+      }
 
+      var data = additional_parameters;
+      data.client_id    = client.clientID;
+      data.access_token = $('#oauth_access_token-access_token').val();
+      data.connection   = $('#oauth_access_token-connection').val();
+      data.scope        = $('#oauth_access_token-scope option:selected').val();
+      
       var url = urljoin(client.namespace, '/oauth/access_token');
       return $.ajax({
         type: 'POST',
