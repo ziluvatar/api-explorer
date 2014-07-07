@@ -245,7 +245,7 @@ define(function (require) {
         onClientChanged(tenantDomain, isAuth, readOnly, target, selectedClient);
       };
 
-      var clientListSelector = $('select[name="client-list-without-global"]', target);
+      var clientListSelector = $('.client-selector select[name="client-list-without-global"]', target);
 
       if (clientListSelector.length === 0) {
         clientListSelector = $('select[name="client-list"]', target);
