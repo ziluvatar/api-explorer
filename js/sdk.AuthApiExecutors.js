@@ -15,9 +15,10 @@ define(function(require) {
         grant_type: $('#delegation-grant_type option:selected').val(),
         target: $('#delegation-target option:selected').val(),
         client_id: client.clientID,
-        scope: $('#delegation-scope option:selected').val()
+        scope: $('#delegation-scope option:selected').val(),
+        api_type: $('#delegation-api_type option:selected').val()
       };
-
+      
       var token_type = $('#delegation-token-type option:selected').val();
       var token = $('#delegation-token').val();
       data[token_type] = token;

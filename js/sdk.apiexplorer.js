@@ -41,7 +41,8 @@ define(function (require) {
     scopes:             ['openid', 'openid profile'],
     scopesWithOffline:  ['openid', 'openid profile', 'openid offline_access'],
     responseTypes:      ['code', 'token'],
-    protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp']
+    protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp'],
+    api_types:          ['auth0', 'aws', 'firebase', 'salesforce_api', 'salesforce_sandbox_api', 'sap_api', 'wams']
   };
 
   var staticListGenerators = [
@@ -49,11 +50,12 @@ define(function (require) {
     [ populateSelect, staticLists.scopesWithOffline,  '.scope-with-offline-selector',  '.scope-with-offline-selector.with-optional'],
     [ populateSelect, staticLists.responseTypes,      '.response_type-selector',       '.response_type-selector.with-optional'],
     [ populateSelect, staticLists.protocols,          '.protocol-selector',            '.protocol-selector.with-optional'],
+    [ populateSelect, staticLists.api_types,          '.api_type-selector',            '.api_type-selector.with-optional'],
     [ populateSelect, logsSelects.pages,              '.logs-page-selector' ],
     [ populateSelect, logsSelects.items,              '.logs-per-page-selector' ],
     [ populateSelect, logsSelects.fields,             '#logs-get-field-selector' ],
     [ populateSelect, logsSelects.directions,         '#logs-get-sort-direction-selector' ],
-    [ populateSelect, logsSelects.exclude_fields,     '#logs-get-exclude-fields-selector' ]
+    [ populateSelect, logsSelects.exclude_fields,     '#logs-get-exclude-fields-selector' ],
   ];
 
   function specificHooks(target) {
