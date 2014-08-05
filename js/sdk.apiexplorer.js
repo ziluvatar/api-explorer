@@ -38,21 +38,34 @@ define(function (require) {
   var accessTokenPromise        = $.Deferred();
 
   var staticLists = {
-    scopes:         ['openid', 'openid profile'],
-    responseTypes:  ['code', 'token'],
-    protocols:      ['oauth2', 'wsfed', 'wsfed-rms', 'samlp']
+    scopes:             ['openid', 'openid profile'],
+    scopesWithOffline:  ['openid', 'openid profile', 'openid offline_access'],
+    responseTypes:      ['code', 'token'],
+    protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp']
   };
 
   var staticListGenerators = [
-    [populateSelect, staticLists.scopes,       '.scope-selector',        '.scope-selector.with-optional'],
-    [populateSelect, staticLists.responseTypes,'.response_type-selector','.response_type-selector.with-optional'],
-    [populateSelect, staticLists.protocols,    '.protocol-selector',     '.protocol-selector.with-optional'],
-    [ populateSelect,  logsSelects.pages,  '.logs-page-selector' ],
-    [ populateSelect,  logsSelects.items,  '.logs-per-page-selector' ],
-    [ populateSelect,  logsSelects.fields,  '#logs-get-field-selector' ],
-    [ populateSelect, logsSelects.directions,  '#logs-get-sort-direction-selector' ],
-    [ populateSelect, logsSelects.exclude_fields,  '#logs-get-exclude-fields-selector' ],
+    [ populateSelect, staticLists.scopes,             '.scope-selector',               '.scope-selector.with-optional'],
+    [ populateSelect, staticLists.scopesWithOffline,  '.scope-with-offline-selector',  '.scope-with-offline-selector.with-optional'],
+    [ populateSelect, staticLists.responseTypes,      '.response_type-selector',       '.response_type-selector.with-optional'],
+    [ populateSelect, staticLists.protocols,          '.protocol-selector',            '.protocol-selector.with-optional'],
+    [ populateSelect, logsSelects.pages,              '.logs-page-selector' ],
+    [ populateSelect, logsSelects.items,              '.logs-per-page-selector' ],
+    [ populateSelect, logsSelects.fields,             '#logs-get-field-selector' ],
+    [ populateSelect, logsSelects.directions,         '#logs-get-sort-direction-selector' ],
+    [ populateSelect, logsSelects.exclude_fields,     '#logs-get-exclude-fields-selector' ]
   ];
+
+  function specificHooks(target) {
+    // /oauth/ro
+    var roScopeSelector = $('#ro-scope', target);
+    roScopeSelector.on('change', function () {
+      var enableDevice = $('option:selected', roScopeSelector).val() === 'openid offline_access';
+      $('#ro-device', target).prop('disabled', !enableDevice);
+      if (!enableDevice) { $('#ro-device', target).val(''); }
+    });
+    roScopeSelector.trigger('change');
+  }
 
   function hookStrategySelector(target) {
       var strategyPane = $('.create-connection-strategy-pane', target);
@@ -323,6 +336,7 @@ define(function (require) {
       }
       target.closest('.api-explorer').removeClass('loading');
       hookStrategySelector(target);
+      specificHooks(target);
 
       scrollToAnchors(settings.anchors, target);
     }

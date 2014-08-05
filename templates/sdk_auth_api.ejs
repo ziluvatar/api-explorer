@@ -113,7 +113,8 @@ Content-Type: 'application/json'
   "password":    "<input type="password" id="ro-password" required>",
   "connection":  "<select id="ro-connection" class="db_connection-selector"></select>",
   "grant_type":  "<span id="ro-grant_type">password</span>",
-  "scope":       "<select id="ro-scope" class="scope-selector"></select>"
+  "scope":       "<select id="ro-scope" class="scope-with-offline-selector"></select>",
+  "device":      "<input type="text" id="ro-device">"
 }
 </form></code></pre>
 
@@ -315,11 +316,11 @@ Given an existing token, this endpoint will generate a new token signed with the
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>delegation
 Content-Type: 'application/json'
 <form id='delegation-form'>{
-  "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
-  "grant_type":  "<select id="delegation-grant_type" required><option>urn:ietf:params:oauth:grant-type:jwt-bearer</option></select>",
-  "id_token":    "<textarea id="delegation-id_token" rows="2" style="width:293px;" required></textarea>",
-  "target":      "<select id="delegation-target" name="client-list-without-global" class="with-id"></select>",
-  "scope":       "<select id="delegation-scope" class="scope-selector"></select>"
+  "client_id":       "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "grant_type":      "<select id="delegation-grant_type" required><option>urn:ietf:params:oauth:grant-type:jwt-bearer</option></select>",
+  "<select id="delegation-token-type"><option>id_token</option><option>refresh_token</option></select>": "<textarea id="delegation-token" rows="2" style="width:293px;" required></textarea>",
+  "target":          "<select id="delegation-target" name="client-list-without-global" class="with-id"></select>",
+  "scope":           "<select id="delegation-scope" class="scope-selector"></select>"
 }
 </form></code></pre>
 

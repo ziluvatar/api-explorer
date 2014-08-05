@@ -11,14 +11,16 @@ define(function(require) {
     };
 
     this['delegation'] = function() {
-
       var data = {
         grant_type: $('#delegation-grant_type option:selected').val(),
-        id_token: $('#delegation-id_token').val(),
         target: $('#delegation-target option:selected').val(),
         client_id: client.clientID,
         scope: $('#delegation-scope option:selected').val()
       };
+
+      var token_type = $('#delegation-token-type option:selected').val();
+      var token = $('#delegation-token').val();
+      data[token_type] = token;
 
       var url = urljoin(client.namespace, '/delegation');
       return $.ajax({
@@ -212,7 +214,8 @@ define(function(require) {
         password: $('#ro-password').val(),
         connection: $('#ro-connection option:selected').val(),
         grant_type: $('#ro-grant_type').text(),
-        scope: $('#ro-scope option:selected').val()
+        scope: $('#ro-scope option:selected').val(),
+        device: $('#ro-device').val()
       };
 
       var url = urljoin(client.namespace, '/oauth/ro');
