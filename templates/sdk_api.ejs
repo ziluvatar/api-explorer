@@ -438,8 +438,8 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
   </div>
 
 <!-- DELETE /api/users/{user_id}/refresh_tokens/{refresh_token} -->
-  <div class="markdown" data-verb="DELETE" data-path="/api/users/{user_id}/refresh_tokens/{refresh_token}" data-description="Deletes a user's refresh token">
-Deletes a user's refresh token
+  <div class="markdown" data-verb="DELETE" data-path="/api/users/{user_id}/refresh_tokens/{refresh_token}" data-description="Revokes a refresh token">
+Revokes a user's refresh token
 
 <pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete-refresh-token' class='user-selector'></select>/refresh_tokens/<input id='refreshtokendelete-token'>
 Authorization: Bearer <span class="tokenme param">{token}</span>

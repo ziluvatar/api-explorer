@@ -32,6 +32,22 @@ define(function(require) {
       });
     };
 
+    this['offline'] = function() {
+
+      var response_type = $('#offline-response_type option:selected').val();
+      var connection = $('#offline-connection option:selected').val();
+      var scope = $('#offline-scope').text();
+      var device = $('#offline-device').val();
+
+      var url = urljoin(client.namespace, '/authorize', '?response_type=' + response_type + '&client_id=' + client.clientID + '&redirect_uri=' + client.callback + '&scope=' + scope + '&device=' + device);
+
+      if (connection) {
+        url += '&connection=' + connection;
+      }
+
+      window.open(url, '_new');
+    };
+
     this['impersonate'] = function() {
 
       var additional_parameters = validateJsonText($('#impersonate-additional_parameters').val());

@@ -336,6 +336,33 @@ Content-Type: 'application/json'
 
 </div>
 
+<h3 id="offline-access"><a class="anchor" href="#offline-access"><i class="icon-budicon-345"> </i></a>Offline Access (Refresh Tokens)</h3>
+<div class="markdown"></div>
+
+<div class="accordion">
+
+<!-- GET /authorize (offline access) -->
+  <div class="markdown" data-verb="GET" data-path="/authorize" data-path2="/offline-access" data-description="Trigger the login flow to request a refresh token">
+Return a 302 redirect to the `connection` specifying an extra scope (`offline_access`) and a device id to identify the refresh tokens later in the dashboard. This extra scope will return the usual response (see the endpoint) plus a refresh token that can be used to obtain a new JSON Web Token. The refresh token can be revoked (see Revoke Refresh Token)
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>authorize?
+  response_type=   <select id="offline-response_type" class="response_type-selector"></select>
+  &amp;client_id=      <span class="client_client_id"></span> // <span class="client_name"></span>
+  &amp;connection=     <select id="offline-connection" class="connection-selector with-optional"></select>
+  &amp;redirect_uri=   <span class="client_callback"></span>
+  &amp;device=         <input id="offline-device" required>
+  &amp;scope=          <span id="offline-scope">openid offline_access</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='offline-result'
+        data-runner='offline'>
+   Try me!
+</button>
+  </div>
+
+</div>
+
 <h3 id="impersonation"><a class="anchor" href="#impersonation"><i class="icon-budicon-345"> </i></a>Impersonation</h3>
 <div class="markdown">Using this API you can generate a link that could be used to impersonate a user. This is useful for troubleshooting. **Note**: this API can only be used with the **Global Client** credentials.</div>
 
