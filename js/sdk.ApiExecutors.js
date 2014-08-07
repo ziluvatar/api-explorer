@@ -631,6 +631,24 @@ define(function(require) {
       });
     };
 
+    this['refreshtokendelete'] = function() {
+      var user_id = $('#user-id-selector-for-delete-refresh-token option:selected').val();
+      var refresh_token = $('#refreshtokendelete-token').val();
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/refresh_tokens/' + refresh_token);
+
+        return $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'DELETE'
+        });
+      });
+    };
+    
     this['allrules'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules');
