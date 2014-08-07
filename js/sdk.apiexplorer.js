@@ -236,11 +236,16 @@ define(function (require) {
     var selectsToPopulate = [
       [ nonGlobalClients,             'select[name="client-list"]' ],
       [ nonGlobalClients,             'select[name="client-list-without-global"]' ],
-      [ nonGlobalClientsWithBrackets, 'select[name="client-list-without-global"].with-id' ]
+      [ nonGlobalClientsWithBrackets, 'select[name="client-list-without-global"].with-id', 'select[name="client-list-without-global"].with-id.with-optional' ],
     ];
     
     selectsToPopulate.forEach(function (selectToPopulate) {
-      populateSelectFromPromise(selectToPopulate[0], {selector: $(selectToPopulate[1], target)});
+      var args = [selectToPopulate[0], {selector: $(selectToPopulate[1], target)}];
+
+      if (selectToPopulate[2]) {
+        args[1].optionalSelector = $(selectToPopulate[2], target);
+      }
+      return populateSelectFromPromise.apply(null, args);
     });
 
     globalClient.then(function (globalClient) {
