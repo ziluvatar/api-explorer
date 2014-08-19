@@ -586,7 +586,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
   <!-- POST /api/clients -->
   <div class="markdown" data-verb="POST" data-path="/api/clients" data-description="Creates a new applications/APIs">
-Create a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
+Create a client. The body of the request can include the <code>name</code> and <code>callbacks</code> parameters.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/clients/
 Authorization: Bearer <span class="tokenme param">{token}</span>
@@ -609,8 +609,10 @@ Content-Type: 'application/json'
   </div>
 
   <!-- PUT /api/clients -->
-  <div class="markdown" data-verb="PUT" data-path="/api/clients/{client-id}" data-description="Updates an applications/APIs">
-Update a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters.
+  <div class="markdown" data-verb="PUT" data-path="/api/clients/{client-id}" data-description="(DEPRECATED) Updates an applications/APIs">
+<span class="label label-important">DEPRECATED!</span> This endpoint has been deprecated in favor of PUT.
+
+Update a client. The body of the request can include the <code>name</code> and <code>callbacks</code> parameters. Does not overwrite the entire client, only the provided values.
 
 <pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/
 Authorization: Bearer <span class="tokenme param">{token}</span>
@@ -630,6 +632,63 @@ Content-Type: 'application/json'
 </button>
 
 <pre class='tryme-result'><code id='clientupdate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+<!-- PATCH /api/clients -->
+  <div class="markdown" data-verb="PATCH" data-path="/api/clients/{client-id}" data-description="Updates an applications/APIs">
+Update a client. The body of the request must include the <code>name</code> and <code>callbacks</code> parameters. Does not overwrite the entire client, only the provided values.
+
+Additionally the <code>signingKey</code> can be overwritten using this method (not provided for trial for safety reasons). Possible formats are:
+
+<ul>
+<li>
+<code>
+"signingKey": {
+  cert: "%CERT_STRING%" 
+}
+// using a cert
+</code>
+</li>
+
+<li>
+<code>
+"signingKey": {
+  key: "%KEY_STRING%" 
+}
+// using a private key
+</code>
+</li>
+
+<li>
+<code>
+"signingKey": {
+  pkcs7: "%PKCS7_STRING%"
+}
+// using a pkcs7
+</code>
+</li>
+</ul>
+
+<span class="label label-important">WARNING!</span> Changing the <code>signingKey</code> for the globalClient will change it for all clients.
+
+<pre><code><span class='http-verb'>PATCH</span> <span class="client_namespace"></span>api/clients/<span class="client_client_id"></span>/
+Authorization: Bearer <span class="tokenme param">{token}</span>
+Content-Type: 'application/json'
+  <form id='update-client-form'>
+  {
+    "name":      "<input type="text" id="api-patch-client-name" class="update-client-name" required>",
+    "callbacks": "<textarea id="api-patch-client-callbacks" class="update-client-callbacks" required></textarea>" // You can specify multiple valid URLs by comma-separating them.
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='clientpatch-result'
+        data-runner='clientpatch'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='clientpatch-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 </div>
 

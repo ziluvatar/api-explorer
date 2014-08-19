@@ -335,23 +335,22 @@ define(function(require) {
       });
     };
 
-    this['clientupdate'] = function() {
+    function clientUpdate(nameId, callbacksIds){
       var clientID = client.clientID;
-      var callbacks = $.map($('#api-update-client-callbacks').val().split(','), function(c) {
-        return c.trim();
+      var callbacks = $.map($('#' + callbacksIds).val().split(','), function(c) {
+          return c.trim();
       });
 
       var updatedClient = {
-        name: $('#api-update-client-name').val().trim(),
-        callback: callbacks[0],
-        callbacks: callbacks.splice(1)
+          name: $('#' + nameId).val().trim(),
+          callback: callbacks[0],
+          callbacks: callbacks.splice(1)
       };
 
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/clients/' + clientID, '');
 
         return $.ajax({
-
           url: url,
           headers: {
             Authorization: 'Bearer ' + token.access_token
@@ -360,8 +359,15 @@ define(function(require) {
           contentType: 'application/json',
           data: JSON.stringify(updatedClient)
         });
-
       });
+    }
+
+    this['clientupdate'] = function() {
+      return clientUpdate('api-update-client-name', 'api-update-client-callbacks');
+    };
+
+    this['clientpatch'] = function() {
+      return clientUpdate('api-patch-client-name', 'api-patch-client-callbacks');
     };
 
     this['usercreate'] = function() {
