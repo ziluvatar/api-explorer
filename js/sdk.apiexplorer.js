@@ -56,6 +56,7 @@ define(function (require) {
     [ populateSelect, logsSelects.fields,             '#logs-get-field-selector' ],
     [ populateSelect, logsSelects.directions,         '#logs-get-sort-direction-selector' ],
     [ populateSelect, logsSelects.exclude_fields,     '#logs-get-exclude-fields-selector' ],
+    [ populateSelect, logsSelects.take,               '#logs-checkpoint-take-selector' ],
   ];
 
   function specificHooks(target) {

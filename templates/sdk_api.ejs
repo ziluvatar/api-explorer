@@ -903,4 +903,27 @@ Authorization: Bearer <span class='tokenme param'>{token}</span>
   <% include ./templates/logs-doc %>
 </div>
 
+
+<div class="markdown" data-verb="GET" data-path="/api/logs?from={checkpointId}&take={count}" data-description="Gets log entries from a checkpoint">
+Retrieves `count` log entries that were logged after `checkpointId`.
+<ul>
+  <li>If <code>checkpointId</code> is not provided it will start retrieving from the first log entry.</li>
+  <li>If <code>count</code> is not provided the default value is 200 (also the max value).</li>
+</ul>
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?from=<input type="text" id="logs-checkpoint-from"/>&amp;take=<select id="logs-checkpoint-take-selector"/>
+Authorization: Bearer <span class='tokenme param'>{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='logs-checkpoint-result'
+        data-runner='logs-checkpoint'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='logs-checkpoint-result'>Press the Try me! button to see the output result</code></pre>
+
+  <% include ./templates/logs-doc %>
+</div>
+
 </div>
