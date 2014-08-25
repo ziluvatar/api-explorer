@@ -799,7 +799,7 @@ define(function(require) {
         });
       });
     }
-    
+
     this['logs-search'] = function(){
       var search = $('#logs-search-query').val().trim();
 
@@ -815,6 +815,24 @@ define(function(require) {
         });
       });
     }
+
+    this['logs-checkpoint'] = function(){
+      var from = $('#logs-checkpoint-from').val().trim();
+      var take = $('#logs-checkpoint-take-selector').val().trim();
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/logs?from=' + from + '&take=' + take);
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    }
+
 
     this['dbconn-changePassword'] = function() {
       var valid = $('#dbconn-changePassword-form')[0].checkValidity();
