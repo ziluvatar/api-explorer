@@ -242,7 +242,11 @@ define(function(require) {
       };
 
       $('input, textarea', '#create-connection-options-' + strategy).each(function() {
-        connection.options[$(this).attr('data-field')] = $(this).val();
+        var val = $(this).val();
+        if ('domain_aliases' === $(this).attr('data-field')) {
+          val = val.split(',').map(function (e) { return e.trim(); });
+        }
+        connection.options[$(this).attr('data-field')] = val;
       });
 
       $('#create-connection-options-' + strategy + ' button').each(function() {

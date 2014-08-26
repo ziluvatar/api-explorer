@@ -534,18 +534,24 @@ Content-Type: 'application/json'
     </select>",
     "options":   {<div class="create-connection-strategy-pane" id="create-connection-options-waad">
       "tenant_domain": <input type="text" data-field='tenant_domain' required name="waad-tenant_domain">
+      "domain_aliases": <input type="text" data-field='domain_aliases' name="waad-domain_aliases" placeholder="optional">
     </div><div class="create-connection-strategy-pane" id="create-connection-options-google-apps">
       "tenant_domain": <input type="text" data-field="tenant_domain" required name="tenant_domain">
-    </div><div class="create-connection-strategy-pane" id="create-connection-options-adfs">
+      "domain_aliases": <input type="text" data-field='domain_aliases' name="domain_aliases" placeholder="optional">
+    </div>
+    <div class="create-connection-strategy-pane" id="create-connection-options-adfs">
       "tenant_domain": <input type="text" data-field="tenant_domain" name="tenant_domain">,
+      "domain_aliases": <input type="text" data-field='domain_aliases' name="adfs-domain_aliases" placeholder="optional">,
       "adfs_server":   <input type="text" data-field="adfs_server" required name="adfs_server">
     </div><div class="create-connection-strategy-pane" id="create-connection-options-pingfederate">
+      "domain_aliases": <input type="text" data-field='domain_aliases' name="domain_aliases" placeholder="optional">,
       "PingFederate Base URL": <input type="text" data-field="pingfederate-base-url" required name="pingfederate-base-url">,
       "Signing Cert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
     </div><div class="create-connection-strategy-pane" id="create-connection-options-samlp">
       "signInEndpoint":   "<input type="text" data-field="signInEndpoint" required name="signInEndpoint">",
       "signingCert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
       "tenant_domain": "<input type="text" data-field="tenant_domain" placeholder="optional" name="tenant_domain">",
+      "domain_aliases": <input type="text" data-field='domain_aliases' name="domain_aliases" placeholder="optional">,
       "signOutEndpoint":  "<input type="text" data-field="signOutEndpoint" placeholder="optional" name="signOutEndpoint">",
       </div>
     }
