@@ -8,7 +8,7 @@ define(function (require) {
    * @param {Object} settings: parameters to use when doing the $.ajax calls
    * @returns {Object} set of functions that makes call to endpoints
    */
-  var Model = function (actions, tenantDomainPromise, accessTokenPromise) {
+  var Model = function (actions, promiseBag) {
     var model = {};
 
     $.each(actions, function (method, fn) {
@@ -36,7 +36,8 @@ define(function (require) {
             if (type === 'GET' || deleteToken) delete(data[key]);
           });
 
-          return $.when(tenantDomainPromise, accessTokenPromise).then(function (tenantDomain, accessToken) {
+          return $.when(promiseBag.tenantDomainPromise, promiseBag.accessTokenPromise)
+            .then(function (tenantDomain, accessToken) {
               return $.ajax({
                 type: type,
                 url: 'https://' + tenantDomain + parsedUrl,
