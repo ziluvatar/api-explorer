@@ -34,8 +34,9 @@ define(function (require) {
 
   var apiItemTemplate           = require('rejs!../templates/sdk.api-method');
 
-  var tenantDomainPromise       = $.Deferred();
-  var accessTokenPromise        = $.Deferred();
+  var promiseBag = {};
+  promiseBag.accessTokenPromise = $.Deferred();
+  promiseBag.tenantDomainPromise = $.Deferred();
 
   var staticLists = {
     scopes:             ['openid', 'openid profile'],
@@ -137,7 +138,7 @@ define(function (require) {
     });
 
   }
-    
+
   function onClientChanged (tenantDomain, isAuth, readOnly, target, selectedClient) {
     $('.client_namespace', target).html('https://' + tenantDomain + '/');
     $('.client_client_id', target).html(selectedClient.clientID);
@@ -153,7 +154,7 @@ define(function (require) {
     var executors;
 
     if (isAuth) {
-      accessTokenPromise.then(function (accessToken) {
+      promiseBag.accessTokenPromise.then(function (accessToken) {
         $('.global_client_access_token').text(accessToken);
         executors = new AuthApiExecutors(selectedClient, accessToken);
       });
@@ -162,67 +163,72 @@ define(function (require) {
     }
 
     tryMeButton(readOnly, target, executors);
-  
-    return accessTokenPromise.always(function (accessToken) {
-      // Load Connections
-      var dbConnections       = getDbConnections(tenantDomain, accessToken, selectedClient.clientID);
-      var connectionsByName   = getConnectionsByName(tenantDomain, accessToken, selectedClient.clientID);
-      
-      // Load Rules
-      var rulesPromise        = getRules(tenantDomain, accessToken, selectedClient.clientID);
-      
-      // Load Logs
-      var logsPromise         = getLogs(tenantDomain, accessToken);
 
-      // Load Users
-      var usersMappedUserId   = findAllUsersById(tenantDomain, accessToken);
-      var usersMappedEmail    = findAllUsersByMail(tenantDomain, accessToken);
-      
-      var selectsToPopulate = [
-        [findAllConnections, '.connection-selector',
-          '.connection-selector.with-optional'],
-        [findOnlySocials, '.social_connection-selector',
-          '.social_connection-selector.with-optional'],
-        [findOnlyStrictEnterpriseEnabled, '.enterprise_connection-selector',
-          '.enterprise_connection-selector.with-optional'],
-        [findOnlyEnterpriseCustomDbEnabled,'.db_connection-selector',
-          '.db_connection-selector.with-optional'],
+    getAccessToken(tenantDomain, selectedClient.clientID, selectedClient.clientSecret,
+                   readOnly)
+    .then(function (token) {
+      var accessToken = token.access_token;
+      promiseBag.accessTokenPromise = $.Deferred();
+      promiseBag.accessTokenPromise.resolve(accessToken);
+      $('.tokenme').html(token.access_token);
 
-        [ connectionsByName,  '.connection-selector' ],
-        [ dbConnections,      '#api-create-user-connection-selector' ],
-        [ dbConnections,      '#api-update-user-password-byemail-connection-selector' ],
-        [ dbConnections,      '#api-user-sendverificationemail-selector' ],
+        // Load Connections
+        var dbConnections       = getDbConnections(tenantDomain, accessToken, selectedClient.clientID);
+        var connectionsByName   = getConnectionsByName(tenantDomain, accessToken, selectedClient.clientID);
+        // Load Rules
+        var rulesPromise        = getRules(tenantDomain, accessToken, selectedClient.clientID);
 
-        [ rulesPromise,       '.rule-selector' ],
-        [ logsPromise,       '.logs-selector' ],
+        // Load Logs
+        var logsPromise         = getLogs(tenantDomain, accessToken);
 
-        [ usersMappedEmail,   '.user-email-selector' ],
-        [ usersMappedUserId,  '.user-selector' ]
-      ];
+        // Load Users
+        var usersMappedUserId   = findAllUsersById(tenantDomain, accessToken);
+        var usersMappedEmail    = findAllUsersByMail(tenantDomain, accessToken);
 
-      /* Populate each of the selects and returns an array with promises to each of
-       * the elements */
-      var selectPopulatePromises = selectsToPopulate.map(function (selectToPopulate) {
-        var args = [selectToPopulate[0], {selector: $(selectToPopulate[1], target)}];
+        var selectsToPopulate = [
+          [findAllConnections(selectedClient.clientID), '.connection-selector',
+            '.connection-selector.with-optional'],
+          [findOnlySocials(selectedClient.clientID), '.social_connection-selector',
+            '.social_connection-selector.with-optional'],
+          [findOnlyStrictEnterpriseEnabled(selectedClient.clientID), '.enterprise_connection-selector',
+            '.enterprise_connection-selector.with-optional'],
+          [findOnlyEnterpriseCustomDbEnabled(selectedClient.clientID),'.db_connection-selector',
+            '.db_connection-selector.with-optional'],
 
-        if (selectToPopulate[2]) {
-          args[1].optionalSelector = $(selectToPopulate[2], target);
-        }
-        return populateSelectFromPromise.apply(null, args);
-      });
+          [ connectionsByName,  '.connection-selector' ],
+          [ dbConnections,      '#api-create-user-connection-selector' ],
+          [ dbConnections,      '#api-update-user-password-byemail-connection-selector' ],
+          [ dbConnections,      '#api-user-sendverificationemail-selector' ],
 
-      /* After all the selects are populate execute this */
-      return $.when.apply($, selectPopulatePromises).then(function () {
-        var updateUserPasswordByEmailEmailSelector = $('#update-user-password-byemail-email-selector');
+          [ rulesPromise,       '.rule-selector' ],
+          [ logsPromise,       '.logs-selector' ],
 
-        updateUserPasswordByEmailEmailSelector.change(function () {
-          $('#api-update-user-password-byemail-email').val($(this).val());
+          [ usersMappedEmail,   '.user-email-selector' ],
+          [ usersMappedUserId,  '.user-selector' ]
+        ];
+
+        /* Populate each of the selects and returns an array with promises to each of
+         * the elements */
+        var selectPopulatePromises = selectsToPopulate.map(function (selectToPopulate) {
+          var args = [selectToPopulate[0], {selector: $(selectToPopulate[1], target)}];
+
+          if (selectToPopulate[2]) {
+            args[1].optionalSelector = $(selectToPopulate[2], target);
+          }
+          return populateSelectFromPromise.apply(null, args);
         });
 
-        updateUserPasswordByEmailEmailSelector.trigger('change');
-      });
-    });
+        /* After all the selects are populate execute this */
+        return $.when.apply($, selectPopulatePromises).then(function () {
+          var updateUserPasswordByEmailEmailSelector = $('#update-user-password-byemail-email-selector');
 
+          updateUserPasswordByEmailEmailSelector.change(function () {
+            $('#api-update-user-password-byemail-email').val($(this).val());
+          });
+
+          updateUserPasswordByEmailEmailSelector.trigger('change');
+        });
+    });
   }
   function populateSelects(isAuth, readOnly, tenantDomain, target) {
     var clientsPromise = getClients(target);
@@ -311,8 +317,8 @@ define(function (require) {
       $('input[name="current-client-id"]', target).click(selectContentOnClick);
       $('input[name="current-client-secret"]', target).click(selectContentOnClick);
 
-      var clientsModel = models.clientsModel(tenantDomainPromise, accessTokenPromise);
-      var clientConnectionsModel  = models.clientConnectionsModel(tenantDomainPromise, accessTokenPromise);
+      var clientsModel = models.clientsModel(promiseBag);
+      var clientConnectionsModel  = models.clientConnectionsModel(promiseBag);
       var loadedSelectModels = selectModels(settings.readOnly, clientsModel, clientConnectionsModel);
 
       getRules                            = loadedSelectModels.getRules;
@@ -360,15 +366,15 @@ define(function (require) {
     getAccessToken(settings.tenantDomain, settings.clientId, settings.clientSecret,
                    settings.readOnly)
     .then(function (token) {
-      accessTokenPromise.resolve(token.access_token);
-      tenantDomainPromise.resolve(settings.tenantDomain);
+      promiseBag.accessTokenPromise.resolve(token.access_token);
+      promiseBag.tenantDomainPromise.resolve(settings.tenantDomain);
       settings.accessToken = token.access_token;
       $('.tokenme').html(token.access_token);
 
       renderAndPopulate(settings);
     },
     function () {
-      accessTokenPromise.reject();
+      promiseBag.accessTokenPromise.reject();
       if (settings.readOnly) {
         renderAndPopulate(settings);
       } else {

@@ -5,7 +5,7 @@ define(function(require) {
 
   var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0'];
 
-  return function(tenantDomainPromise, accessTokenPromise) {
+  return function(promiseBag) {
     var actions = {
       findAll: 'GET /api/connections?client=:client',
       findOne: 'GET /api/connections/:name?client=:client',
@@ -55,6 +55,6 @@ define(function(require) {
         });
       }
     };
-    return model(actions, tenantDomainPromise, accessTokenPromise);
+    return model(actions, promiseBag);
   };
 });

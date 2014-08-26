@@ -24,7 +24,7 @@ define(function (require) {
     }
   };
 
-  return function (tenantDomainPromise, accessTokenPromise) {
-    return model(actions, tenantDomainPromise, accessTokenPromise);
+  return function (promiseBag) {
+    return model(actions, promiseBag);
   };
 });
