@@ -269,6 +269,37 @@ define(function(require) {
       });
     };
 
+    this['connectionupdate'] = function() {
+      var strategy = $('#api-update-connection-strategy-selector option:selected').val();
+      var name = $('#api-update-connection-name').val();
+      var connection = {
+        options: {}
+      };
+
+      $('input, textarea', '#update-connection-options-' + strategy).each(function() {
+        connection.options[$(this).attr('data-field')] = $(this).val();
+      });
+
+      var status = $('#update-connection-status-selector').val();
+
+      connection['status'] = status === 'true';
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/connections', name);
+        return $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(connection)
+        });
+
+      });
+    };
+
     this['websitelogin'] = function() {
 
       var connection = $('#connection-weblogin-selector option:selected').val();

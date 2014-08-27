@@ -72,18 +72,21 @@ define(function (require) {
   }
 
   function hookStrategySelector(target) {
-      var strategyPane = $('.create-connection-strategy-pane', target);
-      var strategySelector = $('#api-create-connection-strategy-selector', target);
+    var ops = ['create', 'update'];
+    ops.forEach(function(op){
+      var strategyPane = $('.' + op + '-connection-strategy-pane', target);
+      var strategySelector = $('#api-' + op + '-connection-strategy-selector', target);
       strategyPane.hide();
-      $('#create-connection-options-office365', target).show();
+      $('#' + op + '-connection-options-waad', target).show();
 
       strategySelector.on('change', function () {
         strategyPane.hide();
         var strategy = $('option:selected', strategySelector).val();
-        $('#create-connection-options-' + strategy, target).show();
+        $('#' + op + '-connection-options-' + strategy, target).show();
       });
-    }
-    
+    });
+  }
+
   function renderApiMethods(target) {
     if (!target.hasClass('converted')){
 
