@@ -791,6 +791,7 @@ Content-Type: 'application/json'
     </select>",
     "script":   "<textarea id="api-create-rule-script" style="width: 650px;height: 150px;" required>function (user, context, callback) { user.foo = 'bar'; callback(null, user, context);}</textarea>"
                  // new lines should be encoded as \n
+    "order": <input type="text" id="api-create-rule-order" placeholder="optional"/>
   }
   </form>
 </code></pre>
@@ -818,6 +819,7 @@ Content-Type: 'application/json'
     <option value="false">false</option>
     </select>",
     "script":   "<textarea id="api-update-rule-script" style="width: 650px;height: 150px;" required>function (user, context, callback) { user.foo = 'bar'; callback(null, user, context);}</textarea>"
+    "order": <input type="text" id="api-update-rule-order" placeholder="optional"></input>
                  // new lines should be encoded as \n
   }
   </form>

@@ -713,7 +713,8 @@ define(function(require) {
       var newRule = {
         name: $('#api-create-rule-name').val().trim(),
         status: $('#api-create-rule-status').val() === 'true',
-        script: $('#api-create-rule-script').val().trim()
+        script: $('#api-create-rule-script').val().trim(),
+        order: parseInt($('#api-create-rule-order').val().trim(), 10) || ''
       };
 
       return getToken().then(function(token) {
@@ -743,7 +744,8 @@ define(function(require) {
       var name = $('#rules-put-selector').val().trim();
       var updatedRule = {
         status: $('#api-update-rule-status').val() === 'true',
-        script: $('#api-update-rule-script').val().trim()
+        script: $('#api-update-rule-script').val().trim(),
+        order: parseInt($('#api-update-rule-order').val().trim(), 10) || ''
       };
 
       return getToken().then(function(token) {
