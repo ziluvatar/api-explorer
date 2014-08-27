@@ -24,13 +24,14 @@ define(function (require) {
     }
 
     $.each(list, function (i, c) {
+      var option = '<option value="' + c + '">' + c + '</option>';
       if( isArray(c) && c.length === 2 ) {
-        $('<option value="' + c[0] + '">' + (c[1] || 'default') + '</option>')
-          .appendTo(options.selector);
-      } else {
-        $('<option value="' + c + '">' + c + '</option>')
+        option = '<option value="' + c[0] + '">' + (c[1] || 'default') + '</option>'
+        $()
           .appendTo(options.selector);
       }
+
+      $(option).appendTo(options.selector);
     });
   };
 

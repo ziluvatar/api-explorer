@@ -567,6 +567,61 @@ Content-Type: 'application/json'
 
 <pre class='tryme-result'><code id='connectioncreate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
+
+
+  <!-- PUT api/connections -->
+
+  <div class="markdown" data-verb="PUT" data-path="/api/connections/{connection-name}" data-description="Updates a connection">
+Updates a connection. The body of the request must include the <code>options</code> object with the connection parameters and the <code>status</code>.
+
+The request's body depends on the strategy that was used to create the connection. Select a strategy:
+<select id="api-update-connection-strategy-selector">
+  <option value="waad">waad</option>
+  <option value="google-apps">google-apps</option>
+  <option value="adfs">adfs</option>
+  <option value="pingfederate">PingFederate</option>
+  <option value="samlp">samlp</option>
+  <option value="auth0">auth0</option>
+</select>
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/connections/<select class="connection-selector" id="api-update-connection-name"/>
+Authorization: Bearer <span class="tokenme param">{token}</span>
+Content-Type: 'application/json'
+  <form id='update-connection-form'>
+  {
+    "options":   {<div class="update-connection-strategy-pane" id="update-connection-options-waad">
+      "tenant_domain": <input type="text" data-field='tenant_domain' required name="waad-tenant_domain">
+    </div><div class="update-connection-strategy-pane" id="update-connection-options-google-apps">
+      "tenant_domain": <input type="text" data-field="tenant_domain" required name="tenant_domain">
+    </div><div class="update-connection-strategy-pane" id="update-connection-options-adfs">
+      "tenant_domain": <input type="text" data-field="tenant_domain" name="tenant_domain">,
+      "adfs_server":   <input type="text" data-field="adfs_server" required name="adfs_server">
+    </div><div class="update-connection-strategy-pane" id="update-connection-options-pingfederate">
+      "PingFederate Base URL": <input type="text" data-field="pingfederate-base-url" required name="pingfederate-base-url">,
+      "Signing Cert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
+    </div><div class="update-connection-strategy-pane" id="update-connection-options-samlp">
+      "signInEndpoint":   "<input type="text" data-field="signInEndpoint" required name="signInEndpoint">",
+      "signingCert":   "<textarea id="signingCert" data-field="signingCert" style="width: 650px;height: 150px;" required placeholder="base64 encoded PEM or CER"></textarea>",
+      "tenant_domain": "<input type="text" data-field="tenant_domain" placeholder="optional" name="tenant_domain">",
+      "signOutEndpoint":  "<input type="text" data-field="signOutEndpoint" placeholder="optional" name="signOutEndpoint">",
+      </div>
+    }
+    "status": <select id="update-connection-status-selector">
+      <option value="true">true</option>
+      <option value="false">false</option>
+      </select>
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='connectionupdate-result'
+        data-runner='connectionupdate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='connectionupdate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
 </div>
 
 <h3 id="applications"><a class="anchor" href="#applications"><i class="icon-budicon-345"> </i></a>Applications / APIs (Clients)</h3>
