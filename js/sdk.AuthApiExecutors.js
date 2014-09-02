@@ -11,13 +11,19 @@ define(function(require) {
     };
 
     this['delegation'] = function() {
-      var data = {
-        grant_type: $('#delegation-grant_type option:selected').val(),
-        target: $('#delegation-target option:selected').val(),
-        client_id: client.clientID,
-        scope: $('#delegation-scope option:selected').val(),
-        api_type: $('#delegation-api_type option:selected').val()
-      };
+      var additional_parameters = validateJsonText($('#delegation-jsoneditor').val());
+      if (!additional_parameters) {
+        $('#delegation-result').text('Invalid additional parameters');
+        $('#delegation-result').parent().addClass('error');
+        return;
+      }
+      
+      var data = additional_parameters;
+      data.grant_type = $('#delegation-grant_type option:selected').val();
+      data.target     = $('#delegation-target option:selected').val();
+      data.client_id  = client.clientID;
+      data.scope      = $('#delegation-scope option:selected').val();
+      data.api_type   = $('#delegation-api_type option:selected').val();
       
       var token_type = $('#delegation-token-type option:selected').val();
       var token = $('#delegation-token').val();
