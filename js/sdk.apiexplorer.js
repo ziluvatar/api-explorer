@@ -17,7 +17,7 @@ define(function (require) {
 
   var logsSelects               = require('./models/logs-selects');
   var selectModels              = require('./models/select-models');
-  
+
   var getRules;
   var getLogs;
   var getConnections;
@@ -45,7 +45,7 @@ define(function (require) {
     protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp'],
     api_types:          ['app', 'aws', 'azure_sb', 'firebase', 'salesforce_api', 'salesforce_sandbox_api', 'sap_api', 'wams']
   };
-  
+
   var staticListGenerators = [
     [ populateSelect, staticLists.scopes,             '.scope-selector',               '.scope-selector.with-optional'],
     [ populateSelect, staticLists.scopesWithOffline,  '.scope-with-offline-selector',  '.scope-with-offline-selector.with-optional'],
@@ -237,18 +237,34 @@ define(function (require) {
     var clientsPromise = getClients(target);
 
     // Load Clients
-    var nonGlobalClients = clientsPromise.then(function (result) { return result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.name]; }); });
+    var nonGlobalClients = clientsPromise.then(function (result) {
+      return result.filter(function (c) {
+        return !c.global; })
+      .map(function (c) {
+       return [c.clientID, c.name];
+      });
+    });
 
-    var nonGlobalClientsWithBrackets = clientsPromise.then(function (result) { return result.filter(function (c) { return !c.global; }).map(function (c) { return [c.clientID, c.clientID + ' (' + c.name + ')']; }); });
-    
-    var globalClient = clientsPromise.then(function (result) { return result.filter(function (c) { return c.global; })[0]; });
+    var nonGlobalClientsWithBrackets = clientsPromise.then(function (result) {
+      return result.filter(function (c) {
+        return !c.global; })
+      .map(function (c) {
+        return [c.clientID, c.clientID + ' (' + c.name + ')'];
+      });
+    });
+
+    var globalClient = clientsPromise.then(function (result) {
+      return result.filter(function (c) {
+        return c.global;
+      })[0];
+    });
 
     var selectsToPopulate = [
       [ nonGlobalClients,             'select[name="client-list"]' ],
       [ nonGlobalClients,             'select[name="client-list-without-global"]' ],
       [ nonGlobalClientsWithBrackets, 'select[name="client-list-without-global"].with-id', 'select[name="client-list-without-global"].with-id.with-optional' ],
     ];
-    
+
     selectsToPopulate.forEach(function (selectToPopulate) {
       var args = [selectToPopulate[0], {selector: $(selectToPopulate[1], target)}];
 
@@ -283,7 +299,7 @@ define(function (require) {
 
       clientListSelector.off('change')
       .on('change', onClientChangedListener);
-      
+
       clientListSelector.trigger('change');
       return getSelectedClient(target, clients);
     });
