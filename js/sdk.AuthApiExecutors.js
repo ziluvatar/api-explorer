@@ -17,14 +17,14 @@ define(function(require) {
         $('#delegation-result').parent().addClass('error');
         return;
       }
-      
+
       var data = additional_parameters;
       data.grant_type = $('#delegation-grant_type option:selected').val();
       data.target     = $('#delegation-target option:selected').val();
       data.client_id  = client.clientID;
       data.scope      = $('#delegation-scope option:selected').val();
       data.api_type   = $('#delegation-api_type option:selected').val();
-      
+
       var token_type = $('#delegation-token-type option:selected').val();
       var token = $('#delegation-token').val();
       data[token_type] = token;
@@ -121,7 +121,7 @@ define(function(require) {
       data.access_token = $('#oauth_access_token-access_token').val();
       data.connection   = $('#oauth_access_token-connection').val();
       data.scope        = $('#oauth_access_token-scope option:selected').val();
-      
+
       var url = urljoin(client.namespace, '/oauth/access_token');
       return $.ajax({
         type: 'POST',
@@ -242,6 +242,42 @@ define(function(require) {
       };
 
       var url = urljoin(client.namespace, '/oauth/ro');
+      return $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        global: false
+      });
+    };
+
+    this['signup'] = function() {
+
+      var data = {
+        client_id: client.clientID,
+        email: $('#signup-email').val(),
+        password: $('#signup-password').val(),
+        connection: $('#signup-connection option:selected').val()
+      };
+
+      var url = urljoin(client.namespace, '/dbconnections/signup');
+      return $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        global: false
+      });
+    };
+
+    this['chpwd'] = function() {
+
+      var data = {
+        client_id: client.clientID,
+        email: $('#chpwd-email').val(),
+        password: $('#chpwd-password').val(),
+        connection: $('#chpwd-connection option:selected').val()
+      };
+
+      var url = urljoin(client.namespace, '/dbconnections/change_password');
       return $.ajax({
         type: 'POST',
         url: url,

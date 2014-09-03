@@ -38,7 +38,7 @@ Returns a 302 redirect to the social provider specified in the `connection`.
 
 Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
+* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget.
 * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
 * Additional parameters can be sent that will be passthrough to the provider. E.g. `access_type=offline` (for Google refresh tokens) , `display=popup` (for Windows Live popup mode).
 * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
@@ -96,7 +96,7 @@ Returns a 302 redirect to <a href="/#/login_page">Auth0 Login Page</a> that will
 
 Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget using the first database connection. 
+* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget using the first database connection.
 * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
 * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
   </div>
@@ -127,6 +127,52 @@ Content-Type: 'application/json'
 <pre class='tryme-result'><code id='ro-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
+<!-- POST /dbconnections/signup -->
+  <div class="markdown" data-verb="POST" data-path="/dbconnections/signup" data-description="Signup using username/password (active authentication)">
+Given the user credentials, the `connection` specified and the Auth0 account information, it will create a new user. You can then authenticate with this user using the `/oauth/ro` endpoint. This endpoint only works for database connections.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>/dbconnections/signup
+Content-Type: 'application/json'
+<form id='ro-form'>{
+  "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "email":    "<input type="text" id="signup-email" required>",
+  "password":    "<input type="password" id="signup-password" required>",
+  "connection":  "<select id="signup-connection" class="db_connection-selector"></select>",
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='signup-result'
+        data-runner='signup'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='signup-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+  <!-- POST /dbconnections/change_password -->
+  <div class="markdown" data-verb="POST" data-path="/dbconnections/change_password" data-description="Asks to change a password for a given user">
+Given the user email, the `connection` specified and the new password to use, Auth0 will send a _forgot password email_. Once the user clicks on the _confirm password change link_, the new password specified in this `POST` will be set to this user. This endpoint only works for database connections.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>/dbconnections/change_password
+Content-Type: 'application/json'
+<form id='ro-form'>{
+  "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "email":    "<input type="text" id="chpwd-email" required>",
+  "password":    "<input type="password" id="chpwd-password" required>", // <span>The new password to use</span>
+  "connection":  "<select id="chpwd-connection" class="db_connection-selector"></select>",
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='chpwd-result'
+        data-runner='chpwd'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='chpwd-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
 </div>
 
 <h3 id="enterpise-auth"><a class="anchor" href="#enterpise-auth"><i class="icon-budicon-345"> </i></a>Enterprise Authentication (SAML and Others)</h3>
@@ -154,9 +200,9 @@ Returns a 302 redirect to the enterprise provider specified in the `connection`.
 
 Remarks:
 
-* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget. 
+* If no `connection` is specified, it will redirect to <a href="/#/login_page">Auth0 Login Page</a> and show the Login Widget.
 * If `response_type=token`, after the user authenticates on the provider, it will redirect to your application callback URL passing the `access_token` and `id_token` in the address `location.hash`. This is used for Single Page Apps and also on Native Mobile SDKs.
-* Additional parameters can be sent that will be passthrough to the provider. 
+* Additional parameters can be sent that will be passthrough to the provider.
 * The `state` parameter will be sent back should be used for XSRF and contextual information (like a return url).
   </div>
 
