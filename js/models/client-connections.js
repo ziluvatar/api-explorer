@@ -3,7 +3,7 @@ define(function(require) {
   var clientsModel = require('./clients');
   var $ = require('jquery');
 
-  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0'];
+  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0', 'adfs', 'waad'];
 
   return function(promiseBag) {
     var actions = {
@@ -14,11 +14,18 @@ define(function(require) {
       findOnlyStrictEnterpriseEnabled: function () {
         return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
-            return usernamePasswordStrategies.indexOf(c.strategy) < 0 && c.status;
+            return c.strategy !== 'auth0' && c.status;
           });
         });
       },
-      findOnlyEnterpriseCustomDbEnabled: function () {
+      findOnlyDbConnectionsEnabled: function () {
+        return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
+          return connections.filter(function (c) {
+            return c.strategy === 'auth0' && c.status;
+          });
+        });
+      },
+      findOnlyUserPassEnabled: function () {
         return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
             return usernamePasswordStrategies.indexOf(c.strategy) > -1 && c.status;

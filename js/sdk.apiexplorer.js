@@ -30,7 +30,8 @@ define(function (require) {
   var findAllConnections;
   var findOnlySocials;
   var findOnlyStrictEnterpriseEnabled;
-  var findOnlyEnterpriseCustomDbEnabled;
+  var findOnlyUserPassEnabled;
+  var findOnlyDbConnectionsEnabled;
 
   var apiItemTemplate           = require('rejs!../templates/sdk.api-method');
 
@@ -195,7 +196,9 @@ define(function (require) {
             '.social_connection-selector.with-optional'],
           [findOnlyStrictEnterpriseEnabled(selectedClient.clientID), '.enterprise_connection-selector',
             '.enterprise_connection-selector.with-optional'],
-          [findOnlyEnterpriseCustomDbEnabled(selectedClient.clientID),'.db_connection-selector',
+          [findOnlyUserPassEnabled(selectedClient.clientID),'.userpass_connection-selector',
+            '.userpass_connection-selector.with-optional'],
+          [findOnlyDbConnectionsEnabled(selectedClient.clientID),'.db_connection-selector',
             '.db_connection-selector.with-optional'],
 
           [ connectionsByName,  '.connection-selector' ],
@@ -346,7 +349,8 @@ define(function (require) {
       findAllConnections                  = loadedSelectModels.findAllConnections;
       findOnlySocials                     = loadedSelectModels.findOnlySocials;
       findOnlyStrictEnterpriseEnabled     = loadedSelectModels.findOnlyStrictEnterpriseEnabled;
-      findOnlyEnterpriseCustomDbEnabled   = loadedSelectModels.findOnlyEnterpriseCustomDbEnabled;
+      findOnlyUserPassEnabled             = loadedSelectModels.findOnlyUserPassEnabled;
+      findOnlyDbConnectionsEnabled        = loadedSelectModels.findOnlyDbConnectionsEnabled;
       getConnections                      = loadedSelectModels.getConnections;
       getConnectionsByName                = loadedSelectModels.getConnectionsByName;
       getDbConnections                    = loadedSelectModels.getDbConnections;

@@ -26,8 +26,12 @@ define(function (require) {
       {name: 'social-connection'}
     ];
 
-    var mockCustomDB = [
+    var mockUserPassDB = [
       {name: 'custom-db-connection'}
+    ];
+
+    var mockDB = [
+      {name: 'db-connection'}
     ];
 
     var enterprise = [
@@ -43,8 +47,9 @@ define(function (require) {
       return {
         findAllEnabled:                     returnAsPromise(mockClients),
         findOnlySocials:                    returnAsPromise(mockSocials),
-        findOnlyEnterpriseCustomDbEnabled:  returnAsPromise(mockCustomDB),
-        findOnlyStrictEnterpriseEnabled:    returnAsPromise(enterprise)
+        findOnlyUserPassEnabled:            returnAsPromise(mockUserPassDB),
+        findOnlyStrictEnterpriseEnabled:    returnAsPromise(enterprise),
+        findOnlyDbConnectionsEnabled:       returnAsPromise(mockDB)
       };
     };
 

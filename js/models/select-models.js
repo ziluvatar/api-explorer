@@ -3,6 +3,7 @@ define(function (require) {
   var $ = require('jquery');
 
   return function selectModels(readOnly, clientsModel, clientConnectionsModel) {
+    var getLogs;
     var getRules;
     var getDbConnections;
     var getConnections;
@@ -14,7 +15,8 @@ define(function (require) {
     var findAllConnections;
     var findOnlySocials;
     var findOnlyStrictEnterpriseEnabled;
-    var findOnlyEnterpriseCustomDbEnabled;
+    var findOnlyUserPassEnabled;
+    var findOnlyDbConnectionsEnabled;
 
     getRules = function(tenantDomain, accessToken, clientID) {
       if (readOnly) {
@@ -40,7 +42,7 @@ define(function (require) {
     };
 
 
-    getConnections = function(tenantDomain, accessToken, clientID) {
+    getConnections = function(tenantDomain, accessToken, clientID) {
       if (readOnly) {
         var d = $.Deferred();
         setTimeout(function () {
@@ -110,7 +112,7 @@ define(function (require) {
       return clientsPromise;
     };
 
-    findAllUsers = function(tenantDomain, accessToken) {
+    findAllUsers = function(tenantDomain, accessToken) {
       if (readOnly) {
         var d = $.Deferred();
         d.resolve([{
@@ -206,17 +208,35 @@ define(function (require) {
       });
     };
 
-    findOnlyEnterpriseCustomDbEnabled = function (clientID) {
+    findOnlyUserPassEnabled = function (clientID) {
       if (readOnly) {
         var d = $.Deferred();
 
         setTimeout(function () {
-          d.resolve([{user_id: '{custom-db-connection}'}].map(function (r) { return r.user_id; }));
+          d.resolve([{user_id: '{userpass-connection}'}].map(function (r) { return r.user_id; }));
         }, 0);
 
         return d.promise();
       }
-      return clientConnectionsModel.findOnlyEnterpriseCustomDbEnabled({ client: clientID })
+      return clientConnectionsModel.findOnlyUserPassEnabled({ client: clientID })
+      .then(function (connections) {
+        return connections.map(function (e) {
+          return e.name;
+        });
+      });
+    };
+
+    findOnlyDbConnectionsEnabled = function (clientID) {
+      if (readOnly) {
+        var d = $.Deferred();
+
+        setTimeout(function () {
+          d.resolve([{user_id: '{db-connection}'}].map(function (r) { return r.user_id; }));
+        }, 0);
+
+        return d.promise();
+      }
+      return clientConnectionsModel.findOnlyDbConnectionsEnabled({ client: clientID })
       .then(function (connections) {
         return connections.map(function (e) {
           return e.name;
@@ -258,7 +278,8 @@ define(function (require) {
       getDbConnections:   getDbConnections,
       findOnlySocials:  findOnlySocials,
       findOnlyStrictEnterpriseEnabled:  findOnlyStrictEnterpriseEnabled,
-      findOnlyEnterpriseCustomDbEnabled:  findOnlyEnterpriseCustomDbEnabled,
+      findOnlyUserPassEnabled:  findOnlyUserPassEnabled,
+      findOnlyDbConnectionsEnabled: findOnlyDbConnectionsEnabled,
       getConnectionsByName: getConnectionsByName
     };
   };

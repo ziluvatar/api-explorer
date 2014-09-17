@@ -103,7 +103,7 @@ Remarks:
 
 <!-- POST /oauth/ro -->
   <div class="markdown" data-verb="POST" data-path="/oauth/ro" data-description="Login using username/password (active authentication)">
-Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections and Active Directory/LDAP.
+Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections, Active Directory/LDAP, Windows Azure AD and ADFS.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/ro
 Content-Type: 'application/json'
@@ -111,7 +111,7 @@ Content-Type: 'application/json'
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "username":    "<input type="text" id="ro-username" required>",
   "password":    "<input type="password" id="ro-password" required>",
-  "connection":  "<select id="ro-connection" class="db_connection-selector"></select>",
+  "connection":  "<select id="ro-connection" class="userpass_connection-selector"></select>",
   "grant_type":  "<span id="ro-grant_type">password</span>",
   "scope":       "<select id="ro-scope" class="scope-with-offline-selector"></select>",
   "device":      "<input type="text" id="ro-device">"
