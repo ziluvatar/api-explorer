@@ -86,6 +86,21 @@ Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 <pre class='tryme-result'><code id='user-by-id-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
+  <!-- GET /api/users/{user_id}/devices -->
+  <div class="markdown" data-verb="GET" data-path="/api/users/{user_id}/devices" data-description="Gets all user's devices">
+Gets all devices/refresh_tokens being used by the user.
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users/<select id="userdevices-by-id-users-selector" class="user-selector"></select>/devices
+Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+  data-result='userdevices-by-id-result'
+  data-runner='userdevices-by-id'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='userdevices-by-id-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
   <!-- GET /api/connections/{connection}/users -->
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users" data-description="Gets all users from an enterprise directory">
 <span class="label label-info">Head ups!</span> If the connection does not support querying for users (for instance ADFS, SAMLP), it will return the users who have logged in through that connection.

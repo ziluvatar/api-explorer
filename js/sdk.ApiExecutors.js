@@ -89,6 +89,19 @@ define(function(require) {
       });
     };
 
+    this['userdevices-by-id'] = function() {
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/', $('#userdevices-by-id-users-selector').val(), '/devices');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
     this['allconnections'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/connections');
