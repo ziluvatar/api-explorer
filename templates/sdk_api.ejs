@@ -492,6 +492,23 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 <pre class='tryme-result'><code id='refreshtokendelete-result'>If you press the Don't try me! button you will lose the refresh token.</code></pre>
   </div>
 
+<!-- DELETE /api/users/{user_id}/publickey?device={device} -->
+  <div class="markdown" data-verb="DELETE" data-path="/api/users/{user_id}/publickey?device={device}" data-description="Revokes a public key">
+Revokes a user's public key for specified device
+
+<pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete-public_key' class='user-selector'></select>/publickey?device=<input id='publickeydelete-device'>
+Authorization: Bearer <span class="tokenme param">{token}</span>
+</code></pre>
+
+<button class='btn btn-danger btn-tryme'
+        data-result='publickeydelete-result'
+        data-runner='publickeydelete'>
+  <i class='icon-white icon-hand-right'></i> Don't try me!
+</button>
+<span class="label label-important">WARNING!</span> This will delete the user's public key for specified device.
+<pre class='tryme-result'><code id='publickeydelete-result'>If you press the Don't try me! button you will lose the refresh token.</code></pre>
+  </div>
+
 </div>
 
 <h3 id="connections"><a class="anchor" href="#connections"><i class="icon-budicon-345"> </i></a>Connections</h3>

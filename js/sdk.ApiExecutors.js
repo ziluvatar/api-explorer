@@ -724,6 +724,23 @@ define(function(require) {
         });
       });
     };
+
+    this['publickeydelete'] = function() {
+      var user_id = $('#user-id-selector-for-delete-public_key option:selected').val();
+      var device = $('#publickeydelete-device').val();
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/publickey?device=' + device);
+
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'DELETE'
+        });
+      });
+    };
     
     this['allrules'] = function() {
       return getToken().then(function(token) {
