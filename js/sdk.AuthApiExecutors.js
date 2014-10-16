@@ -231,12 +231,19 @@ define(function(require) {
 
     this['ro'] = function() {
 
-      var data = {
+      var grant_type = $('#ro-grant_type option:selected').val();
+      var data = grant_type === 'urn:ietf:params:oauth:grant-type:jwt-bearer' ? {
+        client_id: client.clientID,
+        id_token: $('#ro-id_token').val(),
+        grant_type: grant_type,
+        scope: $('#ro-scope option:selected').val(),
+        device: $('#ro-device').val()
+      } : {
         client_id: client.clientID,
         username: $('#ro-username').val(),
         password: $('#ro-password').val(),
         connection: $('#ro-connection option:selected').val(),
-        grant_type: $('#ro-grant_type').text(),
+        grant_type: grant_type,
         scope: $('#ro-scope option:selected').val(),
         device: $('#ro-device').val()
       };

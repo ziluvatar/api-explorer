@@ -64,12 +64,33 @@ define(function (require) {
   function specificHooks(target) {
     // /oauth/ro
     var roScopeSelector = $('#ro-scope', target);
+    var roGrantTypeSelector = $('#ro-grant_type', target);
     roScopeSelector.on('change', function () {
-      var enableDevice = $('option:selected', roScopeSelector).val() === 'openid offline_access';
+      var enableDevice =
+        $('option:selected', roScopeSelector).val() === 'openid offline_access' ||
+        $('option:selected', roGrantTypeSelector).val() === 'urn:ietf:params:oauth:grant-type:jwt-bearer';
       $('#ro-device', target).prop('disabled', !enableDevice);
       if (!enableDevice) { $('#ro-device', target).val(''); }
     });
     roScopeSelector.trigger('change');
+
+    roGrantTypeSelector.on('change', function () {
+      if ($('option:selected', roGrantTypeSelector).val() === 'urn:ietf:params:oauth:grant-type:jwt-bearer') {
+        $('#ro-username', target).prop('disabled', true);
+        $('#ro-password', target).prop('disabled', true);
+        $('#ro-id_token', target).prop('disabled', false);
+        $('#ro-connection', target).prop('disabled', true);
+        $('#ro-device', target).prop('disabled', false);
+        return;
+      }
+
+      $('#ro-username', target).prop('disabled', false);
+      $('#ro-password', target).prop('disabled', false);
+      $('#ro-id_token', target).prop('disabled', true);
+      $('#ro-connection', target).prop('disabled', false);
+      roScopeSelector.trigger('change'); // trigger it to update device
+    });
+    roGrantTypeSelector.trigger('change');
   }
 
   function hookStrategySelector(target) {

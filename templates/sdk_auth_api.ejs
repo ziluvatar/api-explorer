@@ -110,9 +110,10 @@ Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "username":    "<input type="text" id="ro-username" required>",
-  "password":    "<input type="password" id="ro-password" required>",
+  "password":    "<input type="password" id="ro-password">",
+  "id_token":    "<input type="text" id="ro-id_token">",
   "connection":  "<select id="ro-connection" class="userpass_connection-selector"></select>",
-  "grant_type":  "<span id="ro-grant_type">password</span>",
+  "grant_type":  "<select id="ro-grant_type"><option>password</option><option>urn:ietf:params:oauth:grant-type:jwt-bearer</option></select>",
   "scope":       "<select id="ro-scope" class="scope-with-offline-selector"></select>",
   "device":      "<input type="text" id="ro-device">"
 }
