@@ -494,6 +494,28 @@ define(function(require) {
       });
     };
 
+    this['user-new_publickey'] = function() {
+      var user_id = $('#user-id-selector-for-new_publickey option:selected').val();
+      var body = {
+        device: $('#api-user-new_publickey-device').val(),
+        public_key: $('#api-user-new_publickey-public_key').val()
+      };
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/users/' + user_id + '/publickey');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(body)
+        });
+
+      });
+    };
+
     this['user-changepasswordticket'] = function() {
       var user_id = $('#user-id-selector-for-changepasswordticket option:selected').val();
 
