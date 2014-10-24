@@ -435,6 +435,9 @@ define(function(require) {
         email_verified: $('#api-create-user-email-verified-selector option:selected').val() === 'true'
       };
 
+      if (!user.email) { delete user.email; }
+      if (!user.password) { delete user.password; }
+      
       user = $.extend(user, metadata);
 
       return getToken().then(function(token) {
