@@ -48,8 +48,8 @@ define(function (require) {
     if (!promise.then) {
       promise = promise(options);
     }
-    return promise.then(function (list) {
-      populateSelect(list, options);
+    return promise.then(function (list1, list2) {
+      populateSelect((list1 || []).concat(list2 || []), options);
     });
   };
 

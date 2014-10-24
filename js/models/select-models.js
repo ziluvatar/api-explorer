@@ -6,6 +6,7 @@ define(function (require) {
     var getLogs;
     var getRules;
     var getDbConnections;
+    var getPasswordlessConnections;
     var getConnections;
     var getConnectionsByName;
     var getClients;
@@ -66,6 +67,10 @@ define(function (require) {
     
     getDbConnections = function(tenantDomain, accessToken, clientID) {
       return getConnections(tenantDomain, accessToken, clientID).then(function (connections) { return connections.filter(function (c) { return c.strategy === 'auth0'; }).map(function (c) { return c.name; }); });
+    };
+
+    getPasswordlessConnections = function(tenantDomain, accessToken, clientID) {
+      return getConnections(tenantDomain, accessToken, clientID).then(function (connections) { return connections.filter(function (c) { return c.strategy === 'sms'; }).map(function (c) { return c.name; }); });
     };
 
     getConnectionsByName = function (tenantDomain, accessToken, clientID) {
@@ -276,6 +281,7 @@ define(function (require) {
       findAllUsersByMail: findAllUsersByMail,
       findAllConnections:  findAllConnections,
       getDbConnections:   getDbConnections,
+      getPasswordlessConnections: getPasswordlessConnections,
       findOnlySocials:  findOnlySocials,
       findOnlyStrictEnterpriseEnabled:  findOnlyStrictEnterpriseEnabled,
       findOnlyUserPassEnabled:  findOnlyUserPassEnabled,

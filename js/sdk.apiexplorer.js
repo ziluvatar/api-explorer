@@ -26,6 +26,7 @@ define(function (require) {
   var findAllUsersById;
   var findAllUsersByMail;
   var getDbConnections;
+  var getPasswordlessConnections;
   var getConnectionsByName;
   var findAllConnections;
   var findOnlySocials;
@@ -199,6 +200,7 @@ define(function (require) {
 
         // Load Connections
         var dbConnections       = getDbConnections(tenantDomain, accessToken, selectedClient.clientID);
+        var passwordlessConns   = getPasswordlessConnections(tenantDomain, accessToken, selectedClient.clientID);
         var connectionsByName   = getConnectionsByName(tenantDomain, accessToken, selectedClient.clientID);
         // Load Rules
         var rulesPromise        = getRules(tenantDomain, accessToken, selectedClient.clientID);
@@ -223,7 +225,7 @@ define(function (require) {
             '.db_connection-selector.with-optional'],
 
           [ connectionsByName,  '.connection-selector' ],
-          [ dbConnections,      '#api-create-user-connection-selector' ],
+          [ $.when(dbConnections, passwordlessConns), '#api-create-user-connection-selector' ],
           [ dbConnections,      '#api-update-user-password-byemail-connection-selector' ],
           [ dbConnections,      '#api-user-sendverificationemail-selector' ],
 
@@ -375,6 +377,7 @@ define(function (require) {
       getConnections                      = loadedSelectModels.getConnections;
       getConnectionsByName                = loadedSelectModels.getConnectionsByName;
       getDbConnections                    = loadedSelectModels.getDbConnections;
+      getPasswordlessConnections          = loadedSelectModels.getPasswordlessConnections;
 
       getClients                          = loadedSelectModels.getClients;
 

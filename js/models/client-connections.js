@@ -3,7 +3,7 @@ define(function(require) {
   var clientsModel = require('./clients');
   var $ = require('jquery');
 
-  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0', 'adfs', 'waad'];
+  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0', 'adfs', 'waad', 'sms'];
 
   return function(promiseBag) {
     var actions = {
@@ -11,6 +11,7 @@ define(function(require) {
       findOne: 'GET /api/connections/:name?client=:client',
       findOnlySocials: 'GET /api/connections?only_socials=true&client=:client',
       findOnlyEnterprise: 'GET /api/connections?only_enterprise=true&client=:client',
+      findOnlyPasswordless: 'GET /api/connections?only_passwordless=true&client=:client',
       findOnlyStrictEnterpriseEnabled: function () {
         return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
@@ -26,7 +27,7 @@ define(function(require) {
         });
       },
       findOnlyUserPassEnabled: function () {
-        return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
+        return this.findAll.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
             return usernamePasswordStrategies.indexOf(c.strategy) > -1 && c.status;
           });

@@ -192,7 +192,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 <pre class='tryme-result'><code id='clientusers-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
-<!-- POST api/users -->
+<!-- POST /api/users -->
 
 <div class="markdown" data-verb="POST" data-path="/api/users" data-description="Creates a user">
   Creates a user. The body of the request must include the <code>email</code>, the <code>password</code>, and the <code>connection</code> of the user. Also it can include the user's <code>email_verified</code> parameter and the <code>extra attributes</code> that you want to add.
@@ -206,7 +206,7 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
     "email":          "<input type="email" placeholder="email" id="api-create-user-email">",
     "password":       "<input type="password" placeholder="password" id="api-create-user-password">",
     "connection":     "<select style="min-width:221px" id="api-create-user-connection-selector">
-    </select>", // only database connections
+    </select>", // only database or passwordless connections
     "email\_verified": <select style="margin-top:8px;" id='api-create-user-email-verified-selector'><option value="false">false</option><option value="true">true</option></select>, // if true, it won't send an email for confirmation
     <textarea id="sdk-create-jsoneditor" rows="3" style="margin-top:7px;width:75%;">"vip": true,&#13;&#10;"birthdate": "1980-12-23T03:00:00.000Z"</textarea>
   }
