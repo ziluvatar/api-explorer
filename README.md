@@ -70,3 +70,7 @@ In order to include API Explorer in your project you will need to do the followi
 </script>
 
 ```
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
