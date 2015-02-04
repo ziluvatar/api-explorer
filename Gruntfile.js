@@ -162,22 +162,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-    invalidate_cloudfront: {
-      options: {
-        key:            process.env.S3_KEY,
-        secret:         process.env.S3_SECRET,
-        distribution:   process.env.CDN_DISTRIBUTION
-      },
-      production: {
-        files: [{
-          expand:   true,
-          cwd:      './dist/',
-          src:      ['**/*'],
-          filter:   'isFile',
-          dest:     'api-explorer/'
-        }]
-      }
-    },
     http: {
       'purge-js': {
         options: {
@@ -203,5 +187,5 @@ module.exports = function (grunt) {
   grunt.registerTask('dev', ['build-dev', 'connect:dev', 'watch:dev']);
 
   grunt.registerTask('purge-cdn', ['http:purge-js', 'http:purge-css']);
-  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production', 'purge-cdn']);
+  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'purge-cdn']);
 };
