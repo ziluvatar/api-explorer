@@ -45,7 +45,7 @@ define(function (require) {
     scopesWithOffline:  ['openid', 'openid profile', 'openid offline_access'],
     responseTypes:      ['code', 'token'],
     protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp'],
-    api_types:          ['app', 'aws', 'azure_sb', 'firebase', 'salesforce_api', 'salesforce_sandbox_api', 'sap_api', 'wams']
+    api_types:          ['app', 'aws', 'azure_sb', 'azure_blob', 'firebase', 'salesforce_api', 'salesforce_sandbox_api', 'sap_api', 'wams']
   };
 
   var staticListGenerators = [
