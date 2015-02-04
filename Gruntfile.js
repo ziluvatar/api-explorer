@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         'url-join':         'bower_components/url-join/lib/url-join',
         'bootstrap':        'bower_components/bootstrap/docs/assets/js/bootstrap-collapse',
         'jquerymd':         'vendor/jquery.markdown',
-        'showdown':         'bower_components/showdown/compressed/showdown'
+        'showdown':         'bower_components/showdown/compressed/Showdown'
 
       },
       out: 'dist/api-explorer.js'
