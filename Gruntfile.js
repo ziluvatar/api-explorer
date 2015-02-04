@@ -178,26 +178,30 @@ module.exports = function (grunt) {
         }]
       }
     },
-    maxcdn: {
-      purgeCache: {
+    http: {
+      'purge-js': {
         options: {
-          companyAlias:   process.env.MAXCDN_COMPANY_ALIAS,
-          consumerKey:    process.env.MAXCDN_CONSUMER_KEY,
-          consumerSecret: process.env.MAXCDN_CONSUMER_SECRET,
-          zone_id:        process.env.MAXCDN_ZONE_ID,
-          method:         'delete'
-        },
-        files: [
-          { dest:     'api-explorer/api-explorer.js' },
-          { dest:     'api-explorer/api-explorer.css' }
-        ],
+          url:    process.env.CDN_ROOT + '/api-explorer/api-explorer.js',
+          method: 'DELETE'
+        }
       },
+      'purge-css': {
+        options: {
+          url:    process.env.CDN_ROOT + '/api-explorer/api-explorer.css',
+          method: 'DELETE'
+        }
+      }
     }
   });
 
   grunt.registerTask('build', ['clean', 'template', 'less','requirejs:min']);
+
   grunt.registerTask('build-dev', ['clean', 'template', 'less','requirejs:dev']);
+
   grunt.registerTask('default', ['build', 'connect', 'watch']);
+
   grunt.registerTask('dev', ['build-dev', 'connect:dev', 'watch:dev']);
-  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production', 'maxcdn']);
+
+  grunt.registerTask('purge-cdn', ['http:purge-js', 'http:purge-css']);
+  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'invalidate_cloudfront:production', 'purge-cdn']);
 };
