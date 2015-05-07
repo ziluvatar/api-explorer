@@ -412,7 +412,24 @@ Return a 302 redirect to the `connection` specifying an extra scope (`offline_ac
 </div>
 
 <h3 id="impersonation"><a class="anchor" href="#impersonation"><i class="icon-budicon-345"> </i></a>Impersonation</h3>
-<div class="markdown">Using this API you can generate a link that could be used to impersonate a user. This is useful for troubleshooting. **Note**: this API can only be used with the **Global Client** credentials.</div>
+<div class="markdown">
+Generates a link that can be used once to log in as a specific user.
+Useful for troubleshooting.
+
+To distinguish between real logins and impersonation logins,
+the profile of the impersonated user will contain additional `impersonated` and `impersonator` properties.
+For example:
+
+```json
+"impersonated": true,
+"impersonator": {
+  "user_id": "auth0|...",
+  "email": "admin@example.com"
+}
+```
+
+**Note**: this API can only be used with **Global Client** credentials.
+</div>
 
 <div class="accordion">
 
