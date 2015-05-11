@@ -215,7 +215,6 @@ define(function(require) {
     this['unlink'] = function() {
 
       var data = {
-        clientID: client.clientID,
         access_token: $('#unlink-access_token').val(),
         user_id: $('#unlink-user_id option:selected').val()
       };
