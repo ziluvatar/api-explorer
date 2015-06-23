@@ -70,7 +70,7 @@ define(function (require) {
     };
 
     getPasswordlessConnections = function(tenantDomain, accessToken, clientID) {
-      return getConnections(tenantDomain, accessToken, clientID).then(function (connections) { return connections.filter(function (c) { return c.strategy === 'sms'; }).map(function (c) { return c.name; }); });
+      return getConnections(tenantDomain, accessToken, clientID).then(function (connections) { return connections.filter(function (c) { return ['email', 'sms'].indexOf(c.strategy) > -1; }).map(function (c) { return c.name; }); });
     };
 
     getConnectionsByName = function (tenantDomain, accessToken, clientID) {

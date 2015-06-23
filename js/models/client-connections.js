@@ -3,7 +3,7 @@ define(function(require) {
   var clientsModel = require('./clients');
   var $ = require('jquery');
 
-  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0', 'adfs', 'waad', 'sms'];
+  var usernamePasswordStrategies = ['ad', 'auth0-adldap', 'auth0', 'adfs', 'waad', 'sms', 'email'];
 
   return function(promiseBag) {
     var actions = {
