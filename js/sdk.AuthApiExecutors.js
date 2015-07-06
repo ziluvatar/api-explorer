@@ -5,8 +5,12 @@ define(function(require) {
   return function(client, globalAccessToken) {
 
     var validateJsonText = function(jsonText) {
+      return parseJson('{' + jsonText + '}');
+    };
+
+    var parseJson = function(jsonStr) {
       try {
-        return JSON.parse('{' + jsonText + '}');
+        return JSON.parse(jsonStr);
       } catch(e) {}
     };
 
@@ -284,6 +288,68 @@ define(function(require) {
       };
 
       var url = urljoin(client.namespace, '/dbconnections/change_password');
+      return $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        global: false
+      });
+    };
+
+    this['passwordless-start-with_email'] = function() {
+
+      var authParamsStr = $('#passwordless-start-with_email-authParams').val();
+      var authParams = authParamsStr ? parseJson(authParamsStr) : {};
+      if (!authParams) {
+        $('#passwordless-start-with_email-result').text('Invalid authParams');
+        $('#passwordless-start-with_email-result').parent().addClass('error');
+        return;
+      }
+
+      var data = {
+        client_id: client.clientID,
+        connection: 'email',
+        email: $('#passwordless-start-with_email-email').val(),
+        send: $('#passwordless-start-with_email-send option:selected').val(),
+        authParams: authParams
+      };
+
+      return $.ajax({
+        type: 'POST',
+        url: urljoin(client.namespace, '/passwordless/start'),
+        data: data,
+        global: false
+      });
+    };
+
+    this['passwordless-start-with_sms'] = function() {
+
+      var data = {
+        client_id: client.clientID,
+        connection: 'sms',
+        phone_number: $('#passwordless-start-with_sms-phone_number').val()
+      };
+
+      return $.ajax({
+        type: 'POST',
+        url: urljoin(client.namespace, '/passwordless/start'),
+        data: data,
+        global: false
+      });
+    };
+
+    this['passwordless_with_sms-ro'] = function() {
+
+      var data = {
+        client_id: client.clientID,
+        username: $('#passwordless_with_sms-ro-username').val(),
+        password: $('#passwordless_with_sms-ro-password').val(),
+        connection: 'sms',
+        grant_type: 'password',
+        scope: $('#passwordless_with_sms-ro-scope option:selected').val()
+      };
+
+      var url = urljoin(client.namespace, '/oauth/ro');
       return $.ajax({
         type: 'POST',
         url: url,

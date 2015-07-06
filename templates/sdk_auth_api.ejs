@@ -103,7 +103,7 @@ Remarks:
 
 <!-- POST /oauth/ro -->
   <div class="markdown" data-verb="POST" data-path="/oauth/ro" data-description="Login using username/password (active authentication)">
-Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections, Active Directory/LDAP, Windows Azure AD and ADFS.
+Given the user credentials and the `connection` specified, it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`. This endpoint only works for database connections, passwordless connections, Active Directory/LDAP, Windows Azure AD and ADFS.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/ro
 Content-Type: 'application/json'
@@ -172,6 +172,95 @@ Content-Type: 'application/json'
 </button>
 
 <pre class='tryme-result'><code id='chpwd-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+</div>
+
+<h3 id="passwordless"><a class="anchor" href="#passwordless"><i class="icon-budicon-345"> </i></a>Passwordless Authentication</h3>
+<div class="markdown">Passwordless connections, as the name suggests, don't require the user to remember a password. Instead, another mechanism is used to prove identity. It could be a one-time password sent every time the user logs in through email or SMS.</div>
+
+<h4 id="passwordless-with_email"><a class="anchor" href="#passwordless-with_email"><i class="icon-budicon-345"> </i></a>Email</h4>
+<div class="markdown"></div>
+<div class="accordion">
+
+<!-- POST /passwordless/start (email) -->
+  <div class="markdown" data-verb="POST" data-path="/passwordless/start" data-path2="/with_email" data-description="Start flow sending an email">
+Given the user `email` address, it will send an email with:
+
+* A link (default, `send:"link"`). You can then authenticate with this user opening the link and he will be automatically logged in to the application. Optionally, you can append/override parameters to the link (like `scope`, `redirect_uri`, `protocol`, `response_type`, etc.) using `authParams` object.
+* A verification code (`send:"code"`). You can then authenticate with this user using the `/oauth/ro` endpoint specifying `email` as `username` and `code` as `password`.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>passwordless/start
+Content-Type: 'application/json'
+<form id='passwordless-start-with_email-form'>{
+  "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "connection":  "<span>email</span>",
+  "email":       "<input type="text" id="passwordless-start-with_email-email" required>",
+  "send":        "<select id="passwordless-start-with_email-send"><option>link</option><option>code</option></select>",
+  "authParams":  <textarea id="passwordless-start-with_email-authParams" rows="4" style="width:293px;"></textarea>
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='passwordless-start-with_email-result'
+        data-runner='passwordless-start-with_email'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='passwordless-start-with_email-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+</div>
+
+<h4 id="passwordless-with_sms"><a class="anchor" href="#passwordless-with_sms"><i class="icon-budicon-345"> </i></a>SMS</h4>
+<div class="markdown"></div>
+<div class="accordion">
+
+<!-- POST /passwordless/start (sms) -->
+  <div class="markdown" data-verb="POST" data-path="/passwordless/start" data-path2="/with_sms" data-description="Start flow sending a SMS message">
+Given the user `phone_number`, it will send a SMS message with a verification code. You can then authenticate with this user using the `/oauth/ro` endpoint specifying `phone_number` as `username` and `code` as `password`:
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>passwordless/start
+Content-Type: 'application/json'
+<form id='passwordless-start-with_sms-form'>{
+  "client_id":    "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "connection":   "<span>sms</span>",
+  "phone_number": "<input type="text" id="passwordless-start-with_sms-phone_number" required>"
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='passwordless-start-with_sms-result'
+        data-runner='passwordless-start-with_sms'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='passwordless-start-with_sms-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+<!-- POST /oauth/ro (passwordless with sms) -->
+  <div class="markdown" data-verb="POST" data-path="/oauth/ro" data-path2="/ro_with_sms" data-description="Login using phone number/verification code (active authentication)">
+Given the user credentials (`phone_number` and `code`), it will do the authentication on the provider and return a JSON with the `access_token` and `id_token`.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/ro
+Content-Type: 'application/json'
+<form id='passwordless_with_sms-ro-form'>{
+  "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
+  "connection":  "sms",
+  "grant_type":  "password",
+  "username":    "<input type="text" id="passwordless_with_sms-ro-username" placeholder="phone number" required>",
+  "password":    "<input type="password" id="passwordless_with_sms-ro-password" placeholder="verification code">",
+  "scope":       "<select id="passwordless_with_sms-ro-scope" class="scope-selector"></select>"
+}
+</form></code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='passwordless_with_sms-ro-result'
+        data-runner='passwordless_with_sms-ro'>
+   Try me!
+</button>
+
+<pre class='tryme-result'><code id='passwordless_with_sms-ro-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 </div>

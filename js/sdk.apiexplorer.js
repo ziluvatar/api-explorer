@@ -92,6 +92,17 @@ define(function (require) {
       roScopeSelector.trigger('change'); // trigger it to update device
     });
     roGrantTypeSelector.trigger('change');
+
+    // /passwordless/start
+    var passwordlessSendSelector = $('#passwordless-start-with_email-send', target);
+    passwordlessSendSelector.on('change', function () {
+      var disable_authParams = $('option:selected', passwordlessSendSelector).val() !== 'link';
+      var authParamsInput = $('#passwordless-start-with_email-authParams', target);
+      authParamsInput.prop('disabled', disable_authParams);
+      if (disable_authParams) {
+        authParamsInput.val('');
+      }
+    });
   }
 
   function hookStrategySelector(target) {
