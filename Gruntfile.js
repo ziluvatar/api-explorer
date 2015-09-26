@@ -140,7 +140,7 @@ module.exports = function (grunt) {
       dev: requireJSConfigDev,
       min: requireJSConfig
     },
-    s3: {
+    aws_s3: {
       options: {
         key:    process.env.S3_KEY,
         secret: process.env.S3_SECRET,
@@ -189,5 +189,5 @@ module.exports = function (grunt) {
   grunt.registerTask('dev', ['build-dev', 'connect:dev', 'watch:dev']);
 
   grunt.registerTask('purge-cdn', ['http:purge-js', 'http:purge-css']);
-  grunt.registerTask('cdn', ['build', 's3:clean', 's3:publish', 'purge-cdn']);
+  grunt.registerTask('cdn', ['build', 'aws_s3:clean', 'aws_s3:publish', 'purge-cdn']);
 };
