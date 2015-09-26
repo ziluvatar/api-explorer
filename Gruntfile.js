@@ -160,7 +160,7 @@ module.exports = function (grunt) {
       },
       publish: {
         files: [
-          { src:    'dist/*', dest:   'api-explorer/', gzip: true }
+          { src:    ['**'], dest:   'api-explorer/', expand: true, cwd: 'dist/' }
         ]
       }
     },
