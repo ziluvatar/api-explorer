@@ -208,6 +208,57 @@ Content-Type: 'application/json'
 </button>
 
 <pre class='tryme-result'><code id='passwordless-start-with_email-result'>Press the Try me! button to see the output result.</code></pre>
+
+<h4>Error Code Reference</h4>
+
+<h5>HTTP 400</h5>
+
+<ul>
+  <li>
+    Invalid tenant:
+    <pre>{"error":"bad.tenant","error_description":"error in tenant - tenant validation failed: invalid_tenant"}</pre>
+  </li>
+  <li>
+    Missing client_id:
+    <pre>{"error":"bad.client_id","error_description":"Missing required property: client_id"}</pre>
+  </li>
+  <li>
+    Missing connection:
+    <pre>{"error":"bad.connection","error_description":"Missing required property: connection"}</pre>
+  </li>
+  <li>
+    Connection does not exist:
+    <pre>{"error":"bad.connection","error_description":"Connection does not exist"}</pre>
+  </li>
+  <li>
+    Disabled connection:
+    <pre>{"error":"bad.connection","error_description":"Connection is disabled"}</pre>
+  </li>
+  <li>
+    Invalid connection:
+    <pre>{"error":"bad.connection","error_description":"Invalid connection strategy. It must either be a passwordless connection"}</pre>
+  </li>
+  <li>
+    Invalid send parameter:
+    <pre>{"error":"bad.send","error_description":"error in send - No enum match for: &lt;SEND_VALUE&gt;"}</pre>
+  </li>
+  <li>
+    Invalid authParams:
+    <pre>{"error":"bad.authParams","error_description":"error in authParams - invalid type: string (expected object)"}</pre>
+  </li>
+  <li>
+    Invalid paramaters:
+    <pre>{"error":"bad.request","error_description":"the following properties are not allowed: &lt;INVALID_PARAMETER_NAME&gt;"}</pre>
+  </li>
+  <li>
+    Missing email:
+    <pre>{"error":"bad.email","error_description":"Missing required property: email"}</pre>
+  </li>
+  <li>
+    Invalid email:
+    <pre>{"error":"bad.email","error_description":"error in email - email format validation failed: &lt;INVALID_EMAIL&gt;"}</pre>
+  </li>
+</ul>
   </div>
 
 </div>
@@ -236,6 +287,57 @@ Content-Type: 'application/json'
 </button>
 
 <pre class='tryme-result'><code id='passwordless-start-with_sms-result'>Press the Try me! button to see the output result.</code></pre>
+
+<h4>Error Code Reference</h4>
+
+<h5>HTTP 400</h5>
+
+<ul>
+  <li>
+    Invalid tenant:
+    <pre>{"error":"bad.tenant","error_description":"error in tenant - tenant validation failed: invalid_tenant"}</pre>
+  </li>
+  <li>
+    Missing client_id:
+    <pre>{"error":"bad.client_id","error_description":"Missing required property: client_id"}</pre>
+  </li>
+  <li>
+    Missing connection:
+    <pre>{"error":"bad.connection","error_description":"Missing required property: connection"}</pre>
+  </li>
+  <li>
+    Connection does not exist:
+    <pre>{"error":"bad.connection","error_description":"Connection does not exist"}</pre>
+  </li>
+  <li>
+    Disabled connection:
+    <pre>{"error":"bad.connection","error_description":"Connection is disabled"}</pre>
+  </li>
+  <li>
+    Invalid connection:
+    <pre>{"error":"bad.connection","error_description":"Invalid connection strategy. It must either be a passwordless connection"}</pre>
+  </li>
+  <li>
+    Invalid authParams:
+    <pre>{"error":"bad.authParams","error_description":"error in authParams - invalid type: string (expected object)"}</pre>
+  </li>
+  <li>
+    Invalid paramaters:
+    <pre>{"error":"bad.request","error_description":"the following properties are not allowed: &lt;INVALID_PARAMETER_VALUE&gt;"}</pre>
+  </li>
+  <li>
+    Missing phone_number:
+    <pre>{"error":"bad.phone_number","error_description":"Missing required property: phone_number"}</pre>
+  </li>
+  <li>
+    Invalid phone_number format:
+    <pre>{"error":"bad.phone_number","error_description":"String does not match pattern: ^\\+[0-9]{1,15}$"}</pre>
+  </li>
+  <li>
+    SMS Provider errors:
+    <pre>{"error":"sms_provider_error","error_description":"&lt;SPECIFIC_PROVIDER_MESSAGE&gt; (Code: &lt;SPECIFIC_PROVIDER_CODE&gt;)"}</pre>
+  </li>
+</ul>
   </div>
 
 <!-- POST /oauth/ro (passwordless with sms) -->
