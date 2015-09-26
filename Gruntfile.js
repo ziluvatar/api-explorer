@@ -153,13 +153,13 @@ module.exports = function (grunt) {
         }
       },
       clean: {
-        del: [
-          { src: 'api-explorer/api-explorer.js', },
-          { src: 'api-explorer/api-explorer.css', },
+        files: [
+          { action: 'delete', dest: 'api-explorer/api-explorer.js' },
+          { action: 'delete', dest: 'api-explorer/api-explorer.css' },
         ]
       },
       publish: {
-        upload: [
+        files: [
           { src:    'dist/*', dest:   'api-explorer/', gzip: true }
         ]
       }
