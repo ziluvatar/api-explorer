@@ -41,8 +41,8 @@ define(function (require) {
   promiseBag.tenantDomainPromise = $.Deferred();
 
   var staticLists = {
-    scopes:             ['openid', 'openid profile'],
-    scopesWithOffline:  ['openid', 'openid profile', 'openid offline_access'],
+    scopes:             ['openid', 'openid name email'],
+    scopesWithOffline:  ['openid', 'openid name email', 'openid offline_access'],
     responseTypes:      ['code', 'token'],
     protocols:          ['oauth2', 'wsfed', 'wsfed-rms', 'samlp'],
     api_types:          ['app', 'aws', 'azure_sb', 'azure_blob', 'firebase', 'layer', 'salesforce_api', 'salesforce_sandbox_api', 'sap_api', 'wams']
