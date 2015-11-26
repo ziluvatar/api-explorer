@@ -132,11 +132,11 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="POST" data-path="/dbconnections/signup" data-description="Signup using username/password (active authentication)">
 Given the user credentials, the `connection` specified and the Auth0 account information, it will create a new user. You can then authenticate with this user using the `/oauth/ro` endpoint. This endpoint only works for database connections.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>/dbconnections/signup
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>dbconnections/signup
 Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
-  "email":    "<input type="text" id="signup-email" required>",
+  "email":       "<input type="text" id="signup-email" required>",
   "password":    "<input type="password" id="signup-password" required>",
   "connection":  "<select id="signup-connection" class="db_connection-selector"></select>",
 }
@@ -155,11 +155,11 @@ Content-Type: 'application/json'
   <div class="markdown" data-verb="POST" data-path="/dbconnections/change_password" data-description="Asks to change a password for a given user">
 Given the user email, the `connection` specified and the new password to use, Auth0 will send a _forgot password email_. Once the user clicks on the _confirm password change link_, the new password specified in this `POST` will be set to this user. This endpoint only works for database connections.
 
-<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>/dbconnections/change_password
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>dbconnections/change_password
 Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
-  "email":    "<input type="text" id="chpwd-email" required>",
+  "email":       "<input type="text" id="chpwd-email" required>",
   "password":    "<input type="password" id="chpwd-password" required>", // <span>The new password to use</span>
   "connection":  "<select id="chpwd-connection" class="db_connection-selector"></select>",
 }

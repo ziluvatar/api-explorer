@@ -11,18 +11,19 @@ define(function(require) {
       findOne: 'GET /api/connections/:name?client=:client',
       findOnlySocials: 'GET /api/connections?only_socials=true&client=:client',
       findOnlyEnterprise: 'GET /api/connections?only_enterprise=true&client=:client',
+      findOnlyDatabase: 'GET /api/connections?only_database=true&client=:client',
       findOnlyPasswordless: 'GET /api/connections?only_passwordless=true&client=:client',
       findOnlyStrictEnterpriseEnabled: function () {
         return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
-            return c.strategy !== 'auth0' && c.status;
+            return c.status;
           });
         });
       },
       findOnlyDbConnectionsEnabled: function () {
-        return this.findOnlyEnterprise.apply(this, arguments).then(function (connections) {
+        return this.findOnlyDatabase.apply(this, arguments).then(function (connections) {
           return connections.filter(function (c) {
-            return c.strategy === 'auth0' && c.status;
+            return c.status;
           });
         });
       },
