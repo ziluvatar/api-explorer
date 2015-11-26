@@ -19,7 +19,8 @@
   "name": "auth0-api-explorer",
   "version": "0.0.1",
   "scripts": {
-    "test": "bower install && grunt build"
+    "test": "bower install && grunt build",
+    "cdn": "grunt cdn"
   },
   "engines": {
     "node": ">= 0.8.0"
