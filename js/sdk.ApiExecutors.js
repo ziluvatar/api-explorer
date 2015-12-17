@@ -127,7 +127,7 @@ define(function(require) {
         });
       });
     };
-    
+
     var connectionUsers = function (perPageId, urlPath){
       return function(search){
         return getToken().then(function(token) {
@@ -150,25 +150,25 @@ define(function(require) {
         });
       };
     }
-    
+
     var enterpriseConnectionUsers = connectionUsers('enterpriseconn-users-per-page', 'enterpriseconnections', true);
-    
+
     this['enterpriseconn-users'] = function() {
-      
+
       var search = $('#enterprise-users-search-query').val();
-      
+
       var element = document.getElementById('enterprise-users-search-query');
-      
+
       if (!search) { return; }
-      
+
       return enterpriseConnectionUsers(search);
     };
-    
+
     var socialConnectionUsers = connectionUsers('socialconn-users_per-page', 'socialconnections', false);
-    
+
     this['socialconn-users'] = function(){
       var search = $('#socialconn-users-search-query').val();
-      
+
       return socialConnectionUsers(search);
     }
 
@@ -437,7 +437,7 @@ define(function(require) {
 
       if (!user.email) { delete user.email; }
       if (!user.password) { delete user.password; }
-      
+
       user = $.extend(user, metadata);
 
       return getToken().then(function(token) {
@@ -677,9 +677,13 @@ define(function(require) {
     };
 
     this['usersdelete'] = function() {
+      var confirmText = prompt('Confirm you would like to DELETE ALL users in your account. This action cannot be undone. In order to confirm this please type "Delete ALL users" exactly as shown.');
+      if (confirmText !== 'Delete ALL users') {
+        return;
+      }
       return getToken().then(function (token) {
         var url = urljoin(client.namespace, '/api/users');
-        
+
         return $.ajax({
           url: url,
           headers: {
@@ -691,6 +695,11 @@ define(function(require) {
     };
 
     this['userdelete'] = function() {
+      var confirmText = prompt('Confirm you would like to DELETE this user. This action cannot be undone. In order to confirm this please type "Delete user" exactly as shown.');
+      if (confirmText !== 'Delete user') {
+        return;
+      }
+
       var user_id = $('#user-id-selector-for-delete option:selected').val();
 
       return getToken().then(function(token) {
@@ -711,6 +720,11 @@ define(function(require) {
     };
 
     this['refreshtokendelete'] = function() {
+      var confirmText = prompt('Confirm you would like to DELETE this refresh token. This action cannot be undone. In order to confirm this please type "Delete refresh token" exactly as shown.');
+      if (confirmText !== 'Delete refresh token') {
+        return;
+      }
+
       var user_id = $('#user-id-selector-for-delete-refresh-token option:selected').val();
       var refresh_token = $('#refreshtokendelete-token').val();
 
@@ -729,6 +743,11 @@ define(function(require) {
     };
 
     this['publickeydelete'] = function() {
+      var confirmText = prompt('Confirm you would like to DELETE this public key. This action cannot be undone. In order to confirm this please type "Delete public key" exactly as shown.');
+      if (confirmText !== 'Delete public key') {
+        return;
+      }
+
       var user_id = $('#user-id-selector-for-delete-public_key option:selected').val();
       var device = $('#publickeydelete-device').val();
 
@@ -744,7 +763,7 @@ define(function(require) {
         });
       });
     };
-    
+
     this['allrules'] = function() {
       return getToken().then(function(token) {
         var url = urljoin(client.namespace, '/api/rules');
@@ -832,7 +851,7 @@ define(function(require) {
         });
       });
     };
-    
+
     this['logsget'] = function() {
       var query = {
         sort: $('#logs-get-field-selector').val().trim() + ':' + $('#logs-get-sort-direction-selector').val().trim(),
@@ -854,7 +873,7 @@ define(function(require) {
         });
       });
     };
-    
+
     this['logget'] = function(){
       var id = $('#log-get-id-selector').val().trim();
 
@@ -870,7 +889,7 @@ define(function(require) {
         });
       });
     }
-    
+
     this['user-logs-get'] = function(){
       var user_id = $('#logs-by-user-id-selector').val().trim();
 
