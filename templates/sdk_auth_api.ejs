@@ -153,14 +153,19 @@ Content-Type: 'application/json'
 
   <!-- POST /dbconnections/change_password -->
   <div class="markdown" data-verb="POST" data-path="/dbconnections/change_password" data-description="Asks to change a password for a given user">
-Given the user email, the `connection` specified and the new password to use, Auth0 will send a _forgot password email_. Once the user clicks on the _confirm password change link_, the new password specified in this `POST` will be set to this user. This endpoint only works for database connections.
+Given the user `email` address and the `connection` specified, Auth0 will send a _change password email_.
+
+* If `password` was provided, once the user clicks on the _confirm password change link_, the new password specified in this `POST` will be set to this user.
+* If `password` was NOT provided, once the user clicks on the _password change link_, it will be redirected to a page where to put current and new passwords.
+
+This endpoint only works for database connections.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>dbconnections/change_password
 Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "email":       "<input type="text" id="chpwd-email" required>",
-  "password":    "<input type="password" id="chpwd-password" required>", // <span>The new password to use</span>
+  "password":    "<input type="password" id="chpwd-password">", // <span>OPTIONAL: The new password to use</span>
   "connection":  "<select id="chpwd-connection" class="db_connection-selector"></select>",
 }
 </form></code></pre>
