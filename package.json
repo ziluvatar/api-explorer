@@ -23,6 +23,6 @@
     "cdn": "grunt cdn"
   },
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 4.3"
   }
 }
