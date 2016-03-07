@@ -852,6 +852,90 @@ define(function(require) {
       });
     };
 
+    this['emailget'] = function() {
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/emails/', $('#emails-get-selector option:selected').val(), '');
+        return $.ajax({
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'GET'
+        });
+      });
+    };
+
+    this['emailcreate'] = function() {
+      var valid = $('#create-email-form')[0].checkValidity();
+      if (!valid) {
+        // TODO: show required messages
+        return;
+      }
+
+      var newEmail = {
+        template: $('#emails-create-selector option:selected').val(),
+        disabled: $('#emails-create-disabled-selector').val() === 'true',
+        from: $('#emails-create-from').val().trim(),
+        subject: $('#emails-create-subject').val().trim(),
+        body: $('#emails-create-body').val().trim(),
+        resultUrl: $('#emails-create-resultUrl').val().trim(),
+        syntax: $('#emails-create-syntax-selector option:selected').val(),
+        urlLifetimeInSeconds: parseInt($('#emails-create-urlLifetimeInSeconds').val().trim()) || ''
+      };
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/emails/', '');
+
+        return $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(newEmail)
+        });
+
+      });
+    };
+
+    this['emailupdate'] = function() {
+      var valid = $('#update-email-form')[0].checkValidity();
+      if (!valid) {
+        // TODO: show required messages
+        return;
+      }
+
+      var name = $('#emails-update-selector').val().trim();
+      var updatedEmail = {
+        template: $('#emails-update-selector option:selected').val(),
+        disabled: $('#emails-update-disabled-selector').val() === 'true',
+        from: $('#emails-update-from').val().trim(),
+        subject: $('#emails-update-subject').val().trim(),
+        body: $('#emails-update-body').val().trim(),
+        resultUrl: $('#emails-update-resultUrl').val().trim(),
+        syntax: $('#emails-update-syntax-selector option:selected').val(),
+        urlLifetimeInSeconds: parseInt($('#emails-update-urlLifetimeInSeconds').val().trim()) || ''
+      };
+
+      return getToken().then(function(token) {
+        var url = urljoin(client.namespace, '/api/emails/' + name, '');
+
+        return $.ajax({
+
+          url: url,
+          headers: {
+            Authorization: 'Bearer ' + token.access_token
+          },
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(updatedEmail)
+        });
+
+      });
+    };
+
     this['logsget'] = function() {
       var query = {
         sort: $('#logs-get-field-selector').val().trim() + ':' + $('#logs-get-sort-direction-selector').val().trim(),

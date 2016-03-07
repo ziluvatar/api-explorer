@@ -907,6 +907,118 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
 
 </div>
 
+<h3 id="emails"><a class="anchor" href="#emails"><i class="icon-budicon-345"> </i></a>Email Templates</h3>
+
+<div class="accordion">
+  <!-- GET /api/emails/:name -->
+  <div class="markdown" data-verb="GET" data-path="/api/emails/{email-template-name}" data-description="Gets an email template by name">
+
+Gets an email template by name
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/emails/<select id='emails-get-selector' class='emails-selector'>
+  <option value="verify_email">verify_email</option>
+  <option value="welcome_email">welcome_email</option>
+  <option value="reset_email">reset_email</option>
+  <option value="blocked_account">blocked_account</option>
+</select>
+Authorization: Bearer <span class="tokenme param">{token}</span>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='emailget-result'
+        data-runner='emailget'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='emailget-result'>Press the Try me! button to see the output result</code></pre>
+  </div>
+
+<!-- POST api/emails -->
+
+  <div class="markdown" data-verb="POST" data-path="/api/emails" data-description="Creates an email template">
+Creates an email template. The body of the request must include the <code>template</code> name and the <code>tenant</code>.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/emails/
+Authorization: Bearer <span class="tokenme param">{token}</span>
+Content-Type: 'application/json'
+  <form id='create-email-form'>
+  {
+    "template": "<select id='emails-create-selector' class='emails-selector'>
+      <option value="verify_email">verify_email</option>
+      <option value="welcome_email">welcome_email</option>
+      <option value="reset_email">reset_email</option>
+      <option value="blocked_account">blocked_account</option>
+    </select>",
+    "disabled": <select id="emails-create-disabled-selector">
+      <option value="false">false</option>
+      <option value="true">true</option>
+    </select>,
+    "from": "<input id="emails-create-from" type="text" data-field='from' required name="from">",
+    "subject": "<input id="emails-create-subject" type="text" data-field='subject' required name="subject">",
+    "body": "<textarea id="emails-create-body"  data-field="body" style="width: 650px;height: 150px;" required placeholder="Email body"></textarea>",
+    "urlLifetimeInSeconds": <input type="text" id="emails-create-urlLifetimeInSeconds"  data-field="urlLifetimeInSeconds" required name="urlLifetimeInSeconds">,
+    "resultUrl": "<input type="text" id="emails-create-resultUrl" data-field='resultUrl' required name="resultUrl">"
+    "syntax": "<select id='emails-create-syntax-selector' class='emails-selector'>
+      <option value="md_with_macros">md_with_macros</option>
+      <option value="liquid">liquid</option>
+    </select>"
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='emailcreate-result'
+        data-runner='emailcreate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='emailcreate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+
+
+  <!-- PUT api/emails -->
+
+  <div class="markdown" data-verb="PUT" data-path="/api/emails/{email-template-name}" data-description="Updates an email template">
+Updates an email template.
+
+<pre><code><span class='http-verb'>PUT</span> <span class="client_namespace"></span>api/emails/<select id='emails-update-selector' class='emails-selector'>
+  <option value="verify_email">verify_email</option>
+  <option value="welcome_email">welcome_email</option>
+  <option value="reset_email">reset_email</option>
+  <option value="blocked_account">blocked_account</option>
+</select>
+
+Authorization: Bearer <span class="tokenme param">{token}</span>
+Content-Type: 'application/json'
+  <form id='update-email-form'>
+  {
+    "disabled": <select id="emails-update-disabled-selector">
+      <option value="false">false</option>
+      <option value="true">true</option>
+    </select>,
+    "from": "<input id="emails-update-from" type="text" data-field='from' required name="from">",
+    "subject": "<input id="emails-update-subject" type="text" data-field='subject' required name="subject">",
+    "body": "<textarea id="emails-update-body"  data-field="body" style="width: 650px;height: 150px;" required placeholder="Email body"></textarea>",
+    "urlLifetimeInSeconds": <input type="text" id="emails-update-urlLifetimeInSeconds"  data-field="urlLifetimeInSeconds" required name="urlLifetimeInSeconds">,
+    "resultUrl": "<input type="text" id="emails-update-resultUrl" data-field='resultUrl' required name="resultUrl">"
+    "syntax": "<select id='emails-update-syntax-selector' class='emails-selector'>
+      <option value="md_with_macros">md_with_macros</option>
+      <option value="liquid">liquid</option>
+    </select>"
+  }
+  </form>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='emailupdate-result'
+        data-runner='emailupdate'>
+  <i class='icon-white icon-hand-right'></i> Try me!
+</button>
+
+<pre class='tryme-result'><code id='emailupdate-result'>Press the Try me! button to see the output result.</code></pre>
+  </div>
+</div>
+
 <h3 id="logs"><a class="anchor" href="#logs"><i class="icon-budicon-345"> </i></a>Logs</h3>
 
 <div class="accordion">
