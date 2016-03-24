@@ -12,7 +12,6 @@ define(function (require) {
   var ApiExecutors              = require('./sdk.ApiExecutors');
   var AuthApiExecutors          = require('./sdk.AuthApiExecutors');
 
-  var tryMeButton               = require('./try');
   var scrollToAnchors           = require('./scroll-to-anchors');
 
   var logsSelects               = require('./models/logs-selects');
@@ -198,8 +197,6 @@ define(function (require) {
     } else {
       executors = new ApiExecutors(selectedClient);
     }
-
-    tryMeButton(readOnly, target, executors);
 
     getAccessToken(tenantDomain, selectedClient.clientID, selectedClient.clientSecret,
                    readOnly)
@@ -400,7 +397,7 @@ define(function (require) {
       staticListGenerators.map(function (listGenerator) {
         loadGenerator.apply(null, listGenerator)();
       });
-      populateSelects(settings.isAuth, settings.readOnly, settings.tenantDomain, target);
+      //populateSelects(settings.isAuth, settings.readOnly, settings.tenantDomain, target);
 
       if (settings.readOnly) {
         $('select', target).attr('disabled', 'disabled');
