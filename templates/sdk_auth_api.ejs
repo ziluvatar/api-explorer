@@ -707,9 +707,11 @@ Content-Type: 'application/json'
 
 <!-- GET /logout -->
   <div class="markdown" data-verb="GET" data-path="/logout" data-description="Trigger the logout flow">
- Logout the user from the identity provider. If you specifcy a `returnTo` parameter, we will redirect to the url specified after the logout. Read more about [here](<%= docsDomain %>/logout).
+ Logout the user from the identity provider. If you specify a `returnTo` parameter, we will redirect to the URL specified after the logout. This URL should included in any of the `Allowed Logout URLs` lists. There is a list at the application level (you need to use the `client_id` parameter to select the desired application's Allowed Logout URLs list) and a list at the Account level. Read more about [here](<%= docsDomain %>/logout).
 
-<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>logout?returnTo=<input type="text" id="logout-returnTo" placeholder="return url"></input>
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>logout?
+returnTo=<input type="text" id="logout-returnTo" placeholder="return url"></input>
+&client_id=<input type="text" id="logout-client_id" placeholder="client id"></input>
 </code></pre>
 
 <button class='btn btn-primary btn-tryme'

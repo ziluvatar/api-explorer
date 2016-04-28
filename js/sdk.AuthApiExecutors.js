@@ -391,8 +391,9 @@ define(function(require) {
     this['logout'] = function() {
 
       var returnTo = $('#logout-returnTo').val();
+      var client_id = $('#logout-client_id').val();
 
-      var url = urljoin(client.namespace, '/logout', '?returnTo=' + returnTo);
+      var url = urljoin(client.namespace, '/logout', '?returnTo=' + returnTo, '&client_id=' + client_id);
 
       window.open(url, '_new');
     };
