@@ -165,10 +165,16 @@ Content-Type: 'application/json'
 <form id='ro-form'>{
   "client_id":   "<span class="client_client_id"></span>", // <span class="client_name"></span>
   "email":       "<input type="text" id="chpwd-email" required>",
-  "password":    "<input type="password" id="chpwd-password">", // <span>OPTIONAL: The new password</span>
+  "password":    "<input type="password" id="chpwd-password">", // <span>OPTIONAL: The new password (see note below)</span>
   "connection":  "<select id="chpwd-connection" class="db_connection-selector"></select>",
 }
 </form></code></pre>
+
+<div class="alert-info alert">
+
+  <strong>Heads up!</strong> If you are using Lock version 9 and above, do not set the password field! If you do, you will receive a *password is not allowed* error. You can only set the password if you are using Lock version 8. <a href="<%= docsDomain %>/connections/database/password-change" target="_new">Click here for more details.</a>
+
+</div>
 
 <button class='btn btn-primary btn-tryme'
         data-result='chpwd-result'
