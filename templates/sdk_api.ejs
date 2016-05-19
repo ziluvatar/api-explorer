@@ -11,7 +11,7 @@
 <!-- POST /oauth/token -->
 
   <div class="markdown" data-path="/oauth/token" data-verb="POST" data-description="Obtain a token to call the API">
-Auth0 API requires an `access_token`. You can get one by authenticating with your `client_id` and `client_secret` (It will be valid for 24 hours):
+Auth0 API requires an `access_token`. You can get one by authenticating with your `client_id` and `client_secret` (It will be valid for 24 hours). To obtain the global client ID and global client secret see the "Advanced" section under "Account Settings" in the Auth0 <a href="https://manage.auth0.com/#/account/advanced">dashboard</a>.
 
 <pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/token
 Content-Type: 'application/json'
