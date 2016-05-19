@@ -1,4 +1,6 @@
-# API Explorer
+# API Explorer (Deprecated)
+
+WARNING: This project is no longer maintained.
 
 This project documents Auth0 API and Auth0 Authentication API.
 
