@@ -4,9 +4,6 @@
 
 </div>
 
-<p>This API works on a specific App.</p>
-<% include ./templates/client-selector %>
-
 <h3 id="authentication"><a class="anchor" href="#authentication"><i class="icon-budicon-345"> </i></a>Authentication</h3>
 
 <div class="accordion">
@@ -25,12 +22,6 @@ Content-Type: 'application/json'
 }
 </form></code></pre>
 
-<button class='btn btn-primary btn-tryme' data-result='accesstoken-result'  data-runner='accesstoken'>
-  Try me!
-</button>
-
-<pre class='tryme-result'><code id='accesstoken-result'>Select a client and press the Try me! button to see the output result</code></pre>
-
 Once authenticated, the `access_token` can be included in the request as part of the querystring (`?access_token=...`) or in an HTTP header (`Authorization: Bearer ...access_token...`).
 
 <span class='label label-info'>Heads up!</span> access token last for 24hs, you better ask for a token everytime you make a request to the API or handle vigorously ```401``` responses.
@@ -47,13 +38,6 @@ Once authenticated, the `access_token` can be included in the request as part of
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-  data-result='allusers-result'
-  data-runner='allusers'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='allusers-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/users?search={criteria} -->
@@ -62,13 +46,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-  data-result='allusers-search-result'
-  data-runner='allusers-search'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='allusers-search-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/users/{user_id} -->
@@ -77,13 +54,6 @@ Gets an user who have logged in through any of your connections that has a given
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users/<select id="user-by-id-users-selector" class="user-selector"></select>
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-  data-result='user-by-id-result'
-  data-runner='user-by-id'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='user-by-id-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/users/{user_id}/devices -->
@@ -92,13 +62,6 @@ Gets all devices/refresh_tokens being used by the user.
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users/<select id="userdevices-by-id-users-selector" class="user-selector"></select>/devices
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-  data-result='userdevices-by-id-result'
-  data-runner='userdevices-by-id'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='userdevices-by-id-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/connections/{connection}/users -->
@@ -110,13 +73,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
 Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='connection-users-result'
-        data-runner='connection-users'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='connection-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
   <!-- GET /api/connections/{connection}/users?search={criteria} -->
   <div class="markdown" data-verb="GET" data-path="/api/connections/{connection}/users?search={criteria}" data-description="Search users from an enterprise directories">
@@ -128,13 +84,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
 Authorization: Bearer <span class="tokenme param">{token}</span></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='connection-users-search-search-result'
-        data-runner='connection-users-search'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='connection-users-search-search-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/enterpriseconnections/users?search={criteria} -->
@@ -146,13 +95,6 @@ Search users from all enterprise directories based on the specified <code>criter
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/enterpriseconnections/users?search=<textarea id="enterprise-users-search-query" style="width:250px;height:20px;"></textarea>&amp;per_page=<input type="text" id="enterpriseconn-users-per-page" value="500" />
 Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='enterpriseconn-users-result'
-        data-runner='enterpriseconn-users'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='enterpriseconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/socialconnections/users?search={criteria} -->
@@ -165,13 +107,6 @@ Performs a 'starts with' search by name or email. Or searches by field, for exam
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='socialconn-users-result'
-        data-runner='socialconn-users'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='socialconn-users-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
 <!-- GET /api/clients/{client-id}/users -->
@@ -183,13 +118,6 @@ Gets all users who have logged in with a specific client
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='clientusers-result'
-        data-runner='clientusers'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='clientusers-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- POST /api/users -->
@@ -213,14 +141,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
   </form>
   </code>
   </pre>
-
-  <button class='btn btn-primary btn-tryme'
-    data-result='usercreate-result'
-    data-runner='usercreate'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='usercreate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- POST api/users/{user_id}/send_verification_email -->
@@ -231,14 +151,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
   <pre>
   <code><span class='http-verb'>POST</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-sendverificationemail' class='user-selector'></select>/`send_verification_email`
   Authorization: Bearer <span class="tokenme param">{token}</span></code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-    data-result='user-sendverificationemail-result'
-    data-runner='user-sendverificationemail'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='user-sendverificationemail-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- POST api/users/{user_id}/change_password_ticket -->
@@ -256,14 +168,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
     "resultUrl":      "<input type="text" placeholder="post verification url" id="api-user-changepasswordticket-resultUrl">" // optional
   }
   </form></code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-    data-result='user-changepasswordticket-result'
-    data-runner='user-changepasswordticket'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='user-changepasswordticket-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- POST api/users/{user_id}/verification_ticket -->
@@ -280,14 +184,6 @@ Authorization: Bearer <span class="tokenme param">{token}</span>
     "resultUrl":      "<input type="text" placeholder="post verification url" id="api-user-verificationticket-resultUrl">" // optional
   }
   </form></code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-    data-result='user-verificationticket-result'
-    data-runner='user-verificationticket'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='user-verificationticket-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- POST api/users/{user_id}/publickey -->
@@ -303,14 +199,6 @@ Content-Type: 'application/json'
   "device":     "<input type="text" id="api-user-new_publickey-device">",
   "public_key": "<textarea id="api-user-new_publickey-public_key" placeholder="base64 encoded public key" rows="3" style="width:75%;"></textarea>"
 }</form></code></pre>
-
-<button class='btn btn-primary btn-tryme'
-  data-result='user-new_publickey-result'
-  data-runner='user-new_publickey'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='user-new_publickey-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- PUT /api/users/{user_id}/email -->
@@ -327,14 +215,6 @@ Content-Type: 'application/json'
 }
 </form>
 </code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-        data-result='useremailupdate-result'
-        data-runner='useremailupdate'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='useremailupdate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- PUT /api/users/{user_id}/metadata -->
@@ -353,14 +233,6 @@ Content-Type: 'application/json'
 }
 </code>
 </pre>
-
-  <button class='btn btn-primary btn-tryme'
-        data-result='usermetadataupdate-result'
-        data-runner='usermetadataupdate'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='usermetadataupdate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- PUT /api/users/{user_id}/password -->
@@ -377,14 +249,6 @@ Content-Type: 'application/json'
 }
 </form>
 </code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-        data-result='userpasswordupdate-result'
-        data-runner='userpasswordupdate'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='userpasswordupdate-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- PUT /api/users/{email}/password -->
@@ -404,14 +268,6 @@ Content-Type: 'application/json'
 }
 </form>
 </code></pre>
-
-  <button class='btn btn-primary btn-tryme'
-        data-result='userpasswordupdatebyemail-result'
-        data-runner='userpasswordupdatebyemail'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='userpasswordupdatebyemail-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- PATCH /api/users/{user_id}/metadata -->
@@ -431,14 +287,6 @@ Content-Type: 'application/json'
 }
 </code>
 </pre>
-
-  <button class='btn btn-primary btn-tryme'
-        data-result='usermetadatapatch-result'
-        data-runner='usermetadatapatch'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='usermetadatapatch-result'>Press the Try me! button to see the output result.</code></pre>
 </div>
 
 <!-- DELETE /api/users -->
@@ -448,14 +296,6 @@ Deletes all users (including users from non-custom Database connections).
 <pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-danger btn-tryme'
-        data-result='usersdelete-result'
-        data-runner='usersdelete'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete all of your users.
-<pre class='tryme-result'><code id='usersdelete-result'>If you press the Try me! button you will lose all of your users.</code></pre>
   </div>
 
 <!-- DELETE /api/users/{user_id} -->
@@ -465,14 +305,6 @@ Deletes a user identified by <code>user_id</code>
 <pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete' class='user-selector'></select>
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-danger btn-tryme'
-        data-result='userdelete-result'
-        data-runner='userdelete'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete the selected user.
-<pre class='tryme-result'><code id='userdelete-result'>If you press the Try me! button you will lose the user.</code></pre>
   </div>
 
 <!-- DELETE /api/users/{user_id}/refresh_tokens/{refresh_token} -->
@@ -482,14 +314,6 @@ Revokes a user's refresh token
 <pre><code><span class='http-verb'>DELETE</span> <span class="client_namespace"></span>api/users/<select id='user-id-selector-for-delete-refresh-token' class='user-selector'></select>/refresh_tokens/<input id='refreshtokendelete-token'>
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-danger btn-tryme'
-        data-result='refreshtokendelete-result'
-        data-runner='refreshtokendelete'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete the specified user's refresh token.
-<pre class='tryme-result'><code id='refreshtokendelete-result'>If you press the Try me! button you will lose the refresh token.</code></pre>
   </div>
 
 <!-- DELETE /api/users/{user_id}/publickey?device={device} -->
@@ -500,13 +324,6 @@ Revokes a user's public key for specified device
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-danger btn-tryme'
-        data-result='publickeydelete-result'
-        data-runner='publickeydelete'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete the user's public key for specified device.
-<pre class='tryme-result'><code id='publickeydelete-result'>If you press the Try me! button you will lose the refresh token.</code></pre>
   </div>
 
 </div>
@@ -523,13 +340,6 @@ Gets a list of all the connections (enterprise and social) and all its <code>opt
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='allconnections-result'
-        data-runner='allconnections'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='allconnections-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- GET /api/connections/:name -->
@@ -541,13 +351,6 @@ Gets a connection by name (enterprise and social) and all its <code>options</cod
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='oneconnection-result'
-        data-runner='oneconnection'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='oneconnection-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <div class="markdown" data-verb="DELETE" data-path="/api/connections/{connection-name}" data-description="Removes a connection">
@@ -557,13 +360,6 @@ Deletes a connection identified by <code>connectionName</code>
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-danger btn-tryme'
-        data-result='connectiondelete-result'
-        data-runner='connectiondelete'>
-  <i class='icon-white icon-hand-right'></i> Don't try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete the selected connection.
-<pre class='tryme-result'><code id='connectiondelete-result'>If you press the Try me! button you will lose the connection.</code></pre>
   </div>
 
 <!-- POST api/connections -->
@@ -611,14 +407,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='connectioncreate-result'
-        data-runner='connectioncreate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='connectioncreate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 
@@ -666,14 +454,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='connectionupdate-result'
-        data-runner='connectionupdate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='connectionupdate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 </div>
 
@@ -688,14 +468,6 @@ Gets a list of all the applications/APIs (aka clients) and all its <code>options
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/clients
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='allclients-result'
-        data-runner='allclients'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='allclients-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- POST /api/clients -->
@@ -712,14 +484,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='clientcreate-result'
-        data-runner='clientcreate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='clientcreate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
   <!-- PUT /api/clients -->
@@ -738,14 +502,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='clientupdate-result'
-        data-runner='clientupdate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='clientupdate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 <!-- PATCH /api/clients -->
@@ -795,14 +551,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='clientpatch-result'
-        data-runner='clientpatch'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='clientpatch-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 </div>
 
@@ -818,14 +566,6 @@ Gets a list of all the rules
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/rules
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='allrules-result'
-        data-runner='allrules'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='allrules-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
   <!-- POST /api/rules -->
@@ -849,13 +589,6 @@ Content-Type: 'application/json'
   </form>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='rulecreate-result'
-        data-runner='rulecreate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='rulecreate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
   <!-- PUT /api/rules -->
@@ -877,14 +610,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='ruleupdate-result'
-        data-runner='ruleupdate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='ruleupdate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
   <!-- DELETE /api/rules -->
@@ -896,13 +621,6 @@ Deletes a rule identified by <code>rule-name</code> (url-encoded)
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
 
-<button class='btn btn-danger btn-tryme'
-        data-result='ruledelete-result'
-        data-runner='ruledelete'>
-  <i class='icon-white icon-hand-right'></i> Don't try me!
-</button>
-<span class="label label-important">WARNING!</span> This will delete the selected connection.
-<pre class='tryme-result'><code id='ruledelete-result'>If you press the Try me! button you will lose the connection.</code></pre>
   </div>
 
 </div>
@@ -923,14 +641,6 @@ Gets an email template by name
 </select>
 Authorization: Bearer <span class="tokenme param">{token}</span>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='emailget-result'
-        data-runner='emailget'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='emailget-result'>Press the Try me! button to see the output result</code></pre>
   </div>
 
 <!-- POST api/emails -->
@@ -965,14 +675,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='emailcreate-result'
-        data-runner='emailcreate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='emailcreate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 
 
@@ -1008,14 +710,6 @@ Content-Type: 'application/json'
   }
   </form>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='emailupdate-result'
-        data-runner='emailupdate'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='emailupdate-result'>Press the Try me! button to see the output result.</code></pre>
   </div>
 </div>
 
@@ -1029,13 +723,6 @@ Retrieves the data related to the log entry identified by <code>_id</code>.
 
   <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs/<select id="log-get-id-selector" class="logs-selector"></select>
 Authorization: Bearer <span class='tokenme param'>{token}</span></code></pre>
-  <button class='btn btn-primary btn-tryme'
-          data-result='logget-result'
-          data-runner='logget'>
-    <i class='icon-white icon-hand-right'></i> Try me!
-  </button>
-
-  <pre class='tryme-result'><code id='logget-result'>Press the Try me! button to see the output result</code></pre>
 </div>
 
 <!-- GET /api/users/:user_id/logs -->
@@ -1048,13 +735,6 @@ Retrieves the log entries related to the user identified by <code>user_id</code>
 
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/users/<select id="logs-by-user-id-selector" class="user-selector"></select>/logs?page=<select id='logs-by-user-id-page-selector' class='logs-page-selector'></select>&amp;per_page=<select id='logs-by-user-id-items-selector' class='logs-per-page-selector'></select>
 Authorization: Bearer <span class='tokenme param'>{token}</span></code></pre>
-<button class='btn btn-primary btn-tryme'
-        data-result='user-logs-get-result'
-        data-runner='user-logs-get'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='user-logs-get-result'>Press the Try me! button to see the output result</code></pre>
 
   <% include ./templates/logs-doc %>
 </div>
@@ -1082,14 +762,6 @@ Possible values for <code>field</code> are:
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?page=<select id='logs-get-page-selector' class='logs-page-selector'></select>&amp;per_page=<select id='logs-get-items-selector' class='logs-per-page-selector'></select>&amp;sort=<select id='logs-get-field-selector'></select>:<select id='logs-get-sort-direction-selector'></select>&amp;fields=<textarea id="logs-get-fields" style="width:150px;height:20px;">date,connection,client_name,user_name</textarea>&amp;exclude_fields=<select id='logs-get-exclude-fields-selector'></select>
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='logsget-result'
-        data-runner='logsget'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='logsget-result'>Press the Try me! button to see the output result</code></pre>
 
   <% include ./templates/logs-doc %>
 
@@ -1120,14 +792,6 @@ Values specified without quotes are matched using a case insensitive 'starts wit
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
 
-<button class='btn btn-primary btn-tryme'
-        data-result='logs-search-result'
-        data-runner='logs-search'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='logs-search-result'>Press the Try me! button to see the output result</code></pre>
-
   <% include ./templates/logs-doc %>
 </div>
 
@@ -1142,14 +806,6 @@ Retrieves `count` log entries that were logged after `checkpointId`.
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>api/logs?from=<input type="text" id="logs-checkpoint-from"/>&amp;take=<select id="logs-checkpoint-take-selector"/>
 Authorization: Bearer <span class='tokenme param'>{token}</span>
 </code></pre>
-
-<button class='btn btn-primary btn-tryme'
-        data-result='logs-checkpoint-result'
-        data-runner='logs-checkpoint'>
-  <i class='icon-white icon-hand-right'></i> Try me!
-</button>
-
-<pre class='tryme-result'><code id='logs-checkpoint-result'>Press the Try me! button to see the output result</code></pre>
 
   <% include ./templates/logs-doc %>
 </div>
