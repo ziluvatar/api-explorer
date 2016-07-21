@@ -398,6 +398,16 @@ define(function(require) {
       window.open(url, '_new');
     };
 
+    this['v2-logout'] = function() {
+
+      var returnTo = $('#v2-logout-returnTo').val();
+      var client_id = $('#v2-logout-client_id').val();
+
+      var url = urljoin(client.namespace, '/v2/logout', '?returnTo=' + returnTo, '&client_id=' + client_id);
+
+      window.open(url, '_new');
+    };
+
     this['samlp'] = function() {
 
       var connection = $('#samlp-connection option:selected').val();

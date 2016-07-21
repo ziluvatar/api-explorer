@@ -845,7 +845,8 @@ Content-Type: 'application/json'
 <div class="accordion">
 
 <!-- GET /logout -->
-  <div class="markdown" data-verb="GET" data-path="/logout" data-description="Trigger the logout flow">
+  <div class="markdown" data-verb="GET" data-path="/logout" data-description="Trigger the logout flow (deprecated)">
+  <b>Please use `/v2/logout` instead.</b><br/>
  Logout the user from the identity provider. If you specify a `returnTo` parameter, we will redirect to the URL specified after the logout. This URL should included in any of the `Allowed Logout URLs` lists. There is a list at the application level (you need to use the `client_id` parameter to select the desired application's Allowed Logout URLs list) and a list at the Account level. Read more about [here](<%= docsDomain %>/logout).
 
 <pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>logout?
@@ -856,6 +857,22 @@ returnTo=<input type="text" id="logout-returnTo" placeholder="return url"></inpu
 <button class='btn btn-primary btn-tryme'
         data-result='logout-result'
         data-runner='logout'>
+   Try me!
+</button>
+  </div>
+
+<!-- GET /v2/logout -->
+  <div class="markdown" data-verb="GET" data-path="/v2/logout" data-description="Trigger the logout flow (recommended)">
+ Logout the user from the identity provider. If you specify a `returnTo` parameter, we will redirect to the URL specified after the logout. This URL should included in any of the `Allowed Logout URLs` lists. There is a list at the application level (you need to use the `client_id` parameter to select the desired application's Allowed Logout URLs list) and a list at the Account level. Read more about [here](<%= docsDomain %>/logout).
+
+<pre><code><span class='http-verb'>GET</span> <span class="client_namespace"></span>v2/logout?
+returnTo=<input type="text" id="v2-logout-returnTo" placeholder="return url"></input>
+&client_id=<input type="text" id="v2-logout-client_id" placeholder="client id"></input>
+</code></pre>
+
+<button class='btn btn-primary btn-tryme'
+        data-result='v2-logout-result'
+        data-runner='v2-logout'>
    Try me!
 </button>
   </div>
