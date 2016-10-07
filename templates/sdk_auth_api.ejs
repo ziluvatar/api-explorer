@@ -69,7 +69,24 @@ Content-Type: 'application/json'
 
   </div>
 
+<!-- POST /oauth/token -->
+<div class="markdown" data-path="/oauth/token" data-verb="POST" data-description="Obtain a token to call the API">
+Auth0 API requires an `access_token`. You can get one by authenticating with your `client_id` and `client_secret` (It will be valid for 24 hours). <strong>To obtain the global client ID and global client secret see the "Advanced" section under "Account Settings" in the Auth0 <a href="https://manage.auth0.com/#/account/advanced">dashboard</a></strong>.
+
+<pre><code><span class='http-verb'>POST</span> <span class="client_namespace"></span>oauth/token
+Content-Type: 'application/json'
+<form id='accesstoken-form'>{
+  "client_id":        "<span class='param client_client_id'>gloabl_client_id</span>",
+  "client_secret":    "<span class='param client_client_secret'>global_client_secret</span>",
+  "grant_type":       "<span class='param'>client_credentials</span>"
+}
+</form></code></pre>
+
+Once authenticated, the `access_token` can be included in the request as part of the querystring (`?access_token=...`) or in an HTTP header (`Authorization: Bearer ...access_token...`).
+
+<span class='label label-info'>Heads up!</span> access token last for 24hs, you better ask for a token everytime you make a request to the API or handle vigorously ```401``` responses.
 </div>
+
 
 <h3 id="db-and-ad"><a class="anchor" href="#db-and-ad"><i class="icon-budicon-345"> </i></a>Database &amp; Active Directory / LDAP Authentication</h3>
 <div class="markdown">These type of connections support browser based (passive) authentication and API-based (active) authentication. The main difference between passive and active authentication is that the former happens in the browser through the [Login Page](/#/login_page) and the latter can be invoked from anywhere (a script, server to server, etc.). Notice that is the same `authorize` endpoint than the one defined in Social Authentication. It's repeated just for clarity.</div>
@@ -152,7 +169,7 @@ Content-Type: 'application/json'
 
 <h6>HTTP 400</h6>
 
-<ul>  
+<ul>
   <li>
     Missing username parameter in the request:
     <pre>{"error":"invalid_request","error_description":"missing username parameter"}</pre>
@@ -185,11 +202,11 @@ Content-Type: 'application/json'
   <li>
     The user is blocked:
     <pre>{"error":"unauthorized","error_description":"user is blocked"}</pre>
-  </li>  
+  </li>
   <li>
     Another site had a security breach and your password has been leaked:
     <pre>{ "error":"password_leaked", "error_description":"This login has been blocked because your password has been leaked in another website. We’ve sent you an email with instructions on how to unblock it."}</pre>
-  </li>  
+  </li>
 </ul>
 
 <h6>HTTP 429</h6>
@@ -243,7 +260,7 @@ Content-Type: 'application/json'
    <li>
     Validation of specific points raised an access issue:
     <pre>{"error":"access_denied","error_description":"..."}</pre>
-  </li> 
+  </li>
 </ul>
 
   </div>
@@ -505,7 +522,7 @@ Content-Type: 'application/json'
   <li>
     For more errors for the password grant type, see the: <a href="#db-and-ad">Database &amp; Active Directory / LDAP Authentication</a> /oauth/ro endpoint.
   </li>
-</ul>  
+</ul>
 
   </div>
 
