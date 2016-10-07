@@ -689,8 +689,8 @@ Content-Type: 'application/json'
 
 <div class="accordion">
 
-<!-- POST /oauth/token -->
 
+  <!-- POST /oauth/token -->
   <div class="markdown" data-path="/oauth/token" data-verb="POST" data-description="Obtain a token to call the API">
 Auth0 API requires an `access_token`. You can get one by authenticating with your `client_id` and `client_secret` (It will be valid for 24 hours). <strong>To obtain the global client ID and global client secret see the "Advanced" section under "Account Settings" in the Auth0 <a href="https://manage.auth0.com/#/account/advanced">dashboard</a></strong>.
 
@@ -708,9 +708,6 @@ Once authenticated, the `access_token` can be included in the request as part of
 <span class='label label-info'>Heads up!</span> access token last for 24hs, you better ask for a token everytime you make a request to the API or handle vigorously ```401``` responses.
   </div>
 
-</div>
-
-<div class="accordion">
 
 <!-- POST /delegation -->
   <div class="markdown" data-verb="POST" data-path="/delegation" data-description="Obtain a delegation token">
