@@ -789,12 +789,14 @@ For example:
 <!-- POST /users/{user_id}/impersonate -->
   <div class="markdown" data-verb="POST" data-path="/users/{user_id}/impersonate" data-description="Obtain an impersonation URL to login as another user">
 
+The user list used in the POST url and `impersonator_id` is just an example, you can set the `user_id` from any user in the <a target="_new" href="https://<%= appDomain %>/#/users">Dashboard User section</a>
+
 <pre><code class="nohighlight"><span class='http-verb'>POST</span> <span class="client_namespace"></span>users/<select id="impersonate-user_id" class="user-selector"></select>/impersonate
 Content-Type:   'application/json'
 Authorization:  'Bearer <span class="global_client_access_token"></span>'
 <form id='impersonate-form'>{
   protocol:             "<select id="impersonate-protocol" class="protocol-selector"></select>",
-  impersonator_id:      "<span id="impersonate-impersonator_id"><%= user.id %></span>", // <%= user.name || user.email %>
+  impersonator_id:      "<span id="impersonate-impersonator_id"><select id="impersonate-user_id" class="user-selector"></select></span>",
   client_id:            "<select id="impersonate-client_id" name="client-list-without-global" class="with-id"></select>",
   additionalParameters: <textarea id="impersonate-additional_parameters" rows="3" style="width:325px;">"response_type": "code",&#13;&#10;"state": ""</textarea>
 }
