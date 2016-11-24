@@ -70,7 +70,7 @@ define(function(require) {
       var user_id = $('#impersonate-user_id option:selected').val();
       var data = {
         protocol: $('#impersonate-protocol option:selected').val(),
-        impersonator_id: $('#impersonate-impersonator_id option:selected').val(),
+        impersonator_id: $('#impersonate-impersonator_id').text(),
         client_id: $('#impersonate-client_id option:selected').val(),
         additionalParameters: additional_parameters
       };
